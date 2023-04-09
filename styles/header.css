@@ -1,0 +1,39 @@
+
+
+html, body{
+    height: 100%;
+}
+header {
+    background-color: var(--text-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+nav li {
+    margin-right: 20px;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+    padding: 10px;
+}
+
+nav a:hover {
+    color: #ccc;
+}
+
+.logo {
+    margin-left: 20px;
+}
