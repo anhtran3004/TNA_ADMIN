@@ -16,3 +16,15 @@ th {
 tr:nth-child(even) {
     background-color: #f2f2f2;
 }
+.input-product{
+    width: 600px;
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+.input-product > label{
+    width: 100px;
+}
+.input-product > input, textarea, select{
+    width: 400px;
+}
