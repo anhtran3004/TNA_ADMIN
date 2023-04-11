@@ -1,7 +1,7 @@
 import Layout from "@/components/Layout";
 import {useEffect, useState} from "react";
-import {InputProduct, Product} from "@/components/HomeType";
-import {getListProduct} from "@/lib/API";
+import {Category, InputProduct, Product} from "@/components/HomeType";
+import {getListCategory, getListProduct} from "@/lib/API";
 import Image from "next/image";
 
 export function dataInputProduct(): InputProduct {
@@ -11,7 +11,7 @@ export function dataInputProduct(): InputProduct {
             category_id: [],
             price: {
                 min: 0,
-                max: 1000000
+                max: 10000000
             }
         },
         sort: {
@@ -20,7 +20,7 @@ export function dataInputProduct(): InputProduct {
         },
         pagination: {
             page: 0,
-            perPage: 100
+            perPage: 1000
         }
     }
     return data;
@@ -31,17 +31,20 @@ export function dataOutputProduct(): Product {
         name: "",
         description: "",
         price: 0,
-        category: ["hot", "category"]
+        category: ["hot", "category"],
+        thumb: ""
     }
     return data;
 }
 
 export default function Product() {
     const [products, setProducts] = useState<Product[]>([])
-    const [product, setProduct] = useState<Product>(dataOutputProduct())
+    const [productActive, setProductActive] = useState<Product>(dataOutputProduct())
     const [image, setImage] = useState<File | null>(null);
     const [previewURL, setPreviewURL] = useState<string>("/product/no-image.jpg");
-
+    const [productSelected, setProductSelected] = useState<number>(-1);
+    const [listCategories, setListCategories] = useState<Category[]>([])
+    const BASE_IMAGE_URL = process.env.NEXT_PUBLIC_BASE_IMAGE_URL
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files.length > 0) {
             const selectedImage = event.target.files[0];
@@ -84,13 +87,33 @@ export default function Product() {
                 console.log('error');
             }
         }
+        async function fetchListCategory(){
+            try{
+                const res = await getListCategory();
+                if(res.code === 200){
+                    setListCategories(res.data);
+                }
+            }catch (e){
+                console.log('error');
+            }
+        }
 
         fetchProductData().then();
-
+        fetchListCategory().then();
     }, [])
+    useEffect(() =>{
+        async function getProductSelected(){
+            for(let i = 0; i < products.length; i++){
+                if(products[i].id === productSelected){
+                    setProductActive(products[i]);
+                }
+            }
+        }
+        getProductSelected().then();
+    }, [productSelected])
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = event.target;
-        setProduct((prevState) => ({
+        setProductActive((prevState) => ({
             ...prevState,
             [name]: value,
         }));
@@ -98,7 +121,7 @@ export default function Product() {
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        console.log("Product data: ", product);
+        console.log("Product data: ", productActive);
         // TODO: submit product data to backend or perform other actions
     };
     return (
@@ -117,13 +140,14 @@ export default function Product() {
                     </thead>
                     <tbody>
                     {products.map((product) => (
-                        <tr key={product.id}>
+                        <tr key={product.id} onClick={() => setProductSelected(product.id)} className={(productSelected === product.id) ? "selected-product" : ""}>
                             <td>{product.id}</td>
                             <td>{product.name}</td>
                             <td>
                                 <div
                                     dangerouslySetInnerHTML={{__html: product.description}}
                                 />
+                                {/*<Image src={BASE_IMAGE_URL + product.thumb + ".png?alt=media&token=ee0c7490-09c6-4ded-b9bb-aab17d9e17ee"} alt="" width={200} height={100} />*/}
                             </td>
                             <td>{product.price.toLocaleString("vi-VN", {
                                 style: "currency",
@@ -154,7 +178,7 @@ export default function Product() {
                             type="text"
                             id="name"
                             name="name"
-                            value={product.name}
+                            value={productActive.name}
                             onChange={handleInputChange}
                         />
                     </div>
@@ -164,7 +188,7 @@ export default function Product() {
                             type="number"
                             id="price"
                             name="price"
-                            value={product.price}
+                            value={productActive.price}
                             onChange={handleInputChange}
                         />
                     </div>
@@ -173,16 +197,19 @@ export default function Product() {
                         <textarea
                             id="description"
                             name="description"
-                            value={product.description}
+                            value={productActive.description}
                             onChange={handleInputChange}
                         />
                     </div>
                     <div className="input-product">
                         <label htmlFor="category">Category:</label>
-                        <select id="category" name="category" value={product.category} onChange={handleInputChange}>
-                            <option value="category">Category</option>
-                            <option value="hot">Hot</option>
-                            <option value="favorite">Favorite</option>
+                        <select id="category" name="category" value={productActive.category} onChange={handleInputChange}>
+
+                            {/*<option value="hot">Hot</option>*/}
+                            {/*<option value="favorite">Favorite</option>*/}
+                            {listCategories.map((cate, index) =>(
+                                <option value={cate.id} key={index}>{cate.categoryName}</option>
+                            ))}
                         </select>
                     </div>
                     <button type="submit" className="rounded-md bg-violet-700 text-white p-2 mr-2 mt-2 ml-5">Update Product</button>

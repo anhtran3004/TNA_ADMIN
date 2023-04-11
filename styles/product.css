@@ -28,3 +28,6 @@ tr:nth-child(even) {
 .input-product > input, textarea, select{
     width: 400px;
 }
+.selected-product{
+    background-color: aqua !important;
+}

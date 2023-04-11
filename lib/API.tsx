@@ -1,25 +1,31 @@
 import process from "process";
+import {InputProduct} from "@/components/HomeType";
 
 function GetARBaseUrl(): string {
     const url = process.env.NEXT_PUBLIC_BASE_URL;
-    if (url === undefined) return "https://63b6-118-69-7-52.ngrok-free.app";
+    if (url === undefined) return "https://a969-27-72-146-175.ngrok-free.app";
     return url
 }
-export async function getListProduct(filter){
+export async function getListProduct(filter: InputProduct){
     try{
-        let headers = new Headers();
         const url_getListProduct = GetARBaseUrl() + "/api/v1/product/";
-        // headers.append('Access-Control-Allow-Origin', 'http://localhost:3000');
-        // // headers.append('Access-Control-Allow-Credentials', 'true');
-        // headers.append('Access-Control-Request-Headers', 'Content-Type');
         const fetchData = {
-            // headers: headers,
             method: 'POST',
-            body: filter
-            // credentials: 'include'
-            // mode: 'cors'
+            body: JSON.stringify(filter)
         }
         const response = await fetch(url_getListProduct, fetchData);
+        return await response.json();
+    }catch (e){
+        throw e
+    }
+}
+export async function getListCategory(){
+    try{
+        const url_getListCategory = GetARBaseUrl() + "/api/v1/category/";
+        const fetchData = {
+            method: 'POST',
+        }
+        const response = await fetch(url_getListCategory, fetchData);
         return await response.json();
     }catch (e){
         throw e

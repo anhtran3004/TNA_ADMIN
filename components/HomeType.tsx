@@ -3,7 +3,14 @@ export type Product = {
     name: string,
     description: string,
     price: number,
-    category: string[]
+    category: string[],
+    thumb: string
+}
+export type Category = {
+    id: number,
+    categoryName: string,
+    sku: string,
+    status: number,
 }
 export type InputProduct = {
     filter: {
