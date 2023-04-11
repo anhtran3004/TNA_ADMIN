@@ -3,6 +3,11 @@ import {useEffect, useState} from "react";
 import {Category, InputProduct, Product} from "@/components/HomeType";
 import {getListCategory, getListProduct} from "@/lib/API";
 import Image from "next/image";
+import {getStorage, ref, uploadBytesResumable, getDownloadURL} from "firebase/storage";
+import firebase from "firebase/compat";
+import {storage} from "@/firebaseConfig";
+import Link from "next/link";
+// import storage = firebase.storage;
 
 export function dataInputProduct(): InputProduct {
     const data = {
@@ -42,6 +47,7 @@ export default function Product() {
     const [productActive, setProductActive] = useState<Product>(dataOutputProduct())
     const [image, setImage] = useState<File | null>(null);
     const [previewURL, setPreviewURL] = useState<string>("/product/no-image.jpg");
+    const [downloadUrl, setDownLoadUrl] = useState('')
     const [productSelected, setProductSelected] = useState<number>(-1);
     const [listCategories, setListCategories] = useState<Category[]>([])
     const BASE_IMAGE_URL = process.env.NEXT_PUBLIC_BASE_IMAGE_URL
@@ -58,18 +64,38 @@ export default function Product() {
     };
 
     const handleUpload = async () => {
-        if (!image) return;
-        const formData = new FormData();
-        formData.append("image", image);
-        try {
-            const response = await fetch("/api/upload-image", {
-                method: "POST",
-                body: formData,
-            });
-            const data = await response.json();
-            // onUpload(data.imageUrl);
-        } catch (error) {
-            console.error(error);
+        if(image){
+            // const storage = getStorage();
+            const name = image.name
+            const storageRef = ref(storage, `images/${name}`);
+
+            const uploadTask = uploadBytesResumable(storageRef, image);
+            uploadTask.on('state_changed',
+                (snapshot) => {
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    console.log('Upload is ' + progress + '% done');
+                    switch (snapshot.state) {
+                        case 'paused':
+                            console.log('Upload is paused');
+                            break;
+                        case 'running':
+                            console.log('Upload is running');
+                            break;
+                    }
+                },
+                (error) => {
+                    console.log('error', error)
+                },
+                () => {
+
+                    getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+                        // url is download url of file
+                        setDownLoadUrl(url);
+                    });
+                }
+            );
+        }else{
+            console.log('File not found');
         }
     };
     useEffect(() => {
@@ -155,7 +181,10 @@ export default function Product() {
                             })}</td>
                             <td className="flex w-56  items-center border-none justify-evenly">
                                 <button className="rounded-full text-white bg-red-800 w-20 px-2">Delete</button>
-                                <button className="rounded-full text-white bg-green-600 w-22 px-2">View Detail</button>
+                                <Link href={"/product-detail?id="+ product.id}>
+                                    <button className="rounded-full text-white bg-green-600 w-22 px-2">View Detail</button>
+                                </Link>
+
                             </td>
                         </tr>
                     ))}
@@ -167,6 +196,9 @@ export default function Product() {
                     <label htmlFor="chooseFile" className="rounded-md bg-violet-700 text-white p-2 mr-2 mt-2">Chọn tệp...</label>
                     <input className="hidden" type="file" accept="image/*" id="chooseFile" onChange={handleImageChange}/>
                     <button onClick={handleUpload} className="rounded-md bg-green-600 text-white p-2 mt-2">Upload Image</button>
+                    {downloadUrl && (
+                        <p>{downloadUrl}</p>
+                    )}
                 </div>
             </div>
             <div>
