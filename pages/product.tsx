@@ -20,8 +20,8 @@ export function dataInputProduct(): InputProduct {
             }
         },
         sort: {
-            field: "id",
-            order: "ASC"
+            field: "priority",
+            order: "DESC"
         },
         pagination: {
             page: 0,
@@ -36,8 +36,13 @@ export function dataOutputProduct(): Product {
         name: "",
         description: "",
         price: 0,
-        category: ["hot", "category"],
-        thumb: ""
+        thumb: "",
+        status: 0,
+        hot: 0,
+        import_date: "",
+        update_date: "",
+        favorite: 0,
+        priority: 0
     }
     return data;
 }
@@ -235,10 +240,7 @@ export default function Product() {
                     </div>
                     <div className="input-product">
                         <label htmlFor="category">Category:</label>
-                        <select id="category" name="category" value={productActive.category} onChange={handleInputChange}>
-
-                            {/*<option value="hot">Hot</option>*/}
-                            {/*<option value="favorite">Favorite</option>*/}
+                        <select id="category" name="category" onChange={handleInputChange}>
                             {listCategories.map((cate, index) =>(
                                 <option value={cate.id} key={index}>{cate.categoryName}</option>
                             ))}

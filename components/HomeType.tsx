@@ -3,13 +3,36 @@ export type Product = {
     name: string,
     description: string,
     price: number,
-    category: string[],
-    thumb: string
+    thumb: string,
+    status: number,
+    hot: number,
+    import_date: string,
+    update_date: string,
+    favorite: number,
+    priority: number
 }
 export type Category = {
     id: number,
     categoryName: string,
     sku: string,
+    status: number,
+}
+export type Campaign = {
+    id: number,
+    name: string,
+    sku: string,
+    start_day: string,
+    end_day: string,
+    status: number,
+    campaign_description: string
+}
+export type Discount = {
+    id: number,
+    discount_code: string,
+    discount_type: string,
+    discount_value: number,
+    start_day: string,
+    end_day: string,
     status: number,
 }
 export type InputProduct = {
@@ -30,4 +53,7 @@ export type InputProduct = {
         perPage: number
     }
 
+}
+export type InputInventory = {
+    product_id: number
 }
