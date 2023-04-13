@@ -52,6 +52,22 @@ export async function updateProduct(input: InputUpdateProduct, id: number){
         throw e
     }
 }
+export async function insertProduct(input: InputUpdateProduct){
+    try{
+        const url_insertProduct = GetARBaseUrl() + "/api/v1/product/insert-product";
+        const fetchData = {
+            method: 'POST',
+            headers:{
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(input)
+        }
+        const response = await fetch(url_insertProduct, fetchData);
+        return await response.json();
+    }catch (e){
+        throw e
+    }
+}
 export async function getListCategory(){
     try{
         const url_getListCategory = GetARBaseUrl() + "/api/v1/category/";
