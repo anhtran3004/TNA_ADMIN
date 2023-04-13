@@ -55,60 +55,15 @@ export function dataOutputProduct(): Product {
 export default function Product() {
     const [products, setProducts] = useState<Product[]>([])
     const [productActive, setProductActive] = useState<Product>(dataOutputProduct())
-    const [image, setImage] = useState<File | null>(null);
-    const [previewURL, setPreviewURL] = useState<string>("/product/no-image.jpg");
-    const [downloadUrl, setDownLoadUrl] = useState('')
+
+
     const [productSelected, setProductSelected] = useState<number>(-1);
     const [statusProduct, setStatusProduct] = useState(-1);
     const [statusUpdate, setStatusUpdate] = useState(-1);
     const BASE_IMAGE_URL = process.env.NEXT_PUBLIC_BASE_IMAGE_URL
-    const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target.files && event.target.files.length > 0) {
-            const selectedImage = event.target.files[0];
-            setImage(selectedImage);
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setPreviewURL(reader.result as string);
-            };
-            reader.readAsDataURL(selectedImage);
-        }
-    };
 
-    const handleUpload = async () => {
-        if(image){
-            // const storage = getStorage();
-            const name = image.name
-            const storageRef = ref(storage, `images/${name}`);
 
-            const uploadTask = uploadBytesResumable(storageRef, image);
-            uploadTask.on('state_changed',
-                (snapshot) => {
-                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    console.log('Upload is ' + progress + '% done');
-                    switch (snapshot.state) {
-                        case 'paused':
-                            console.log('Upload is paused');
-                            break;
-                        case 'running':
-                            console.log('Upload is running');
-                            break;
-                    }
-                },
-                (error) => {
-                    console.log('error', error)
-                },
-                () => {
 
-                    getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-                        // url is download url of file
-                        setDownLoadUrl(url);
-                    });
-                }
-            );
-        }else{
-            console.log('File not found');
-        }
-    };
     useEffect(() => {
 
         async function fetchProductData() {
@@ -124,7 +79,7 @@ export default function Product() {
                 console.log('error');
             }
         }
-
+        console.log("statusUpdate", statusUpdate);
         fetchProductData().then();
     }, [statusProduct,statusUpdate])
     useEffect(() =>{
@@ -137,18 +92,12 @@ export default function Product() {
         }
         getProductSelected().then();
     }, [productSelected])
-    // const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    //     const { name, value } = event.target;
-    //     setProductActive((prevState) => ({
-    //         ...prevState,
-    //         [name]: value,
-    //     }));
-    // };
-
-
     return (
         // eslint-disable-next-line react/jsx-no-undef
         <Layout>
+            <div>
+                <div className="rounded-md bg-violet-700 text-white p-2 m-2 ml-14" style={{width: "200px"}}>Add New Product</div>
+            </div>
             <div className="flex justify-evenly">
                 <table border={1}>
                     <HeaderTable/>
@@ -159,8 +108,7 @@ export default function Product() {
                     ))}
                     </tbody>
                 </table>
-                <UploadImage previewURL={previewURL} onChange={handleImageChange} onClick={handleUpload}
-                             downloadUrl={downloadUrl} />
+                <UploadImage  productActive={productActive} setStatusUpdate={setStatusUpdate}/>
             </div>
             <UpdateProduct  productActive={productActive} setStatusUpdate={setStatusUpdate}/>
         </Layout>

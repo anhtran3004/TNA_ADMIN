@@ -8,6 +8,10 @@ interface Props {
     productActive: Product,
     setStatusUpdate: Dispatch<SetStateAction<number>>
 }
+export function randomNumberInRange(min, max) {
+    // 👇️ get number between min (inclusive) and max (inclusive)
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 export function UpdateProduct(props: Props) {
 
@@ -105,12 +109,13 @@ export function UpdateProduct(props: Props) {
         }
         return data;
     }
+
     async function UpdateProduct(){
         try{
             const res = await updateProduct(inputUpdate(), props.productActive.id);
             if(res.code === 200){
                 console.log('update success!');
-                props.setStatusUpdate(props.productActive.id);
+                props.setStatusUpdate(randomNumberInRange(1, 1000));
             }
         }catch (e) {
             console.log('error');

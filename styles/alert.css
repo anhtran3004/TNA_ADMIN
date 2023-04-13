@@ -29,6 +29,20 @@ body{
     align-items: center;
     padding-top: 48px;
 }
+.inner-image-modal{
+    position: absolute;
+    top: 0;
+    width: 500px;
+    height: 500px;
+    background-color: white;
+    border-radius: 8px;
+    left: calc(50% - 500px/2 + 0.5px);
+    top: calc(50% - 500px/2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 48px;
+}
 .inner-error-modal > p{
     font-weight: 700;
     font-size: 14px;
