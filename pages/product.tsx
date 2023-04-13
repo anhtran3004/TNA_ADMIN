@@ -57,7 +57,7 @@ export default function Product() {
     const [downloadUrl, setDownLoadUrl] = useState('')
     const [productSelected, setProductSelected] = useState<number>(-1);
     const [listCategories, setListCategories] = useState<Category[]>([]);
-    const [statusProduct, setStatusProduct] = useState(1);
+    const [statusProduct, setStatusProduct] = useState(-1);
     const BASE_IMAGE_URL = process.env.NEXT_PUBLIC_BASE_IMAGE_URL
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files.length > 0) {
