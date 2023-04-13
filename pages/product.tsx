@@ -2,11 +2,13 @@ import Layout from "@/components/Layout";
 import {useEffect, useState} from "react";
 import {Category, InputProduct, Product} from "@/components/HomeType";
 import {getListCategory, getListProduct} from "@/lib/API";
-import Image from "next/image";
-import {getStorage, ref, uploadBytesResumable, getDownloadURL} from "firebase/storage";
-import firebase from "firebase/compat";
+import {getDownloadURL, ref, uploadBytesResumable} from "firebase/storage";
 import {storage} from "@/firebaseConfig";
-import Link from "next/link";
+import {UpdateProduct} from "@/components/Product/UpdateProduct";
+import {UploadImage} from "@/components/Product/uploadImage";
+import {ContentProduct} from "@/components/Product/ContentProduct";
+import {HeaderTable} from "@/components/Product/HeaderTable";
+
 // import storage = firebase.storage;
 
 export function dataInputProduct(): InputProduct {
@@ -54,7 +56,8 @@ export default function Product() {
     const [previewURL, setPreviewURL] = useState<string>("/product/no-image.jpg");
     const [downloadUrl, setDownLoadUrl] = useState('')
     const [productSelected, setProductSelected] = useState<number>(-1);
-    const [listCategories, setListCategories] = useState<Category[]>([])
+    const [listCategories, setListCategories] = useState<Category[]>([]);
+    const [statusProduct, setStatusProduct] = useState(1);
     const BASE_IMAGE_URL = process.env.NEXT_PUBLIC_BASE_IMAGE_URL
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files.length > 0) {
@@ -131,7 +134,7 @@ export default function Product() {
 
         fetchProductData().then();
         fetchListCategory().then();
-    }, [])
+    }, [statusProduct])
     useEffect(() =>{
         async function getProductSelected(){
             for(let i = 0; i < products.length; i++){
@@ -160,96 +163,22 @@ export default function Product() {
         <Layout>
             <div className="flex justify-evenly">
                 <table border={1}>
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Price</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
+                    <HeaderTable/>
                     <tbody>
                     {products.map((product) => (
-                        <tr key={product.id} onClick={() => setProductSelected(product.id)} className={(productSelected === product.id) ? "selected-product" : ""}>
-                            <td>{product.id}</td>
-                            <td>{product.name}</td>
-                            <td>
-                                <div
-                                    dangerouslySetInnerHTML={{__html: product.description}}
-                                />
-                                {/*<Image src={BASE_IMAGE_URL + product.thumb + ".png?alt=media&token=ee0c7490-09c6-4ded-b9bb-aab17d9e17ee"} alt="" width={200} height={100} />*/}
-                            </td>
-                            <td>{product.price.toLocaleString("vi-VN", {
-                                style: "currency",
-                                currency: "VND"
-                            })}</td>
-                            <td className="flex w-56  items-center border-none justify-evenly">
-                                <button className="rounded-full text-white bg-red-800 w-20 px-2">Delete</button>
-                                <Link href={"/product-detail?id="+ product.id}>
-                                    <button className="rounded-full text-white bg-green-600 w-22 px-2">View Detail</button>
-                                </Link>
-
-                            </td>
-                        </tr>
+                        <ContentProduct key={product.id} onClick={() => setProductSelected(product.id)}
+                                        productSelected={productSelected} product={product} id={product.id} setStatusProduct={setStatusProduct}/>
                     ))}
                     </tbody>
                 </table>
-                <div className="pl-5 border-l-4 border-indigo-500">
-                    <p className="font-bold">Update product Image:</p>
-                    {previewURL && <Image src={previewURL} alt="Preview" width={200} height={100}/>}
-                    <label htmlFor="chooseFile" className="rounded-md bg-violet-700 text-white p-2 mr-2 mt-2">Chọn tệp...</label>
-                    <input className="hidden" type="file" accept="image/*" id="chooseFile" onChange={handleImageChange}/>
-                    <button onClick={handleUpload} className="rounded-md bg-green-600 text-white p-2 mt-2">Upload Image</button>
-                    {downloadUrl && (
-                        <p>{downloadUrl}</p>
-                    )}
-                </div>
+                <UploadImage previewURL={previewURL} onChange={handleImageChange} onClick={handleUpload}
+                             downloadUrl={downloadUrl}/>
             </div>
-            <div>
-                <p className="font-bold ml-5">UPDATE PRODUCT DETAIL</p>
-                <form onSubmit={handleSubmit}>
-                    <div className="input-product">
-                        <label htmlFor="name">Name:</label>
-                        <input
-                            type="text"
-                            id="name"
-                            name="name"
-                            value={productActive.name}
-                            onChange={handleInputChange}
-                        />
-                    </div>
-                    <div className="input-product">
-                        <label htmlFor="price">Price:</label>
-                        <input
-                            type="number"
-                            id="price"
-                            name="price"
-                            value={productActive.price}
-                            onChange={handleInputChange}
-                        />
-                    </div>
-                    <div className="input-product">
-                        <label htmlFor="description">Description:</label>
-                        <textarea
-                            id="description"
-                            name="description"
-                            value={productActive.description}
-                            onChange={handleInputChange}
-                        />
-                    </div>
-                    <div className="input-product">
-                        <label htmlFor="category">Category:</label>
-                        <select id="category" name="category" onChange={handleInputChange}>
-                            {listCategories.map((cate, index) =>(
-                                <option value={cate.id} key={index}>{cate.categoryName}</option>
-                            ))}
-                        </select>
-                    </div>
-                    <button type="submit" className="rounded-md bg-violet-700 text-white p-2 mr-2 mt-2 ml-5">Update Product</button>
-                </form>
-            </div>
-    </Layout>
+            <UpdateProduct onSubmit={handleSubmit} productActive={productActive} onChange={handleInputChange}
+                           categories={listCategories} callbackFn={(cate, index) => (
+                <option value={cate.id} key={index}>{cate.categoryName}</option>
+            )}/>
+        </Layout>
 
     );
 }

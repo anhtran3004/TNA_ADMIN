@@ -9,7 +9,7 @@ import {
     getListProduct
 } from "@/lib/API";
 import {dataInputProduct, dataOutputProduct} from "@/pages/product";
-import {Campaign, Category, Discount, InputInventory, Product} from "@/components/HomeType";
+import {Campaign, Category, Discount, Inventory, Product} from "@/components/HomeType";
 import {useRouter} from "next/router";
 import Image from "next/image";
 
@@ -48,19 +48,14 @@ export function GetDefaultDiscount() {
     }
     return data
 }
-export function dataInputInventory(productId: number) : InputInventory{
-    const data = {
-        product_id: productId
-    }
-    return data;
-}
 export default function ProductDetail() {
     const [products, setProducts] = useState<Product>(dataOutputProduct())
     const router = useRouter();
     const [category, setCategory] = useState<Category>(GetDefaultCategory())
     const [campaign, setCampaign] = useState<Campaign>(GetDefaultCampaign())
     const [discount, setDiscount] = useState<Discount>(GetDefaultDiscount())
-    const [inventory, setInventory] = useState([]);
+    const [inventory, setInventory] = useState<Inventory[]>([]);
+    const [totalInventory, setTotalInventory] = useState(0);
     const id = router.query.id;
     useEffect(() => {
         async function fetchProductData() {
@@ -137,7 +132,7 @@ export default function ProductDetail() {
     async function fetchInventory() {
         try {
             // console.log("id", id);
-            const res = await getInventories(1);
+            const res = await getInventories(id);
             if (res.code === 200) {
                 setInventory(res.data);
             }
@@ -145,14 +140,19 @@ export default function ProductDetail() {
             console.log('error');
         }
     }
+    useEffect(() => {
+        let total = 0;
+        for(let i = 0; i < inventory.length; i++){
+            total += inventory[i].quantity;
+        }
+        setTotalInventory(total);
+    }, [inventory])
 
     return <>
         <Layout>
-            {/*<div className="p-3 flex">*/}
-            {/*    <p className="bg-gray-400 mr-2 w-20">Name: </p>*/}
-            {/*    <p className="bg-amber-50 w-60">{products.name}</p>*/}
-            {/*</div>*/}
-            <table border={1}>
+            <div className="mb-3">
+                <h1 className="text-3xl font-bold my-4 bg-amber-50">Product Information</h1>
+            <table border={1} className="ml-3 p-0">
                 <thead>
                 <tr>
                     <th>Field</th>
@@ -222,9 +222,10 @@ export default function ProductDetail() {
                 </tr>
                 </tbody>
             </table>
-            <div>
-                <h1>Inventory</h1>
-                <table>
+            </div>
+            <div className="mt-15 bg-white">
+                <h1 className="text-3xl font-bold my-4 bg-amber-50 py-1">Inventory</h1>
+                <table border={1} className="ml-3">
                     <thead>
                     <tr>
                         <th>STT</th>
@@ -236,15 +237,16 @@ export default function ProductDetail() {
                     <tbody>
                     {inventory.map((inve, index) => (
                         <tr key={index}>
-                            <td>index + 1</td>
+                            <td>{index + 1}</td>
                             <td>{inve.name}</td>
                             <td>{inve.size}</td>
-                            <td>{inve.quality}</td>
+                            <td>{inve.quantity}</td>
                         </tr>
                     ))}
 
                     </tbody>
                 </table>
+                <div className="font-bold ml-5 text-2xl mb-3">Tổng hàng tồn kho của sản phẩm: {totalInventory}</div>
             </div>
         </Layout>
     </>

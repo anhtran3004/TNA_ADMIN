@@ -52,8 +52,13 @@ export type InputProduct = {
         page: number,
         perPage: number
     }
-
 }
-export type InputInventory = {
-    product_id: number
+export type Inventory ={
+    id: number,
+    name: string,
+    size: string,
+    quantity: number
+}
+export type InputDeleteProduct = {
+    ids: number[]
 }

@@ -1,5 +1,5 @@
 import process from "process";
-import {InputInventory, InputProduct} from "@/components/HomeType";
+import {InputDeleteProduct, InputProduct} from "@/components/HomeType";
 
 function GetARBaseUrl(): string {
     const url = process.env.NEXT_PUBLIC_BASE_URL;
@@ -14,6 +14,23 @@ export async function getListProduct(filter: InputProduct){
             body: JSON.stringify(filter)
         }
         const response = await fetch(url_getListProduct, fetchData);
+        return await response.json();
+    }catch (e){
+        throw e
+    }
+}
+export async function deleteProduct(ids: number[]){
+    try{
+        const url_deleteProduct = GetARBaseUrl() + "/api/v1/product/delete-product";
+        const body = {ids: ids}
+        const fetchData = {
+            method: 'PUT',
+            headers:{
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+        }
+        const response = await fetch(url_deleteProduct, fetchData);
         return await response.json();
     }catch (e){
         throw e
@@ -55,7 +72,7 @@ export async function getListDiscount(){
         throw e
     }
 }
-export async function getInventory(productId: InputInventory){
+export async function getInventory(productId: number){
     try{
         const url_getInventory = GetARBaseUrl() + "/api/v1/product/get-quantity-of-inventory";
         const fetchData = {
@@ -68,15 +85,11 @@ export async function getInventory(productId: InputInventory){
         throw e
     }
 }
-export async function getInventories(productId: number){
+export async function getInventories(productId: string | string[] | undefined){
     try{
-        const url_getInventory = GetARBaseUrl() + "/api/v1/product/get-quantity-of-inventory";
-        const body = {
-            product_id: 1
-        }
+        const url_getInventory = GetARBaseUrl() + "/api/v1/product/get-quantity-of-inventory/" + productId;
         const fetchData = {
             method: 'POST',
-            body: JSON.stringify(body)
         }
         const response = await fetch(url_getInventory, fetchData);
         return await response.json();
