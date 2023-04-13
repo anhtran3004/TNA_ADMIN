@@ -246,7 +246,7 @@ export default function ProductDetail() {
 
                     </tbody>
                 </table>
-                <div className="font-bold ml-5 text-2xl mb-3">Tổng hàng tồn kho của sản phẩm: {totalInventory}</div>
+                <div className="font-bold ml-5 text-2xl mb-3">Tổng số lượng tồn kho của sản phẩm: {totalInventory}</div>
             </div>
         </Layout>
     </>

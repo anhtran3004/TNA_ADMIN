@@ -43,6 +43,9 @@ export function dataOutputProduct(): Product {
         hot: 0,
         import_date: "",
         update_date: "",
+        category_id: 0,
+        campaign_id: 0,
+        discount_id: 0,
         favorite: 0,
         priority: 0
     }
@@ -56,8 +59,8 @@ export default function Product() {
     const [previewURL, setPreviewURL] = useState<string>("/product/no-image.jpg");
     const [downloadUrl, setDownLoadUrl] = useState('')
     const [productSelected, setProductSelected] = useState<number>(-1);
-    const [listCategories, setListCategories] = useState<Category[]>([]);
     const [statusProduct, setStatusProduct] = useState(-1);
+    const [statusUpdate, setStatusUpdate] = useState(-1);
     const BASE_IMAGE_URL = process.env.NEXT_PUBLIC_BASE_IMAGE_URL
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files.length > 0) {
@@ -121,20 +124,9 @@ export default function Product() {
                 console.log('error');
             }
         }
-        async function fetchListCategory(){
-            try{
-                const res = await getListCategory();
-                if(res.code === 200){
-                    setListCategories(res.data);
-                }
-            }catch (e){
-                console.log('error');
-            }
-        }
 
         fetchProductData().then();
-        fetchListCategory().then();
-    }, [statusProduct])
+    }, [statusProduct,statusUpdate])
     useEffect(() =>{
         async function getProductSelected(){
             for(let i = 0; i < products.length; i++){
@@ -145,19 +137,15 @@ export default function Product() {
         }
         getProductSelected().then();
     }, [productSelected])
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-        const { name, value } = event.target;
-        setProductActive((prevState) => ({
-            ...prevState,
-            [name]: value,
-        }));
-    };
+    // const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    //     const { name, value } = event.target;
+    //     setProductActive((prevState) => ({
+    //         ...prevState,
+    //         [name]: value,
+    //     }));
+    // };
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        console.log("Product data: ", productActive);
-        // TODO: submit product data to backend or perform other actions
-    };
+
     return (
         // eslint-disable-next-line react/jsx-no-undef
         <Layout>
@@ -172,12 +160,9 @@ export default function Product() {
                     </tbody>
                 </table>
                 <UploadImage previewURL={previewURL} onChange={handleImageChange} onClick={handleUpload}
-                             downloadUrl={downloadUrl}/>
+                             downloadUrl={downloadUrl} />
             </div>
-            <UpdateProduct onSubmit={handleSubmit} productActive={productActive} onChange={handleInputChange}
-                           categories={listCategories} callbackFn={(cate, index) => (
-                <option value={cate.id} key={index}>{cate.categoryName}</option>
-            )}/>
+            <UpdateProduct  productActive={productActive} setStatusUpdate={setStatusUpdate}/>
         </Layout>
 
     );

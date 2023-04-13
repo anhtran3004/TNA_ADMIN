@@ -1,5 +1,5 @@
 import process from "process";
-import {InputDeleteProduct, InputProduct} from "@/components/HomeType";
+import {InputDeleteProduct, InputProduct, InputUpdateProduct} from "@/components/HomeType";
 
 function GetARBaseUrl(): string {
     const url = process.env.NEXT_PUBLIC_BASE_URL;
@@ -31,6 +31,22 @@ export async function deleteProduct(ids: number[]){
             body: JSON.stringify(body)
         }
         const response = await fetch(url_deleteProduct, fetchData);
+        return await response.json();
+    }catch (e){
+        throw e
+    }
+}
+export async function updateProduct(input: InputUpdateProduct, id: number){
+    try{
+        const url_updateProduct = GetARBaseUrl() + "/api/v1/product/edit-product/"+ id;
+        const fetchData = {
+            method: 'PUT',
+            headers:{
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(input)
+        }
+        const response = await fetch(url_updateProduct, fetchData);
         return await response.json();
     }catch (e){
         throw e

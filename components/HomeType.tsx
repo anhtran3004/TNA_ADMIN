@@ -6,10 +6,27 @@ export type Product = {
     thumb: string,
     status: number,
     hot: number,
+    category_id: number,
+    campaign_id: number,
+    discount_id: number,
     import_date: string,
     update_date: string,
     favorite: number,
     priority: number
+}
+export type InputUpdateProduct = {
+    product_input: {
+        name: string,
+        description: string,
+        price: number,
+        thumb: string,
+        hot: number,
+        category_id: number,
+        campaign_id: number,
+        discount_id: number,
+        priority: number
+    }
+
 }
 export type Category = {
     id: number,
