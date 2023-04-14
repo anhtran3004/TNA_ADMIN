@@ -16,7 +16,7 @@ export default function QuestionAlert(props:Props) {
                 <p className="error-text">{props.textError}</p>
                 <div className="action-handle-error">
                     <p onClick={() => props.setIsOpenQuestionAlert(false)}>Hủy bỏ</p>
-                    <p onClick={() => {props.setOkListener()}}>OK</p>
+                    <p onClick={() => {props.setOkListener(); props.setIsOpenQuestionAlert(false)}}>OK</p>
                 </div>
             </div>
         </div>

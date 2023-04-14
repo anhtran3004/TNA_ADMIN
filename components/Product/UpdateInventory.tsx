@@ -174,6 +174,7 @@ export default function UpdateInventory(props: Props){
                     </thead>
                     <tbody>
                     {inventory.map((inve, index) => (
+                        (inve.quantity > 0) &&
                         <tr key={index} onClick={() => setInventorySelected(inve.id)}
                             className={(inventorySelected === inve.id) ? "selected-product" : ""}
                         >

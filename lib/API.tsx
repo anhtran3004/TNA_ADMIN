@@ -124,6 +124,40 @@ export async function getListColor(){
         throw e
     }
 }
+export async function deleteColor(ids: number[]){
+    try{
+        const url_deleteColor = GetARBaseUrl() + "/api/v1/color/delete-color";
+        const body = {ids: ids}
+        const fetchData = {
+            headers:{
+                "Content-Type": "application/json"
+            },
+            method: 'PUT',
+            body: JSON.stringify(body)
+        }
+        const response = await fetch(url_deleteColor, fetchData);
+        return await response.json();
+    }catch (e){
+        throw e
+    }
+}
+export async function updateColor(color: string, colorId: number){
+    try{
+        const url_updateColors = GetARBaseUrl() + "/api/v1/color//update-color/" + colorId;
+        const body = {color: color}
+        const fetchData = {
+            headers:{
+                "Content-Type": "application/json"
+            },
+            method: 'PUT',
+            body: JSON.stringify(body)
+        }
+        const response = await fetch(url_updateColors, fetchData);
+        return await response.json();
+    }catch (e){
+        throw e
+    }
+}
 export async function getListSize(){
     try{
         const url_getListColors = GetARBaseUrl() + "/api/v1/size/";
