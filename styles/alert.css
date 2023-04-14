@@ -95,3 +95,24 @@ body{
     background: #DA161D;
     color: white;
 }
+.inner-success {
+    position: absolute;
+    left: calc(50% - 50px);
+    animation-name: slide-down;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+    display: flex;
+}
+.inner-success > img{
+    margin-right: 20px;
+}
+
+@keyframes slide-down {
+    from {
+        top: -50px;
+    }
+    to {
+        top: 20px;
+    }
+}

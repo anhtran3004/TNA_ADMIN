@@ -18,7 +18,8 @@ export function UploadImage(props: Props) {
     const [image, setImage] = useState<File | null>(null);
     const [previewURL, setPreviewURL] = useState<string>("/product/no-image.jpg");
     const [downloadUrl, setDownLoadUrl] = useState('');
-    const [progressHandler, setProgressHandler] = useState<number>(0)
+    const [progressHandler, setProgressHandler] = useState<number>(0);
+
     useEffect(() =>{
         setSrcImage(props.productActive.thumb)
     }, [props.productActive.id]);

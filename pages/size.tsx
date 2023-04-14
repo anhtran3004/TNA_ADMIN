@@ -153,9 +153,9 @@ export default function Color() {
             </Modal>
         )}
         {isOpenSuccess && (
-        <Modal>
-            <Success textSuccess={textSuccess} />
-        </Modal>
+            <Modal>
+                <Success textSuccess={textSuccess} />
+            </Modal>
         )}
         {isOpenError && (
             <Modal>

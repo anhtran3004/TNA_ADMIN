@@ -143,7 +143,7 @@ export async function deleteColor(ids: number[]){
 }
 export async function updateColor(color: string, colorId: number){
     try{
-        const url_updateColors = GetARBaseUrl() + "/api/v1/color//update-color/" + colorId;
+        const url_updateColors = GetARBaseUrl() + "/api/v1/color/update-color/" + colorId;
         const body = {color: color}
         const fetchData = {
             headers:{
@@ -158,6 +158,24 @@ export async function updateColor(color: string, colorId: number){
         throw e
     }
 }
+export async function insertColor(color: string){
+    try{
+        const url_updateColors = GetARBaseUrl() + "/api/v1/color/insert-color/";
+        const body = {color: color}
+        const fetchData = {
+            headers:{
+                "Content-Type": "application/json"
+            },
+            method: 'POST',
+            body: JSON.stringify(body)
+        }
+        const response = await fetch(url_updateColors, fetchData);
+        return await response.json();
+    }catch (e){
+        throw e
+    }
+}
+
 export async function getListSize(){
     try{
         const url_getListColors = GetARBaseUrl() + "/api/v1/size/";
