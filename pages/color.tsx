@@ -71,13 +71,10 @@ export default function Color() {
     }
     useEffect(() =>{
         fetchColors().then();
-        setValueColor(colorSelected.name);
-    }, [statusColor])
+    }, [statusColor,colorId])
     useEffect(() =>{
         setValueColor(colorSelected.name);
-        console.log("colorID", colorId)
-        console.log("color", colorSelected.id)
-    }, [colorId])
+    }, [colorSelected])
 
     return <>
         <Layout>
