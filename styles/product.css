@@ -1,3 +1,6 @@
+html{
+    height: auto;
+}
 table {
     border-collapse: collapse;
     width: 80%;
@@ -28,6 +31,38 @@ tr:nth-child(even) {
 .input-product > input, textarea, select{
     width: 400px;
 }
+.add-quantity-of-inventory{
+    display: flex;
+    margin-left: 10px;
+}
+.input-inventory{
+    width: 300px;
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    margin-right: 20px;
+}
+.input-inventory > label{
+    width: 100px;
+    margin-right: 10px;
+}
+.input-inventory > input{
+    width: 350px;
+}
+/*.input-inventory > input, select{*/
+/*    width: 200px;*/
+/*}*/
 .selected-product{
     background-color: aqua !important;
+}
+.update-product-detail{
+    position: relative;
+}
+.update-inventory{
+    position: absolute;
+    left: 600px;
+    /*bottom: 50%;*/
+    top:0;
+    width: 700px;
+
 }

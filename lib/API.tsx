@@ -1,5 +1,5 @@
 import process from "process";
-import {InputDeleteProduct, InputProduct, InputUpdateProduct} from "@/components/HomeType";
+import {InputDeleteProduct, InputInventory, InputProduct, InputUpdateProduct} from "@/components/HomeType";
 
 function GetARBaseUrl(): string {
     const url = process.env.NEXT_PUBLIC_BASE_URL;
@@ -68,6 +68,38 @@ export async function insertProduct(input: InputUpdateProduct){
         throw e
     }
 }
+export async function insertInventory(input: InputInventory, productId: number){
+    try{
+        const url_insertProduct = GetARBaseUrl() + "/api/v1/product/insert-quantity-of-inventory/"+ productId;
+        const fetchData = {
+            method: 'POST',
+            headers:{
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(input)
+        }
+        const response = await fetch(url_insertProduct, fetchData);
+        return await response.json();
+    }catch (e){
+        throw e
+    }
+}
+export async function updateInventory(input: InputInventory, productId: number){
+    try{
+        const url_insertProduct = GetARBaseUrl() + "/api/v1/product/update-quantity-of-inventory/"+ productId;
+        const fetchData = {
+            method: 'PUT',
+            headers:{
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(input)
+        }
+        const response = await fetch(url_insertProduct, fetchData);
+        return await response.json();
+    }catch (e){
+        throw e
+    }
+}
 export async function getListCategory(){
     try{
         const url_getListCategory = GetARBaseUrl() + "/api/v1/category/";
@@ -75,6 +107,30 @@ export async function getListCategory(){
             method: 'POST',
         }
         const response = await fetch(url_getListCategory, fetchData);
+        return await response.json();
+    }catch (e){
+        throw e
+    }
+}
+export async function getListColor(){
+    try{
+        const url_getListColors = GetARBaseUrl() + "/api/v1/color/";
+        const fetchData = {
+            method: 'POST',
+        }
+        const response = await fetch(url_getListColors, fetchData);
+        return await response.json();
+    }catch (e){
+        throw e
+    }
+}
+export async function getListSize(){
+    try{
+        const url_getListColors = GetARBaseUrl() + "/api/v1/size/";
+        const fetchData = {
+            method: 'POST',
+        }
+        const response = await fetch(url_getListColors, fetchData);
         return await response.json();
     }catch (e){
         throw e

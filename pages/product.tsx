@@ -8,6 +8,7 @@ import {UpdateProduct} from "@/components/Product/UpdateProduct";
 import {UploadImage} from "@/components/Product/uploadImage";
 import {ContentProduct} from "@/components/Product/ContentProduct";
 import {HeaderTable} from "@/components/Product/HeaderTable";
+import {useRouter} from "next/router";
 
 // import storage = firebase.storage;
 
@@ -55,15 +56,14 @@ export function dataOutputProduct(): Product {
 export default function Product() {
     const [products, setProducts] = useState<Product[]>([])
     const [productActive, setProductActive] = useState<Product>(dataOutputProduct())
-
-
     const [productSelected, setProductSelected] = useState<number>(-1);
     const [statusProduct, setStatusProduct] = useState(-1);
     const [statusUpdate, setStatusUpdate] = useState(-1);
     const BASE_IMAGE_URL = process.env.NEXT_PUBLIC_BASE_IMAGE_URL
-
-
-
+    const router = useRouter();
+    function nextAddProduct(){
+        router.push("/add-product").then();
+    }
     useEffect(() => {
 
         async function fetchProductData() {
@@ -96,7 +96,7 @@ export default function Product() {
         // eslint-disable-next-line react/jsx-no-undef
         <Layout>
             <div>
-                <div className="rounded-md bg-violet-700 text-white p-2 m-2 ml-14" style={{width: "200px"}}>Add New Product</div>
+                <div className="rounded-md bg-violet-700 text-white p-2 m-2 ml-14" style={{width: "200px"}} onClick={nextAddProduct}>Add New Product</div>
             </div>
             <div className="flex justify-evenly">
                 <table border={1}>

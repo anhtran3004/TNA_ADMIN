@@ -34,6 +34,24 @@ export type Category = {
     sku: string,
     status: number,
 }
+export type Color = {
+    id: number,
+    name: string,
+    status: number,
+}
+export type Size = {
+    id: number,
+    size: string,
+    status: number,
+}
+export type InputInventory = {
+    product_input: {
+        size_id: number,
+        color_id: number,
+        quantity: number
+    }
+
+}
 export type Campaign = {
     id: number,
     name: string,
@@ -74,7 +92,10 @@ export type Inventory ={
     id: number,
     name: string,
     size: string,
-    quantity: number
+    quantity: number,
+    size_id: number,
+    color_id: number,
+    product_id: number
 }
 export type InputDeleteProduct = {
     ids: number[]
