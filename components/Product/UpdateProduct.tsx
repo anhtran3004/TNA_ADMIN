@@ -100,7 +100,7 @@ export function UpdateProduct(props: Props) {
         setValueCategory(category.id);
         setValueCampaign(campaign.id);
         setValueDiscount(discount.id);
-        // setValueHot(props.productActive.hot)
+        setValueHot(props.productActive.hot)
     }, [category, campaign, discount])
 
     function inputUpdate(): InputUpdateProduct {
