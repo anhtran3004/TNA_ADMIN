@@ -5,21 +5,9 @@ function GetARBaseUrl(): string {
     if (url === undefined) return "https://a969-27-72-146-175.ngrok-free.app";
     return url
 }
-export async function getListSize(){
-    try{
-        const url_getListSizes = GetARBaseUrl() + "/api/v1/size/";
-        const fetchData = {
-            method: 'POST',
-        }
-        const response = await fetch(url_getListSizes, fetchData);
-        return await response.json();
-    }catch (e){
-        throw e
-    }
-}
 export async function deleteSize(ids: number[]){
     try{
-        const url_deleteSize = GetARBaseUrl() + "/api/v1/size/delete-Size";
+        const url_deleteSize = GetARBaseUrl() + "/api/v1/size/delete-size";
         const body = {ids: ids}
         const fetchData = {
             headers:{
@@ -36,8 +24,8 @@ export async function deleteSize(ids: number[]){
 }
 export async function updateSize(Size: string, SizeId: number){
     try{
-        const url_updateSizes = GetARBaseUrl() + "/api/v1/size/update-Size/" + SizeId;
-        const body = {Size: Size}
+        const url_updateSizes = GetARBaseUrl() + "/api/v1/size/update-size/" + SizeId;
+        const body = {size: Size}
         const fetchData = {
             headers:{
                 "Content-Type": "application/json"
@@ -51,10 +39,10 @@ export async function updateSize(Size: string, SizeId: number){
         throw e
     }
 }
-export async function insertColor(color: string){
+export async function insertSize(size: string){
     try{
-        const url_updateColors = GetARBaseUrl() + "/api/v1/color/insert-color/";
-        const body = {color: color}
+        const url_updateColors = GetARBaseUrl() + "/api/v1/size/insert-size/";
+        const body = {size: size}
         const fetchData = {
             headers:{
                 "Content-Type": "application/json"
