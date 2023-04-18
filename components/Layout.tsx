@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+// @ts-ignore
 const Layout = ({ children }) => {
     return (
         <div>
@@ -26,14 +27,10 @@ const Layout = ({ children }) => {
                                 <p>Color</p>
                             </Link>
                         </li>
+
                         <li>
-                            <Link href="/size">
-                                <p>Size</p>
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href="/user">
-                                <p>User</p>
+                            <Link href="/campaign">
+                                <p>Campaign</p>
                             </Link>
                         </li>
                         <li>

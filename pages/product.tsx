@@ -12,8 +12,8 @@ import {useRouter} from "next/router";
 
 // import storage = firebase.storage;
 
-export function dataInputProduct(): InputProduct {
-    const data = {
+export function dataInputProduct() {
+    const data : InputProduct = {
         filter: {
             product_id: [],
             category_id: [],

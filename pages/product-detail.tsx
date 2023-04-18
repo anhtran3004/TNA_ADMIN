@@ -27,6 +27,7 @@ export function GetDefaultCampaign() {
     const data = {
         id: 0,
         name: '',
+        thumb: '',
         sku: '',
         start_day: '',
         end_day: '',

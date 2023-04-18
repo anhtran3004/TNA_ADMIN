@@ -1,7 +1,7 @@
 import process from "process";
 import {InputDeleteProduct, InputInventory, InputProduct, InputUpdateProduct} from "@/components/HomeType";
 
-function GetARBaseUrl(): string {
+export function GetARBaseUrl(): string {
     const url = process.env.NEXT_PUBLIC_BASE_URL;
     if (url === undefined) return "https://a969-27-72-146-175.ngrok-free.app";
     return url

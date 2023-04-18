@@ -52,10 +52,20 @@ export type InputInventory = {
     }
 
 }
+export type InputCampaign = {
+    campaign_input: {
+        name: string,
+        thumb: string,
+        end_day: string,
+        campaign_description: string
+    }
+
+}
 export type Campaign = {
     id: number,
     name: string,
     sku: string,
+    thumb: string,
     start_day: string,
     end_day: string,
     status: number,
