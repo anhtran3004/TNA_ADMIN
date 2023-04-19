@@ -61,6 +61,15 @@ export type InputCampaign = {
     }
 
 }
+export type InputCampaign = {
+    discount_input: {
+        discount_code: string,
+        discount_type: string,
+        discount_: string,
+        campaign_description: string
+    }
+
+}
 export type Campaign = {
     id: number,
     name: string,
