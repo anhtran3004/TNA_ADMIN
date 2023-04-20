@@ -1,46 +1,49 @@
 import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
 import {insertColor, updateColor} from "@/lib/API";
 import {randomNumberInRange} from "@/components/Product/UpdateProduct";
-import {Discount, InputCampaign} from "@/components/HomeType";
+import {Discount, InputDiscount} from "@/components/HomeType";
 import Modal from "@/components/Alert/Modal";
 import Success from "@/components/Alert/Success";
-import {insertCampaign} from "@/lib/API/Campaign";
-import {GetDefaultCampaign} from "@/pages/product-detail";
+import {insertDiscount} from "@/lib/API/Discount";
+import {GetDefaultDiscount} from "@/pages/product-detail";
+import {formatDates} from "@/components/Campaign/UploadImageCampain";
 interface Props {
     setStatusInsert: Dispatch<SetStateAction<number>>
-    setIsOpenAddCampaign: Dispatch<SetStateAction<boolean>>
+    setIsOpenAddDiscount: Dispatch<SetStateAction<boolean>>
     setIsOpenSuccess: Dispatch<SetStateAction<boolean>>
     setTextSuccess: Dispatch<SetStateAction<string>>
     setIsOpenError: Dispatch<SetStateAction<boolean>>
     setTextError: Dispatch<SetStateAction<string>>
 }
 
-export default function AddCampaign(props: Props) {
-    const [valueName, setValueName] = useState("");
+export default function AddDiscount(props: Props) {
+    const [valueDiscountCode, setValueDiscountCode] = useState("");
+    const [valueDiscount, setValueDiscount] = useState(0);
+    const [valueDiscountType, setValueDiscountType] = useState("");
     const [valueEndDay, setValueEndDay] = useState("");
-    const [valueDesc, setValueDesc] = useState("");
-    function inputInsert(): InputCampaign {
+
+    function inputInsert(): InputDiscount {
         const data = {
-            campaign_input: {
-                name: valueName,
-                thumb: '/',
-                end_day: valueEndDay,
-                campaign_description: valueDesc
+            discount_input: {
+                discount_code: Math.random().toString(36).substring(2, 10),
+                discount_type: valueDiscountType,
+                discount_value: valueDiscount,
+                end_day: formatDates(valueEndDay),
             }
         }
         return data;
     }
-    async function InsertCampaign() {
+    async function InsertDiscount() {
         try{
-            const res = await insertCampaign(inputInsert());
+            const res = await insertDiscount(inputInsert());
             if(res.code === 200){
                 props.setStatusInsert(randomNumberInRange(1,1000));
-                props.setIsOpenAddCampaign(false);
+                props.setIsOpenAddDiscount(false);
                 props.setTextSuccess("Insert Success!")
                 props.setIsOpenSuccess(true);
                 setTimeout(() =>props.setIsOpenSuccess(false), 2000)
             }else {
-                props.setIsOpenAddCampaign(false);
+                props.setIsOpenAddDiscount(false);
                 props.setTextError("Insert Errors!")
                 props.setIsOpenError(true);
                 setTimeout(() =>props.setIsOpenError(false), 2000)
@@ -48,7 +51,7 @@ export default function AddCampaign(props: Props) {
 
         }catch (e){
             console.log('error');
-            props.setIsOpenAddCampaign(false);
+            props.setIsOpenAddDiscount(false);
             props.setTextError("Insert Errors!")
             props.setIsOpenError(true);
             setTimeout(() =>props.setIsOpenError(false), 2000)
@@ -57,21 +60,32 @@ export default function AddCampaign(props: Props) {
     }
     return <>
         <div className="error-modal">
-            <div className="background-error-modal" onClick={() => props.setIsOpenAddCampaign(false)}></div>
+            <div className="background-error-modal" onClick={() => props.setIsOpenAddDiscount(false)}></div>
             <div className="inner-error-modal" style={{width: "600px", height:"400px",left: "calc(50% - 600px/2 + 0.5px)",
                 top: "calc(50% - 400px/2)" }}>
                 <div className="update-color">
                     <h2 className=" font-bold text-2xl ml-0 mb-2">Insert color:</h2>
                     <div className="input-product" style={{width:"500px"}}>
-                        <label htmlFor="name">Tên chiến dịch:</label>
+                        <label htmlFor="name">Giá trị:</label>
+                        <input
+                            className="shadow-gray-400 border-2"
+                            type="number"
+                            id="name"
+                            name="name"
+                            value={valueDiscount}
+                            onChange={(e) => setValueDiscount(parseFloat(e.target.value))}
+
+                        />
+                    </div>
+                    <div className="input-product" style={{width:"500px"}}>
+                        <label htmlFor="price">Loại:</label>
                         <input
                             className="shadow-gray-400 border-2"
                             type="text"
-                            id="name"
-                            name="name"
-                            value={valueName}
-                            onChange={(e) => setValueName(e.target.value)}
-
+                            id="price"
+                            name="price"
+                            value={valueDiscountType}
+                            onChange={(e) => setValueDiscountType(e.target.value)}
                         />
                     </div>
                     <div className="input-product" style={{width:"500px"}}>
@@ -85,17 +99,8 @@ export default function AddCampaign(props: Props) {
                             onChange={(e) => setValueEndDay(e.target.value)}
                         />
                     </div>
-                    <div className="input-product" style={{width:"500px"}}>
-                        <label htmlFor="description">Description:</label>
-                        <textarea
-                            className="shadow-gray-400 border-2"
-                            id="description"
-                            name="description"
-                            value={valueDesc}
-                            onChange={(e) => setValueDesc(e.target.value)}
-                        />
-                    </div>
-                    <button onClick={InsertCampaign}
+
+                    <button onClick={InsertDiscount}
                             className="rounded-md bg-violet-700 text-white p-2 mr-2 mt-2 ml-0">Cập nhật
                     </button>
                 </div>

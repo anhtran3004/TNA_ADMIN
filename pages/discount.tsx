@@ -1,6 +1,6 @@
 import Layout from "@/components/Layout";
 import {useRouter} from "next/router";
-import {Discount} from "@/components/HomeType";
+import {Discount, InputDiscount} from "@/components/HomeType";
 import React, {useEffect, useState} from "react";
 import Modal from "@/components/Alert/Modal";
 import QuestionAlert from "@/components/Alert/QuestionAlert";
@@ -9,12 +9,20 @@ import Success from "@/components/Alert/Success";
 import Errors from "@/components/Alert/Errors";
 import {deleteDiscount, updateDiscount} from "@/lib/API/Discount";
 import {getListDiscount} from "@/lib/API";
+import {formatDate} from "@/components/Campaign/ContentCampain";
+import {formatDates} from "@/components/Campaign/UploadImageCampain";
 import AddDiscount from "@/components/Discount/AddDiscount";
+// import AddDiscount from "@/components/Discount/AddDiscount";
+
 export function DefaultDiscountData(): Discount{
     const data ={
-        id: 0,
-        Discount: "",
-        status: 0,
+            id: 0,
+            discount_code: '',
+            discount_type: '',
+            discount_value: 0,
+            start_day: '',
+            end_day: '',
+            status: 0
     }
     return data;
 }
@@ -22,10 +30,14 @@ export default function Discount() {
     const router = useRouter()
     const [listDiscount, setListDiscount] = useState<Discount[]>([]);
     const [isOpenDeleteProductAlert, setIsOpenDeleteProductAlert] = useState(false);
-    const textError = "Bạn có chắc chắn muốn xóa màu này không?";
+    const textError = "Bạn có chắc chắn muốn xóa mã giảm giá này không?";
     const [DiscountId, setDiscountId] = useState(0)
     const [statusDiscount, setStatusDiscount] = useState(0)
-    const [valueDiscount, setValueDiscount] = useState("");
+    const [valueDiscountCode, setValueDiscountCode] = useState("");
+    const [valueDiscount, setValueDiscount] = useState(0);
+    const [valueDiscountType, setValueDiscountType] = useState("");
+    const [valueEndDay, setValueEndDay] = useState("");
+
     const [discountSelected, setDiscountSelected] = useState<Discount>(DefaultDiscountData());
     const [isOpenAddProduct, setIsOpenAddProduct] = useState(false);
     const [isOpenSuccess, setIsOpenSuccess] = useState(false);
@@ -44,9 +56,20 @@ export default function Discount() {
         }
 
     }
+    function DefaultInputDiscountData(): InputDiscount{
+        const data ={
+            discount_input: {
+                discount_code: valueDiscountCode,
+                discount_type: valueDiscountType,
+                discount_value: valueDiscount,
+                end_day: formatDates(valueEndDay),
+            }
+        }
+        return data;
+    }
     async function UpdateDiscount() {
         try{
-            const res = await updateDiscount(valueDiscount, DiscountSelected.id);
+            const res = await updateDiscount(DefaultInputDiscountData(), discountSelected.id);
             if(res.code === 200){
                 console.log('updated success!');
                 setStatusDiscount(randomNumberInRange(1,1000));
@@ -85,10 +108,15 @@ export default function Discount() {
     }
     useEffect(() =>{
         fetchDiscounts().then();
+
+
     }, [statusDiscount,DiscountId])
-    // useEffect(() =>{
-    //     setValueDiscount(discountSelected.discount_value);
-    // }, [discountSelected])
+    useEffect(() =>{
+        setValueDiscountCode(discountSelected.discount_code);
+        setValueDiscount(discountSelected.discount_value);
+        setValueDiscountType(discountSelected.discount_type);
+        setValueEndDay(discountSelected.end_day);
+    }, [discountSelected])
 
     return <>
         <Layout>
@@ -97,11 +125,15 @@ export default function Discount() {
                      onClick={() => setIsOpenAddProduct(true)}>Add New Discount
                 </div>
             </div>
-            <table border={1} style={{width: "500px", marginLeft: "50px"}}>
+            <table border={1} style={{width: "1000px", marginLeft: "50px"}}>
                 <thead>
                 <tr>
                     <th>STT</th>
-                    <th>Discount</th>
+                    <th>Mã giảm giá</th>
+                    <th>Giá trị</th>
+                    <th>Loại</th>
+                    <th>Ngày bắt đầu</th>
+                    <th>Ngày kết thúc</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -114,10 +146,10 @@ export default function Discount() {
                         <td>{discount.discount_code}</td>
                         <td>{discount.discount_value}</td>
                         <td>{discount.discount_type}</td>
-                        <td>{discount.start_day}</td>
-                        <td>{discount.end_day}</td>
+                        <td>{formatDate(discount.start_day)}</td>
+                        <td>{formatDate(discount.end_day)}</td>
                         <td>
-                            <button className="rounded-full text-white bg-red-800 w-20 px-2" onClick={() => {setIsOpenDeleteProductAlert(true); setDiscountId(Discount.id)}}>Delete</button>
+                            <button className="rounded-full text-white bg-red-800 w-20 px-2" onClick={() => {setIsOpenDeleteProductAlert(true); setDiscountId(discount.id)}}>Delete</button>
                         </td>
                     </tr>
                 ))}
@@ -126,14 +158,50 @@ export default function Discount() {
             <div className="update-Discount">
                 <h2 className=" font-bold text-2xl ml-5">Update Discount:</h2>
                 <div className="input-product">
-                    <label htmlFor="priority">Discount:</label>
+                    <label htmlFor="priority">Mã giảm giá:</label>
+                    <input
+                        className="shadow-gray-400 border-2"
+                        type="text"
+                        id="priority"
+                        name="priority"
+                        value={valueDiscountCode}
+                        onChange={(e) => setValueDiscountCode(e.target.value)}
+                    />
+
+                </div>
+                <div className="input-product">
+                    <label htmlFor="priority">Giá trị :</label>
                     <input
                         className="shadow-gray-400 border-2"
                         type="text"
                         id="priority"
                         name="priority"
                         value={valueDiscount}
-                        onChange={(e) => setValueDiscount(e.target.value)}
+                        onChange={(e) => setValueDiscount(parseFloat(e.target.value))}
+                    />
+
+                </div>
+                <div className="input-product">
+                    <label htmlFor="priority">Loại:</label>
+                    <input
+                        className="shadow-gray-400 border-2"
+                        type="text"
+                        id="priority"
+                        name="priority"
+                        value={valueDiscountType}
+                        onChange={(e) => setValueDiscountType(e.target.value)}
+                    />
+
+                </div>
+                <div className="input-product">
+                    <label htmlFor="priority">Ngày kết thúc:</label>
+                    <input
+                        className="shadow-gray-400 border-2"
+                        type="date"
+                        id="priority"
+                        name="priority"
+                        // value={valueEndDay}
+                        onChange={(e) => setValueEndDay(e.target.value)}
                     />
 
                 </div>
@@ -149,7 +217,7 @@ export default function Discount() {
         )}
         {isOpenAddProduct && (
             <Modal>
-                <AddDiscount setStatusDiscount={setStatusDiscount} setIsOpenAddProduct={setIsOpenAddProduct}
+                <AddDiscount setStatusInsert={setStatusDiscount} setIsOpenAddDiscount={setIsOpenAddProduct}
                          setIsOpenSuccess={setIsOpenSuccess}
                          setTextSuccess={setTextSuccess}
                          setIsOpenError={setIsOpenError}

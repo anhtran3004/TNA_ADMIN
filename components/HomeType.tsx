@@ -61,13 +61,23 @@ export type InputCampaign = {
     }
 
 }
-export type InputCampaign = {
+export type InputDiscount = {
     discount_input: {
         discount_code: string,
         discount_type: string,
-        discount_: string,
-        campaign_description: string
+        discount_value: number,
+        end_day: string
     }
+
+}
+export type Discount = {
+        id: number
+        discount_code: string,
+        discount_type: string,
+        discount_value: number,
+        start_day: string,
+        end_day: string,
+        status: number
 
 }
 export type Campaign = {
@@ -80,15 +90,7 @@ export type Campaign = {
     status: number,
     campaign_description: string
 }
-export type Discount = {
-    id: number,
-    discount_code: string,
-    discount_type: string,
-    discount_value: number,
-    start_day: string,
-    end_day: string,
-    status: number,
-}
+
 export type InputProduct = {
     filter: {
         product_id: number[],

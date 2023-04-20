@@ -1,10 +1,11 @@
 import {GetARBaseUrl} from "@/lib/API";
+import {InputDiscount} from "@/components/HomeType";
 // import {InputDiscount} from "@/components/HomeType";
 
 
 export async function deleteDiscount(ids: number[]){
     try{
-        const url_deleteDiscount = GetARBaseUrl() + "/api/v1/Discount/delete-discount";
+        const url_deleteDiscount = GetARBaseUrl() + "/api/v1/discount/delete-discount";
         const body = {ids: ids}
         const fetchData = {
             headers:{
@@ -21,7 +22,7 @@ export async function deleteDiscount(ids: number[]){
 }
 export async function updateDiscount(input: InputDiscount, id: number){
     try{
-        const url_updateDiscount = GetARBaseUrl() + "/api/v1/Discount/update-Discount/"+ id;
+        const url_updateDiscount = GetARBaseUrl() + "/api/v1/discount/update-discount/"+ id;
         const fetchData = {
             method: 'PUT',
             headers:{
@@ -37,7 +38,7 @@ export async function updateDiscount(input: InputDiscount, id: number){
 }
 export async function insertDiscount(input: InputDiscount){
     try{
-        const url_insertDiscount = GetARBaseUrl() + "/api/v1/Discount/insert-Discount/";
+        const url_insertDiscount = GetARBaseUrl() + "/api/v1/discount/insert-discount/";
         const fetchData = {
             method: 'POST',
             headers:{
