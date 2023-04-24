@@ -68,3 +68,34 @@ tr:nth-child(even) {
     width: 700px;
 
 }
+.pagination-page{
+    display: flex;
+    justify-content: center;
+}
+.pagination-page ul{
+    width: 120px;
+    height: 30px;
+}
+.pagination-page li{
+    width: 50px;
+    height: 30px;
+}
+.page-link{
+    /*color: black;*/
+    text-align: center;
+    width: 50px;
+    height: 30px;
+    /*background-color: #3A3131;*/
+    color: #3a4fbb;
+    border-radius: 8px;
+    border: 1px solid #3a4fbb;
+
+}
+.active-page{
+    text-align: center;
+    width: 50px;
+    height: 30px;
+    background-color: #3a4fbb;
+    color: white;
+    border-radius: 8px;
+}

@@ -1,0 +1,79 @@
+.text-order{
+    font-size: 20px;
+    font-weight: 700;
+}
+.status-order{
+    margin-top: 20px;
+    display: flex;
+    margin-bottom: 20px;
+}
+.status-order > div{
+    width: 120px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 16px;
+    margin-right: 20px;
+}
+.status-order-item{
+    width: 120px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    color: black;
+    border: 1px solid black;
+    border-radius: 16px;
+    cursor: pointer;
+}
+.status-order-item:hover{
+    background-color: orange;
+    border: none;
+    color: white;
+}
+.status-order-active{
+    background-color: orange;
+    border: none;
+    color: white;
+}
+.table_order{
+    color: black;
+}
+.btn-view-detail{
+    width: 100px;
+    height: 30px;
+    background-color: green;
+    border: none;
+    color: white;
+    border-radius: 16px;
+    text-align: center;
+}
+.btn-view-delete-order{
+    width: 80px;
+    height: 30px;
+    background-color: red;
+    border: none;
+    color: white;
+    border-radius: 16px;
+}
+.content-order{
+    border: 1px solid rgba(128, 128, 128, 0.53);
+}
+.content-order> td{
+    /*border: 1px solid black;*/
+    text-align: center;
+    padding: 10px 0;
+    border: 1px solid rgba(128, 128, 128, 0.53);
+}
+.table_order  th{
+    text-align: center;
+}
+.cart__btn-back{
+    width: 200px;
+    height: 30px;
+    background-color: orange;
+    border: none;
+    color: white;
+    border-radius: 8px;
+    text-align: center;
+    padding: 10px 15px;
+}

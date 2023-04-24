@@ -95,6 +95,7 @@ export type InputProduct = {
     filter: {
         product_id: number[],
         category_id: number[],
+        campaign_id:number[],
         price:{
             min: number,
             max: number
@@ -120,4 +121,28 @@ export type Inventory ={
 }
 export type InputDeleteProduct = {
     ids: number[]
+}
+export type Order = {
+    id: number,
+    name: string,
+    email: string,
+    address: string,
+    phone: string,
+    ship_name: string,
+    method_delivery: string,
+    user_id: number,
+    shipping_fee: number,
+    status: number,
+    total_price: number
+}
+export type OrderProduct = {
+    id: number,
+    order_id: number,
+    product_id: number,
+    price: number,
+    quantity: number,
+    color: string,
+    size: string,
+    name: string,
+    thumb: string,
 }

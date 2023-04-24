@@ -8,6 +8,7 @@ interface Props{
     onClick: () => void,
     productSelected: number,
     product: Product,
+    index: number,
     id: number,
     setStatusProduct: Dispatch<SetStateAction<number>>
 }
@@ -29,7 +30,7 @@ export function ContentProduct(props: Props) {
     return<>
     <tr onClick={props.onClick}
                className={(props.productSelected === props.product.id) ? "selected-product" : ""}>
-        <td>{props.product.id}</td>
+        <td>{props.index + 1}</td>
         <td>{props.product.name}</td>
         <td>
             <div

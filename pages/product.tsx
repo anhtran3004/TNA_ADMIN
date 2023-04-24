@@ -9,6 +9,7 @@ import {UploadImage} from "@/components/Product/uploadImage";
 import {ContentProduct} from "@/components/Product/ContentProduct";
 import {HeaderTable} from "@/components/Product/HeaderTable";
 import {useRouter} from "next/router";
+import Pagination from "@/components/Pagination";
 
 // import storage = firebase.storage;
 
@@ -17,6 +18,7 @@ export function dataInputProduct() {
         filter: {
             product_id: [],
             category_id: [],
+            campaign_id: [],
             price: {
                 min: 0,
                 max: 10000000
@@ -59,7 +61,13 @@ export default function Product() {
     const [productSelected, setProductSelected] = useState<number>(-1);
     const [statusProduct, setStatusProduct] = useState(-1);
     const [statusUpdate, setStatusUpdate] = useState(-1);
-    const BASE_IMAGE_URL = process.env.NEXT_PUBLIC_BASE_IMAGE_URL
+    const BASE_IMAGE_URL = process.env.NEXT_PUBLIC_BASE_IMAGE_URL;
+    const [currentPage, setCurrentPage] = useState(1)
+    const [postsPerPage] = useState(5)
+    const indexOfLastPost = currentPage * postsPerPage
+    const indexOfFirstPost = indexOfLastPost - postsPerPage
+    const currentPosts = products.slice(indexOfFirstPost, indexOfLastPost)
+    const paginate = (pageNumber: number) => setCurrentPage(pageNumber)
     const router = useRouter();
     function nextAddProduct(){
         router.push("/add-product").then();
@@ -102,15 +110,27 @@ export default function Product() {
                 <table border={1}>
                     <HeaderTable/>
                     <tbody>
-                    {products.map((product) => (
+                    {currentPosts.map((product, index) => (
                         <ContentProduct key={product.id} onClick={() => setProductSelected(product.id)}
+                                        index={index}
                                         productSelected={productSelected} product={product} id={product.id} setStatusProduct={setStatusProduct}/>
                     ))}
                     </tbody>
                 </table>
+
                 <UploadImage  productActive={productActive} setStatusUpdate={setStatusUpdate}/>
             </div>
+            <div className="pagination-page" >
+                <Pagination
+                    postsPerPage={postsPerPage}
+                    totalPosts={products.length}
+                    paginate={paginate}
+                    currentPage={currentPage}
+                />
+            </div>
+            <div style={{marginTop: "50px"}}>
             <UpdateProduct  productActive={productActive} setStatusUpdate={setStatusUpdate}/>
+            </div>
         </Layout>
 
     );

@@ -96,7 +96,14 @@ export default function UpdateInventory(props: Props){
         fetchColors().then();
         fetchSizes().then();
         fetchInventory().then();
+
     }, [props.productActive.id, statusUpdate])
+    useEffect(() =>{
+        if(listColor.length > 0 && listSize.length > 0){
+            setValueSize(listSize[0].id);
+            setValueColor(listColor[0].id);
+        }
+    }, [listColor, listSize])
     function handleSubmit(){
         let flag = false;
         for(let i =  0; i <inventory.length; i++){
