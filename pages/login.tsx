@@ -79,7 +79,7 @@ const LoginPage = () => {
                             <div className="form__input-row">
                                 <input
                                     className="form__input"
-                                    placeholder="email"
+                                    placeholder="Username"
                                     type="text"
                                     name="email"
                                     value={valueUsername}
