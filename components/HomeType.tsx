@@ -188,3 +188,13 @@ export  type InputLogin = {
     username: string,
     password: string
 }
+export type Contact = {
+    id: number,
+    email: string,
+    name: string,
+    message: string,
+    subject: string,
+    status: number,
+    phone: string,
+    created_date: string
+}

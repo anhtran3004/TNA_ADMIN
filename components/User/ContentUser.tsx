@@ -15,7 +15,6 @@ interface Props{
     setStatusUser: Dispatch<SetStateAction<number>>
 }
 export default function ContentUser(props: Props){
-    const textError = "Bạn có chắc chắn muốn xóa sản phẩm này không?";
     const [isOpenBlockUserAlert, setIsOpenBlockUserAlert] = useState(false);
     const [isOpenUnBlockUserAlert, setIsOpenUnBlockUserAlert] = useState(false);
     const [valueStatus, setValueStatus] = useState(0);
@@ -63,13 +62,13 @@ export default function ContentUser(props: Props){
         </tr>
         {isOpenBlockUserAlert && (
             <Modal>
-                <QuestionAlert textError={textError} setIsOpenQuestionAlert={setIsOpenBlockUserAlert}
+                <QuestionAlert textError={"Bạn có chắc chắn muốn khóa người dùng này không?"} setIsOpenQuestionAlert={setIsOpenBlockUserAlert}
                                setOkListener={BlockUser}/>
             </Modal>
         )}
         {isOpenUnBlockUserAlert && (
             <Modal>
-                <QuestionAlert textError={textError} setIsOpenQuestionAlert={setIsOpenUnBlockUserAlert}
+                <QuestionAlert textError={"Bạn có chắc chắn muốn mở khóa người dùng này không?"} setIsOpenQuestionAlert={setIsOpenUnBlockUserAlert}
                                setOkListener={BlockUser}/>
             </Modal>
         )}

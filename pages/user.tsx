@@ -11,7 +11,7 @@ import Pagination from "@/components/Pagination";
 import {UpdateUser} from "@/components/User/UpdateUser";
 import Modal from "@/components/Alert/Modal";
 import AddDiscount from "@/components/Discount/AddDiscount";
-import AddUser from "@/components/User/AddUser";
+
 export function dataOutputUser(): User{
     const data = {
         id: 0,
