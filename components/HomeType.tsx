@@ -146,3 +146,45 @@ export type OrderProduct = {
     name: string,
     thumb: string,
 }
+export type User = {
+    id: number,
+    username: string,
+    email: string,
+    password: string,
+    name: string,
+    phone: string,
+    address: string,
+    created_date: string,
+    role: string,
+    status: number,
+    birth_date: string
+}
+export type InputInsertUser = {
+    user_input: {
+        email: string,
+        name: string,
+        phone: string,
+        address: string,
+        username: string,
+        password: string,
+        role: string
+    }
+}
+export type InputUpdateUser = {
+    user_input: {
+        email: string,
+        name: string,
+        phone: string,
+        address: string,
+        username: string,
+        role: string
+    }
+}
+export type InputBlockUser = {
+    ids: number[],
+    status: number
+}
+export  type InputLogin = {
+    username: string,
+    password: string
+}

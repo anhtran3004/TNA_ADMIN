@@ -1,0 +1,169 @@
+.form-page {
+    padding-bottom: 100px;
+    margin-top: 100px;
+}
+.form-block {
+    width: 100%;
+    margin: 0 auto;
+//@include breakpoint(phone) {
+//    width: 448px;
+//}
+.form-block__title {
+    font-size: 22px;
+    font-weight: 600;
+    padding: 0 50px;
+    line-height: 150%;
+    text-align: center;
+    margin-bottom: 24px;
+}
+.form-block__description {
+    font-size: 14px;
+    line-height: 165%;
+    text-align: center;
+}
+.form {
+    margin-top: 40px;
+}
+}
+.form {
+    .form__input-row {
+        margin-bottom: 15px;
+        &.form__input-row--two {
+            display: flex;
+            justify-content: space-between;
+            .form__col {
+                width: 49%;
+            }
+        }
+    }
+    .form__input {
+        height: 47px;
+        width: 100%;
+        font-weight: 500;
+        color: #808080;
+        padding: 0 22px;
+        border-radius: 40px;
+        border: 1px solid #D8D8D8;
+        //@include breakpoint(phone) {
+        //    height: 56px;
+        //    padding: 0 40px;
+        //}
+        &.form__input--sm {
+            height: 49px;
+            padding: 0 28px;
+        }
+    }
+    .select-wrapper {
+        height: 100%;
+        &:before {
+            right: 25px;
+        }
+        select {
+            height: 100%;
+            font-size: 13px;
+            color: #808080;
+            padding: 0 28px;
+            option {
+                color: #808080;
+                font-size: 15px;
+                &:first-of-type {
+                    opacity: 0.8;
+                    display: none;
+                }
+            }
+        }
+    }
+    .form__btns {
+        justify-content: space-between;
+        display: flex;
+        .btn-social {
+            width: 48%;
+        }
+    }
+    .btn-submit {
+        margin-top: 20px;
+        width: 100%;
+        padding-top: 14px;
+        padding-bottom: 14px;
+        font-weight: 600;
+        text-transform: none;
+        //@include breakpoint(phone) {
+        //    padding-top: 19px;
+        //    padding-bottom: 19px;
+        //}
+    }
+    .form__signup-link {
+        margin-top: 22px;
+        font-size: 14px;
+        color: #000;
+        padding-bottom: 2px;
+        text-align: center;
+        a {
+            margin-left: 30px;
+            font-weight: 600;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+    .form__info {
+        margin-bottom: 22px;
+        //@include breakpoint(phone) {
+        //    display: flex;
+        //    margin-bottom: 32px;
+        //    align-items: center;
+        //    justify-content: space-between;
+        //}
+        .form__info__forgot-password {
+            margin-top: 24px;
+            text-align: center;
+            display: block;
+            //@include breakpoint(phone) {
+            //    margin-top: 0px;
+            //}
+        }
+        .checkbox {
+            margin-bottom: 0;
+            .checkbox__check {
+                height: 20px;
+                width: 20px;
+                &:before {
+                    top: 2px;
+                    left: 6px;
+                    width: 6px;
+                    height: 10.5px;
+                }
+            }
+            p {
+                font-size: 13px;
+                line-height: 130%;
+            }
+        }
+        a {
+            font-size: 14px;
+        }
+    }
+}
+.btn {
+    color: #000000;
+    cursor: pointer;
+    &.btn--rounded {
+        font-size: 12px;
+        background: #FFF;
+        display: inline-block;
+        border-radius: 50px;
+        padding: 11px 20px;
+        font-weight: 500;
+        text-transform: uppercase;
+        //@include breakpoint(phone) {
+        //    font-size: 13px;
+        //    padding: 15px 25px;
+        //}
+        &.btn--border {
+            border: 1px solid #D8D8D8;
+        }
+        &.btn--yellow {
+            background-color: orange;
+        }
+    }
+}

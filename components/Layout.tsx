@@ -38,6 +38,11 @@ const Layout = ({ children }) => {
                             </Link>
                         </li>
                         <li>
+                            <Link href="/user">
+                                <p>User</p>
+                            </Link>
+                        </li>
+                        <li>
                             <Link href="/order">
                                 <p>Order</p>
                             </Link>
