@@ -134,7 +134,7 @@ export default function UpdateInventory(props: Props){
     return<>
         <div className="update-inventory">
             <div className="">
-                <h1 className="text-1xl font-bold mx-3 pb-1">Inventory</h1>
+                <h1 className="font-bold mx-3 pb-1" style={{fontSize: "20px"}}>Inventory</h1>
                 {/*<form onSubmit={handleSubmit}>*/}
                 <div className="add-quantity-of-inventory">
                     <div className="input-inventory">
