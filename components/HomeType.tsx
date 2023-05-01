@@ -202,7 +202,7 @@ export type Month = {
     year: number,
     month: number
 }
-export type Date = {
+export type CreatedDate = {
     year: number,
     month: number,
     day: number
