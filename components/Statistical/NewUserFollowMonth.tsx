@@ -24,8 +24,7 @@ const LineChart = () => {
             if (res.code === 200) {
                 for (let i = 0; i < res.data.length; i++) {
                     setListMonth((prev) => [...prev, res.data[i]]);
-                    console.log(res.data[i]);
-                    GetNewUser(res.data[i].year, res.data[i].month).then();
+                    await GetNewUser(res.data[i].year, res.data[i].month);
                 }
             }
         } catch (e) {
@@ -46,7 +45,6 @@ const LineChart = () => {
         } catch (e) {
             console.log('Error get revenue: ', e);
         }
-        // const res = await getRevenueFollowYear(year);
 
     }
 
@@ -66,6 +64,9 @@ const LineChart = () => {
                 // tickAmount: true,
                 forceNiceScale: true,
                 decimalsInFloat: 0,
+                title: {
+                    text: "Sô lượng thành viên mới",
+                },
             },
         })
         setSeries([

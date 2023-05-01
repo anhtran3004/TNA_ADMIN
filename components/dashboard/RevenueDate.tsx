@@ -18,7 +18,7 @@ const RevenueDate = () => {
                 for (let i = 0; i < res.data.length; i++) {
                     setListDate((prev) => [...prev, res.data[i]]);
                     console.log(res.data[i]);
-                    CalculateRevenue(res.data[i].year, res.data[i].month, res.data[i].day).then();
+                    await CalculateRevenue(res.data[i].year, res.data[i].month, res.data[i].day);
                 }
             }
         } catch (e) {
@@ -44,10 +44,8 @@ const RevenueDate = () => {
     }
 
     useEffect(() => {
-
         GetListYear().then(() => setIsShowPending(false));
     }, []);
-    // const chartOptions = {
     useEffect(() => {
         setChartOptions({
             series:
@@ -104,7 +102,7 @@ const RevenueDate = () => {
 
         })
 
-    }, [listRevenue, listDate])
+    }, [listRevenue])
     return <>
 
         {(listRevenue.length > 0 && listDate.length > 0) && (

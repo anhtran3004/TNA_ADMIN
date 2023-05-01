@@ -22,8 +22,7 @@ const LineChart = () => {
             if (res.code === 200) {
                 for (let i = 0; i < res.data.length; i++) {
                     setListDate((prev) => [...prev, res.data[i]]);
-                    console.log(res.data[i]);
-                    GetNewUser(res.data[i].year).then();
+                    await GetNewUser(res.data[i].year);
                 }
             }
         } catch (e) {
@@ -35,7 +34,6 @@ const LineChart = () => {
         try {
             const res = await getNewUserFollowYear(year);
             if (res.code === 200) {
-                console.log('Calculate success!',);
                 for (let i = 0; i < res.data.length; i++) {
                     setListNewUser((prev) => [...prev, res.data[i].new_users])
                 }
@@ -44,10 +42,7 @@ const LineChart = () => {
         } catch (e) {
             console.log('Error get revenue: ', e);
         }
-        // const res = await getRevenueFollowYear(year);
-
     }
-
     useEffect(() => {
         GetListDate().then(() => setIsShowPending(false));
     }, [])
@@ -64,6 +59,9 @@ const LineChart = () => {
                 // tickAmount: true,
                 forceNiceScale: true,
                 decimalsInFloat: 0,
+                title: {
+                    text: "Sô lượng thành viên mới",
+                },
             },
         })
         setSeries([

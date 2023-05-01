@@ -98,3 +98,19 @@ export async function getListCreatedYear(){
         throw e
     }
 }
+
+export async function getHotListProduct(){
+    try{
+        const url_hotListProduct = GetARBaseUrl() + "/api/v1/statistical/get-hot-product-list/";
+        const fetchData = {
+            headers:{
+                "Content-Type": "application/json"
+            },
+            method: 'POST',
+        }
+        const response = await fetch(url_hotListProduct, fetchData);
+        return await response.json();
+    }catch (e){
+        throw e
+    }
+}

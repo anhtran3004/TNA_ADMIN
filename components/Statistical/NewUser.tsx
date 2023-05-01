@@ -24,8 +24,7 @@ const LineChart = () => {
             if (res.code === 200) {
                 for (let i = 0; i < res.data.length; i++) {
                     setListDate((prev) => [...prev, res.data[i]]);
-                    console.log(res.data[i]);
-                    GetNewUser(res.data[i].year, res.data[i].month, res.data[i].day).then();
+                    await GetNewUser(res.data[i].year, res.data[i].month, res.data[i].day);
                 }
             }
         } catch (e) {
@@ -52,6 +51,7 @@ const LineChart = () => {
         GetListDate().then();
     }, [])
     useEffect(() =>{
+        console.log("List New user", listNewUser)
         setChartOptions({
             chart: {
                 id: 'basic-line',
@@ -62,8 +62,11 @@ const LineChart = () => {
             yaxis:{
                 min: 0,
                 // tickAmount: true,
-                // forceNiceScale: true,
+                forceNiceScale: true,
                 decimalsInFloat: 0,
+                title: {
+                    text: "Sô lượng thành viên mới",
+                },
             },
         })
         setSeries([

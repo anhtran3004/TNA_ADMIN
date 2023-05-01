@@ -24,7 +24,7 @@ const RevenueMonth = () => {
                 for(let i = 0; i < res.data.length; i++){
                     setListMonth((prev) => [...prev, res.data[i]]);
                     console.log(res.data[i]);
-                    CalculateRevenue(res.data[i].year, res.data[i].month).then();
+                    await CalculateRevenue(res.data[i].year, res.data[i].month);
                 }
             }
         }catch (e) {

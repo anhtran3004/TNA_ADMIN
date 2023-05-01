@@ -9,6 +9,7 @@ import React, {useState} from "react";
 import NewUser from "@/components/Statistical/NewUser";
 import NewUserFollowYear from "@/components/Statistical/NewUserFollowYear";
 import NewUserFollowMonth from "@/components/Statistical/NewUserFollowMonth";
+import HotProduct from "@/components/Statistical/HotProduct";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -42,10 +43,12 @@ export default function Home() {
         {(activeNewUser === 0) && <NewUser />}
         {(activeNewUser === 1) && <NewUserFollowMonth />}
         {(activeNewUser === 2) &&  <NewUserFollowYear />}
-        {/*<NewUser />*/}
+      </div>
+      <div className="hot-product container">
+        <div className="text-3xl font-bold mb-4">Danh sách sản phẩm bán chạy:</div>
+        <HotProduct />
 
       </div>
-      {/*<div>Revenue:</div>*/}
     </Layout>
   </>
 }

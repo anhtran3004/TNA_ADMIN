@@ -26,7 +26,7 @@ const RevenueYear = () => {
                 for(let i = 0; i < res.data.length; i++){
                     setListYear((prev) => [...prev, res.data[i].year]);
                     console.log(res.data[i].year);
-                    CalculateRevenue(res.data[i].year).then();
+                    await CalculateRevenue(res.data[i].year);
 
                 }
             }
