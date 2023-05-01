@@ -2,6 +2,7 @@ import React, {FC, useEffect, useState} from "react";
 import ApexCharts from "react-apexcharts";
 import {getListYear, getRevenueFollowYear} from "@/lib/API/Dashboard";
 import dynamic from "next/dynamic";
+import Pending from "@/components/Loading/pending";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 // interface ChartData {
@@ -17,6 +18,7 @@ const RevenueYear = () => {
     const [listYear,setListYear] = useState<number[]>([]);
     const [listRevenue, setListRevenue] = useState<number[]>([]);
     const [chartOptions, setChartOptions] = useState({});
+    const [isShowPending, setIsShowPending] = useState(true);
     async function GetListYear(){
         try{
             const res = await getListYear();
@@ -50,7 +52,7 @@ const RevenueYear = () => {
     }
 
     useEffect(() => {
-        GetListYear().then();
+        GetListYear().then(() => setIsShowPending(false));
     }, []);
     // const chartOptions = {
     useEffect(() =>{
@@ -125,6 +127,7 @@ const RevenueYear = () => {
             height={350}
         />
         )}
+        {isShowPending && <Pending />}
     </>
 };
 

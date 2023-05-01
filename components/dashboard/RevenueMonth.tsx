@@ -3,6 +3,7 @@ import ApexCharts from "react-apexcharts";
 import {getListMonth, getListYear, getRevenueFollowMonth, getRevenueFollowYear} from "@/lib/API/Dashboard";
 import dynamic from "next/dynamic";
 import {Month} from "@/components/HomeType";
+import Pending from "@/components/Loading/pending";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 export function dataDefaultMonth() : Month{
     const data = {
@@ -15,6 +16,7 @@ const RevenueMonth = () => {
     const [listMonth,setListMonth] = useState<Month[]>([]);
     const [listRevenue, setListRevenue] = useState<number[]>([]);
     const [chartOptions, setChartOptions] = useState({});
+    const [isShowPending, setIsShowPending] = useState(true);
     async function GetListYear(){
         try{
             const res = await getListMonth();
@@ -47,7 +49,7 @@ const RevenueMonth = () => {
     }
 
     useEffect(() => {
-        GetListYear().then();
+        GetListYear().then(() => setIsShowPending(false));
     }, []);
     // const chartOptions = {
     useEffect(() =>{
@@ -123,6 +125,7 @@ const RevenueMonth = () => {
                 height={350}
             />
         )}
+        {isShowPending && <Pending />}
     </>
 };
 

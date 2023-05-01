@@ -1,0 +1,6 @@
+
+.inner-loading-modal{
+    position: absolute;
+    top: 20%;
+    left: calc(50% - 50px);
+}
