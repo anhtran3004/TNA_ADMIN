@@ -1,0 +1,20 @@
+.revenue-tabs{
+    display: flex;
+    justify-content: flex-start;
+    font-size: 20px;
+    font-weight: bold;
+    margin-right: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.revenue-item{
+    margin-right: 25px;
+    cursor: pointer;
+}
+.revenue-active{
+    margin-right: 25px;
+    border-bottom: 2px solid rgb(68, 153, 213);
+    color: rgb(0, 157, 255);
+    cursor: pointer;
+
+}

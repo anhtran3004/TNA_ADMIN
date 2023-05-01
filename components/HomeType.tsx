@@ -198,3 +198,12 @@ export type Contact = {
     phone: string,
     created_date: string
 }
+export type Month = {
+    year: number,
+    month: number
+}
+export type Date = {
+    year: number,
+    month: number,
+    day: number
+}

@@ -8,7 +8,7 @@ const Layout = ({ children }) => {
                 <nav>
                     <ul>
                         <li>
-                            <Link href="/dashboard">
+                            <Link href="/">
                                 <p>Dashboard</p>
                             </Link>
                         </li>
