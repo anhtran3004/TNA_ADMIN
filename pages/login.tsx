@@ -57,7 +57,7 @@ const LoginPage = () => {
             if(res.code === 200){
                 console.log("Login success! ", res.data);
                 // setAccessToken(res.data.accessToken);
-                localStorage.setItem("accessToken", res.data.accessToken)
+                localStorage.setItem("accessTokenAdmin", res.data.accessToken)
                 setTextSuccess('Login success!');
                 setIsOpenSuccess(true);
                 setTimeout(() => router.push('/'), 3000)

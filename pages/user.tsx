@@ -62,12 +62,12 @@ export default function User(){
     function nextAddUser(){
         router.push('/add-user').then();
     }
-    useEffect(() =>{
-        const token = localStorage.getItem('accessToken');
-        if(!token){
-            router.push('/login').then();
-        }
-    }, [])
+    // useEffect(() =>{
+    //     const token = localStorage.getItem('accessToken');
+    //     if(!token){
+    //         router.push('/login').then();
+    //     }
+    // }, [])
     useEffect(() => {
 
         async function fetchUserData() {

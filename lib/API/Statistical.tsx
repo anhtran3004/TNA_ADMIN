@@ -1,4 +1,5 @@
 import {GetARBaseUrl} from "@/lib/API";
+import {GetUserAuthentication} from "@/lib/API/User";
 
 export async function getNewUserFollowDay(year: number, month: number, day: number){
     try{
@@ -6,7 +7,8 @@ export async function getNewUserFollowDay(year: number, month: number, day: numb
         const body = {year: year, month: month, day: day}
         const fetchData = {
             headers:{
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + GetUserAuthentication(),
             },
             method: 'POST',
             body: JSON.stringify(body)
@@ -23,7 +25,8 @@ export async function getNewUserFollowMonth(year: number, month: number){
         const body = {year: year, month: month}
         const fetchData = {
             headers:{
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + GetUserAuthentication(),
             },
             method: 'POST',
             body: JSON.stringify(body)
@@ -40,7 +43,8 @@ export async function getNewUserFollowYear(year: number){
         const body = {year: year}
         const fetchData = {
             headers:{
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + GetUserAuthentication(),
             },
             method: 'POST',
             body: JSON.stringify(body)
@@ -56,7 +60,8 @@ export async function getListCreatedDate(){
         const url_listDate = GetARBaseUrl() + "/api/v1/statistical/date/";
         const fetchData = {
             headers:{
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + GetUserAuthentication(),
             },
             method: 'POST',
         }
@@ -72,7 +77,8 @@ export async function getListCreatedMonth(){
         const url_listDate = GetARBaseUrl() + "/api/v1/statistical/month/";
         const fetchData = {
             headers:{
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + GetUserAuthentication(),
             },
             method: 'POST',
         }
@@ -88,7 +94,8 @@ export async function getListCreatedYear(){
         const url_listDate = GetARBaseUrl() + "/api/v1/statistical/year/";
         const fetchData = {
             headers:{
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + GetUserAuthentication(),
             },
             method: 'POST',
         }
@@ -104,7 +111,8 @@ export async function getHotListProduct(){
         const url_hotListProduct = GetARBaseUrl() + "/api/v1/statistical/get-hot-product-list/";
         const fetchData = {
             headers:{
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + GetUserAuthentication(),
             },
             method: 'POST',
         }

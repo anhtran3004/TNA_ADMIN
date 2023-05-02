@@ -1,4 +1,5 @@
 import process from "process";
+import {GetUserAuthentication} from "@/lib/API/User";
 
 function GetARBaseUrl(): string {
     const url = process.env.NEXT_PUBLIC_BASE_URL;
@@ -11,6 +12,7 @@ export async function deleteSize(ids: number[]){
         const body = {ids: ids}
         const fetchData = {
             headers:{
+                Authorization: "Bearer " + GetUserAuthentication(),
                 "Content-Type": "application/json"
             },
             method: 'PUT',
@@ -28,6 +30,7 @@ export async function updateSize(Size: string, SizeId: number){
         const body = {size: Size}
         const fetchData = {
             headers:{
+                Authorization: "Bearer " + GetUserAuthentication(),
                 "Content-Type": "application/json"
             },
             method: 'PUT',
@@ -45,6 +48,7 @@ export async function insertSize(size: string){
         const body = {size: size}
         const fetchData = {
             headers:{
+                Authorization: "Bearer " + GetUserAuthentication(),
                 "Content-Type": "application/json"
             },
             method: 'POST',

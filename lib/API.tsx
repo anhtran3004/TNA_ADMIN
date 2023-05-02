@@ -1,5 +1,6 @@
 import process from "process";
 import {InputDeleteProduct, InputInventory, InputProduct, InputUpdateProduct} from "@/components/HomeType";
+import {GetUserAuthentication} from "@/lib/API/User";
 
 export function GetARBaseUrl(): string {
     const url = process.env.NEXT_PUBLIC_BASE_URL;
@@ -10,6 +11,10 @@ export async function getListProduct(filter: InputProduct){
     try{
         const url_getListProduct = GetARBaseUrl() + "/api/v1/product/";
         const fetchData = {
+            headers:{
+                Authorization: "Bearer " + GetUserAuthentication(),
+                "Content-Type": "application/json"
+            },
             method: 'POST',
             body: JSON.stringify(filter)
         }
@@ -26,6 +31,7 @@ export async function deleteProduct(ids: number[]){
         const fetchData = {
             method: 'PUT',
             headers:{
+                Authorization: "Bearer " + GetUserAuthentication(),
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(body)
@@ -42,6 +48,7 @@ export async function updateProduct(input: InputUpdateProduct, id: number){
         const fetchData = {
             method: 'PUT',
             headers:{
+                Authorization: "Bearer " + GetUserAuthentication(),
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(input)
@@ -74,6 +81,7 @@ export async function insertInventory(input: InputInventory, productId: number){
         const fetchData = {
             method: 'POST',
             headers:{
+                Authorization: "Bearer " + GetUserAuthentication(),
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(input)
@@ -90,6 +98,7 @@ export async function updateInventory(input: InputInventory, productId: number){
         const fetchData = {
             method: 'PUT',
             headers:{
+                Authorization: "Bearer " + GetUserAuthentication(),
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(input)
@@ -104,6 +113,10 @@ export async function getListCategory(){
     try{
         const url_getListCategory = GetARBaseUrl() + "/api/v1/category/";
         const fetchData = {
+            headers:{
+                Authorization: "Bearer " + GetUserAuthentication(),
+                "Content-Type": "application/json"
+            },
             method: 'POST',
         }
         const response = await fetch(url_getListCategory, fetchData);
@@ -116,6 +129,10 @@ export async function getListColor(){
     try{
         const url_getListColors = GetARBaseUrl() + "/api/v1/color/";
         const fetchData = {
+            headers:{
+                Authorization: "Bearer " + GetUserAuthentication(),
+                "Content-Type": "application/json"
+            },
             method: 'POST',
         }
         const response = await fetch(url_getListColors, fetchData);
@@ -130,6 +147,7 @@ export async function deleteColor(ids: number[]){
         const body = {ids: ids}
         const fetchData = {
             headers:{
+                Authorization: "Bearer " + GetUserAuthentication(),
                 "Content-Type": "application/json"
             },
             method: 'PUT',
@@ -147,6 +165,7 @@ export async function updateColor(color: string, colorId: number){
         const body = {color: color}
         const fetchData = {
             headers:{
+                Authorization: "Bearer " + GetUserAuthentication(),
                 "Content-Type": "application/json"
             },
             method: 'PUT',
@@ -164,6 +183,7 @@ export async function insertColor(color: string){
         const body = {color: color}
         const fetchData = {
             headers:{
+                Authorization: "Bearer " + GetUserAuthentication(),
                 "Content-Type": "application/json"
             },
             method: 'POST',
@@ -180,6 +200,10 @@ export async function getListSize(){
     try{
         const url_getListColors = GetARBaseUrl() + "/api/v1/size/";
         const fetchData = {
+            headers:{
+                Authorization: "Bearer " + GetUserAuthentication(),
+                "Content-Type": "application/json"
+            },
             method: 'POST',
         }
         const response = await fetch(url_getListColors, fetchData);
@@ -192,6 +216,10 @@ export async function getListCampaign(){
     try{
         const url_getListCampaign = GetARBaseUrl() + "/api/v1/campaign/";
         const fetchData = {
+            headers:{
+                Authorization: "Bearer " + GetUserAuthentication(),
+                "Content-Type": "application/json"
+            },
             method: 'POST',
         }
         const response = await fetch(url_getListCampaign, fetchData);
@@ -204,6 +232,10 @@ export async function getListDiscount(){
     try{
         const url_getListDiscount = GetARBaseUrl() + "/api/v1/discount/";
         const fetchData = {
+            headers:{
+                Authorization: "Bearer " + GetUserAuthentication(),
+                "Content-Type": "application/json"
+            },
             method: 'POST',
         }
         const response = await fetch(url_getListDiscount, fetchData);
@@ -216,6 +248,10 @@ export async function getInventory(productId: number){
     try{
         const url_getInventory = GetARBaseUrl() + "/api/v1/product/get-quantity-of-inventory";
         const fetchData = {
+            headers:{
+                Authorization: "Bearer " + GetUserAuthentication(),
+                "Content-Type": "application/json"
+            },
             method: 'POST',
             body: JSON.stringify(productId)
         }
@@ -229,6 +265,10 @@ export async function getInventories(productId: string | string[] | undefined){
     try{
         const url_getInventory = GetARBaseUrl() + "/api/v1/product/get-quantity-of-inventory/" + productId;
         const fetchData = {
+            headers:{
+                Authorization: "Bearer " + GetUserAuthentication(),
+                "Content-Type": "application/json"
+            },
             method: 'POST',
         }
         const response = await fetch(url_getInventory, fetchData);

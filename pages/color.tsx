@@ -101,7 +101,7 @@ export default function Color() {
                 <tr>
                     <th>STT</th>
                     <th>Color</th>
-                    <th>Action</th>
+                    {/*<th>Action</th>*/}
                 </tr>
                 </thead>
                 <tbody>
@@ -109,11 +109,11 @@ export default function Color() {
                     <tr key={index} onClick={() => setColorId(color.id)}
                         className={(colorId === color.id) ? "selected-product" : ""}
                     >
-                        <td>{index + 1}</td>
-                        <td>{color.name}</td>
-                        <td>
-                            <button className="rounded-full text-white bg-red-800 w-20 px-2" onClick={() => {setIsOpenDeleteProductAlert(true); setColorId(color.id)}}>Delete</button>
-                        </td>
+                        <td className="text-center">{index + 1}</td>
+                        <td className="text-center">{color.name}</td>
+                        {/*<td>*/}
+                        {/*    <button className="rounded-full text-white bg-red-800 w-20 px-2" onClick={() => {setIsOpenDeleteProductAlert(true); setColorId(color.id)}}>Delete</button>*/}
+                        {/*</td>*/}
                     </tr>
                 ))}
                 </tbody>

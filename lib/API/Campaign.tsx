@@ -1,5 +1,6 @@
 import {GetARBaseUrl} from "@/lib/API";
 import {InputCampaign} from "@/components/HomeType";
+import {GetUserAuthentication} from "@/lib/API/User";
 
 
 export async function deleteCampaign(ids: number[]){
@@ -8,7 +9,8 @@ export async function deleteCampaign(ids: number[]){
         const body = {ids: ids}
         const fetchData = {
             headers:{
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + GetUserAuthentication(),
             },
             method: 'PUT',
             body: JSON.stringify(body)
@@ -25,6 +27,7 @@ export async function updateCampaign(input: InputCampaign, id: number){
         const fetchData = {
             method: 'PUT',
             headers:{
+                Authorization: "Bearer " + GetUserAuthentication(),
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(input)
@@ -41,6 +44,7 @@ export async function insertCampaign(input: InputCampaign){
         const fetchData = {
             method: 'POST',
             headers:{
+                Authorization: "Bearer " + GetUserAuthentication(),
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(input)

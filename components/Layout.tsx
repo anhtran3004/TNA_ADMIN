@@ -1,7 +1,20 @@
 import Image from "next/image";
 import Link from "next/link";
+import {useRouter} from "next/router";
+import {useEffect} from "react";
 // @ts-ignore
 const Layout = ({ children }) => {
+    const router = useRouter();
+    function logout(){
+        localStorage.removeItem('accessToken');
+        router.push('/login').then();
+    }
+    useEffect(() =>{
+        const token = localStorage.getItem('accessTokenAdmin');
+        if(!token){
+            router.push('/login').then();
+        }
+    }, [])
     return (
         <div>
             <header>
@@ -47,9 +60,28 @@ const Layout = ({ children }) => {
                                 <p>Order</p>
                             </Link>
                         </li>
+                        <li>
+                            <Link href="/contact">
+                                <p>Contact</p>
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="/comment">
+                                <p>Comment</p>
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="/discount">
+                                <p>Discount</p>
+                            </Link>
+                        </li>
                     </ul>
                 </nav>
-                <Image src="/header/logo-tna-shop.png" alt="Logo" width={140} height={95} />
+                <div className="d-flex align-items-center font-bold text-2xl cursor-pointer">
+                    <div className="text-white" onClick={logout}>Logout</div>
+                    <Image src="/header/logo-tna-shop.png" alt="Logo" width={140} height={95} />
+
+                </div>
             </header>
             <main>{children}</main>
         </div>

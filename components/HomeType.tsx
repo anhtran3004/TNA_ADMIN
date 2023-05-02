@@ -70,6 +70,13 @@ export type InputDiscount = {
     }
 
 }
+export type InputCategory = {
+    category_input: {
+        name: string,
+        status: number
+    }
+
+}
 export type Discount = {
         id: number
         discount_code: string,
@@ -180,6 +187,24 @@ export type InputUpdateUser = {
         role: string
     }
 }
+export type InputComment = {
+    comment_input: {
+        id: number,
+        content: string,
+        rating: number,
+        comment_date: string,
+        user_id: number,
+        product_id: number,
+        username: string,
+        status: number
+    }
+}
+export type InputChildComment = {
+    comment_input: {
+        content: string,
+        comment_id: number
+    }
+}
 export type InputBlockUser = {
     ids: number[],
     status: number
@@ -197,6 +222,16 @@ export type Contact = {
     status: number,
     phone: string,
     created_date: string
+}
+export type Comments = {
+    id: number,
+    content: string,
+    rating: number,
+    comment_date: string,
+    username: string,
+    user_id: number,
+    product_id: number,
+    status: number
 }
 export type Month = {
     year: number,

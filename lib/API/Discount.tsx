@@ -1,5 +1,6 @@
 import {GetARBaseUrl} from "@/lib/API";
 import {InputDiscount} from "@/components/HomeType";
+import {GetUserAuthentication} from "@/lib/API/User";
 // import {InputDiscount} from "@/components/HomeType";
 
 
@@ -9,6 +10,7 @@ export async function deleteDiscount(ids: number[]){
         const body = {ids: ids}
         const fetchData = {
             headers:{
+                Authorization: "Bearer " + GetUserAuthentication(),
                 "Content-Type": "application/json"
             },
             method: 'PUT',
@@ -26,6 +28,7 @@ export async function updateDiscount(input: InputDiscount, id: number){
         const fetchData = {
             method: 'PUT',
             headers:{
+                Authorization: "Bearer " + GetUserAuthentication(),
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(input)
@@ -42,6 +45,7 @@ export async function insertDiscount(input: InputDiscount){
         const fetchData = {
             method: 'POST',
             headers:{
+                Authorization: "Bearer " + GetUserAuthentication(),
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(input)

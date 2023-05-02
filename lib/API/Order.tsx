@@ -1,4 +1,5 @@
 import {GetARBaseUrl} from "@/lib/API";
+import {GetUserAuthentication} from "@/lib/API/User";
 
 export async function changeStatus(id: number, status: number){
     try{
@@ -7,6 +8,7 @@ export async function changeStatus(id: number, status: number){
         const fetchData = {
             method: 'PUT',
             headers:{
+                Authorization: "Bearer " + GetUserAuthentication(),
                 "Content-type": "application/json"
             },
             body: JSON.stringify(body)
@@ -24,6 +26,7 @@ export async function getOrder(status: number){
         const fetchData = {
             method: 'POST',
             headers:{
+                Authorization: "Bearer " + GetUserAuthentication(),
                 "Content-type": "application/json"
             },
             body: JSON.stringify(body)
@@ -38,6 +41,10 @@ export async function getOrderProduct(id: number){
     try{
         const url_getOrder = GetARBaseUrl() + "/api/v1/order/order-product/"+id;
         const fetchData = {
+            headers:{
+                Authorization: "Bearer " + GetUserAuthentication(),
+                "Content-type": "application/json"
+            },
             method: 'POST',
         }
         const response = await fetch(url_getOrder, fetchData);

@@ -47,7 +47,6 @@ export default function Contact(){
         }
     }, [])
     useEffect(() => {
-
         async function fetchContactData() {
             try {
                 const res = await getContact()

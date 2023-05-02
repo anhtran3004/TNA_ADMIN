@@ -1,4 +1,5 @@
 import {GetARBaseUrl} from "@/lib/API";
+import {GetUserAuthentication} from "@/lib/API/User";
 
 export async function getRevenueFollowYear(year: number){
     try{
@@ -6,6 +7,7 @@ export async function getRevenueFollowYear(year: number){
         const body = {year: year}
         const fetchData = {
             headers:{
+                Authorization: "Bearer " + GetUserAuthentication(),
                 "Content-Type": "application/json"
             },
             method: 'POST',
@@ -24,6 +26,7 @@ export async function getRevenueFollowMonth(year: number, month: number){
         const body = {year: year, month: month}
         const fetchData = {
             headers:{
+                Authorization: "Bearer " + GetUserAuthentication(),
                 "Content-Type": "application/json"
             },
             method: 'POST',
@@ -41,6 +44,7 @@ export async function getRevenueFollowWeek(startDay: string, endDay: string){
         const body = {startDay: startDay, endDay: endDay}
         const fetchData = {
             headers:{
+                Authorization: "Bearer " + GetUserAuthentication(),
                 "Content-Type": "application/json"
             },
             method: 'POST',
@@ -58,6 +62,7 @@ export async function getRevenueFollowDay(year: number, month: number, day: numb
         const body = {year: year, month: month, day: day}
         const fetchData = {
             headers:{
+                Authorization: "Bearer " + GetUserAuthentication(),
                 "Content-Type": "application/json"
             },
             method: 'POST',
@@ -74,6 +79,7 @@ export async function getListYear(){
         const url_updateColors = GetARBaseUrl() + "/api/v1/dashboard/year/";
         const fetchData = {
             headers:{
+                Authorization: "Bearer " + GetUserAuthentication(),
                 "Content-Type": "application/json"
             },
             method: 'POST',
@@ -89,6 +95,7 @@ export async function getListMonth(){
         const url_updateColors = GetARBaseUrl() + "/api/v1/dashboard/month/";
         const fetchData = {
             headers:{
+                Authorization: "Bearer " + GetUserAuthentication(),
                 "Content-Type": "application/json"
             },
             method: 'POST',
@@ -104,6 +111,7 @@ export async function getListDate(){
         const url_updateColors = GetARBaseUrl() + "/api/v1/dashboard/date/";
         const fetchData = {
             headers:{
+                Authorization: "Bearer " + GetUserAuthentication(),
                 "Content-Type": "application/json"
             },
             method: 'POST',

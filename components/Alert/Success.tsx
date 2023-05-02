@@ -7,7 +7,7 @@ export default function Success(props: Props){
         <div className="error-modal">
             {/*<div className="background-error-modal"></div>*/}
             <div className="inner-success">
-                <Image src="/Alert/success.png" alt="" width={25} height={20}/>
+                <Image src="/Alert/success.png" alt="" width={20} height={20}/>
                 <p className="text-white">{props.textSuccess}</p>
             </div>
         </div>

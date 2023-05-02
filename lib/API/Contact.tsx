@@ -6,6 +6,10 @@ export async function getContact(){
         const url_getContact = GetARBaseUrl() + "/api/v1/contact/";
         const fetchData = {
             method: 'POST',
+            headers:{
+                Authorization: "Bearer " + GetUserAuthentication(),
+                "Content-Type": "application/json"
+            },
         }
         const response = await fetch(url_getContact, fetchData);
         return await response.json();
