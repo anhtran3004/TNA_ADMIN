@@ -8,6 +8,7 @@ import '@/styles/login.scss'
 import 'bootstrap/dist/css/bootstrap.css';
 import '@/styles/dashboard.css'
 import '@/styles/pending.css'
+import 'bootstrap/dist/css/bootstrap.css';
 import type { AppProps } from 'next/app'
 
 export default function App({ Component, pageProps }: AppProps) {
