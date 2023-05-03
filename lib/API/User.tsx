@@ -1,8 +1,8 @@
 import {GetARBaseUrl} from "@/lib/API";
 import {InputBlockUser, InputInsertUser, InputUpdateUser} from "@/components/HomeType";
 export function GetUserAuthentication(){
-    if(localStorage.getItem('accessToken') !== undefined){
-        return localStorage.getItem('accessToken');
+    if(localStorage.getItem('accessTokenAdmin') !== undefined){
+        return localStorage.getItem('accessTokenAdmin');
     }
     return '';
 }

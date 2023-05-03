@@ -51,7 +51,7 @@ export default function ChildComment(props:Props) {
     const currentPosts = Comments.slice(indexOfFirstPost, indexOfLastPost);
     const paginate = (page0: 0) => setCurrentPage(page0)
     useEffect(() => {
-        const token = localStorage.getItem('accessToken');
+        const token = localStorage.getItem('accessTokenAdmin');
         if (!token) {
             router.push('/login').then();
         }

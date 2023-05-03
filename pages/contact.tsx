@@ -41,7 +41,7 @@ export default function Contact(){
         router.push('/add-Contact').then();
     }
     useEffect(() =>{
-        const token = localStorage.getItem('accessToken');
+        const token = localStorage.getItem('accessTokenAdmin');
         if(!token){
             router.push('/login').then();
         }
