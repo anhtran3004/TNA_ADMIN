@@ -105,6 +105,7 @@ export default function AddProduct(){
                         name="name"
                         value={valueName}
                         onChange={(e) => setValueName(e.target.value)}
+                        required
 
                     />
                 </div>
@@ -116,6 +117,7 @@ export default function AddProduct(){
                         name="price"
                         value={valuePrice}
                         onChange={(e) => setValuePrice(parseInt(e.target.value))}
+                        required
                     />
                 </div>
                 <div className="input-product">
@@ -126,6 +128,7 @@ export default function AddProduct(){
                         name="priority"
                         value={valuePriority}
                         onChange={(e) => setValuePriority(parseInt(e.target.value))}
+                        required
                     />
                 </div>
                 <div className="input-product">
@@ -168,6 +171,7 @@ export default function AddProduct(){
                         name="description"
                         value={valueDescription}
                         onChange={(e) => setValueDescription(e.target.value)}
+                        required
                     />
                 </div>
                 {/*//type="submit"*/}

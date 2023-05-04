@@ -135,7 +135,7 @@ export function UpdateProduct(props: Props) {
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         UpdateProduct().then();
-        console.log("Product data: ", props.productActive);
+        // console.log("Product data: ", props.productActive);
         // TODO: submit product data to backend or perform other actions
     };
     return <div className="mb-10">
@@ -150,7 +150,7 @@ export function UpdateProduct(props: Props) {
                         name="name"
                         value={valueName}
                         onChange={(e) => setValueName(e.target.value)}
-
+                        required
                     />
                 </div>
                 <div className="input-product">
@@ -161,6 +161,7 @@ export function UpdateProduct(props: Props) {
                         name="price"
                         value={valuePrice}
                         onChange={(e) => setValuePrice(parseInt(e.target.value))}
+                        required
                     />
                 </div>
                 <div className="input-product">
@@ -171,6 +172,7 @@ export function UpdateProduct(props: Props) {
                         name="priority"
                         value={valuePriority}
                         onChange={(e) => setValuePriority(parseInt(e.target.value))}
+                        required
                     />
                 </div>
                 {/*<div className="input-product">*/}
@@ -230,6 +232,7 @@ export function UpdateProduct(props: Props) {
                         name="description"
                         value={valueDescription}
                         onChange={(e) => setValueDescription(e.target.value)}
+                        required
                     />
                 </div>
             </div>
