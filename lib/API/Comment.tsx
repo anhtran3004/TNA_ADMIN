@@ -20,15 +20,15 @@ export async function getComment(){
 }
 export async function getChildComment(id: number){
     try{
-        const body = {comment_id: id}
-        const url_deleteComment = GetARBaseUrl() + "/api/v1/comment/get-child-comment";
+        // const body = {comment_id: id}
+        const url_deleteComment = GetARBaseUrl() + "/api/v1/comment/get-child-comments/"+ id;
         const fetchData = {
             headers:{
                 Authorization: "Bearer " + GetUserAuthentication(),
                 "Content-Type": "application/json"
             },
             method: 'POST',
-            body: JSON.stringify(body)
+            // body: JSON.stringify(body)
         }
         const response = await fetch(url_deleteComment, fetchData);
         return await response.json();

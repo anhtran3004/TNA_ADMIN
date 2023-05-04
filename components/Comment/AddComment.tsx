@@ -25,6 +25,12 @@ export default function AddComment(props: Props) {
         return data;
     }
     async function InsertComment() {
+        if(valueComment === ''){
+            props.setTextError("Insert Errors!")
+            props.setIsOpenError(true);
+            setTimeout(() =>props.setIsOpenError(false), 2000)
+            return;
+        }
         try{
             const res = await insertComment(DefaultDataInputChildComment());
             if(res.code === 200){
@@ -61,7 +67,6 @@ export default function AddComment(props: Props) {
                         <textarea
                             style={{height: "133px"}}
                             className="shadow-gray-400 border-2 w-200 ml-1"
-                            type="text"
                             id="priority"
                             name="priority"
                             value={valueComment}

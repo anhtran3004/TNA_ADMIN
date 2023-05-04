@@ -47,7 +47,7 @@ export default function Comment() {
     const indexOfLastPost = currentPage * postsPerPage
     const indexOfFirstPost = indexOfLastPost - postsPerPage
     const currentPosts = Comments.slice(indexOfFirstPost, indexOfLastPost);
-    const paginate = (page0: 0) => setCurrentPage(page0)
+    const paginate = (page0: number) => setCurrentPage(page0)
     useEffect(() => {
 
         async function fetchCommentData() {

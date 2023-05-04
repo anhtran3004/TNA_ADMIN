@@ -7,7 +7,7 @@ type Props = {
     currentPage: number
 }
 
-const Pagination: FC<Props> = ({ postsPerPage, totalPosts, paginate,currentPage }) => {
+const Pagination: FC<Props> = ({ postsPerPage, totalPosts, paginate, currentPage }) => {
     const pageNumbers = []
 
     for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
