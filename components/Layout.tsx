@@ -1,20 +1,43 @@
 import Image from "next/image";
 import Link from "next/link";
 import {useRouter} from "next/router";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
+const  jwt = require('jsonwebtoken');
 // @ts-ignore
 const Layout = ({ children }) => {
     const router = useRouter();
+    const [role, setRole] = useState('');
     function logout(){
-        localStorage.removeItem('accessToken');
+        localStorage.removeItem('accessTokenAdmin');
         router.push('/login').then();
     }
+    const accessToken = process.env.NEXT_PUBLIC_ACCESS_TOKEN_SECRET;
+    const verifyToken = (token: string) => {
+        try {
+            // console.log(accessToken);
+            const decoded = jwt.verify(token, accessToken);
+            return decoded;
+        }catch (e) {
+            console.log('error verify token');
+            // getAccessToken().then();
+        }
+
+    };
     useEffect(() =>{
         const token = localStorage.getItem('accessTokenAdmin');
         if(!token){
             router.push('/login').then();
+
+        }else {
+            const data = verifyToken(token+"");
+            if(data !== undefined)
+                setRole(data.role);
+            // localStorage.setItem("dataDecoded", JSON.stringify(data));
         }
     }, [])
+    useEffect(() => {
+        console.log("role", role);
+    }, [role])
     return (
         <div>
             <header>
@@ -50,11 +73,12 @@ const Layout = ({ children }) => {
                                 <p>Campaign</p>
                             </Link>
                         </li>
-                        <li>
+                        {role === 'admin' && <li>
                             <Link href="/user">
                                 <p>User</p>
                             </Link>
-                        </li>
+                        </li>}
+
                         <li>
                             <Link href="/order">
                                 <p>Order</p>

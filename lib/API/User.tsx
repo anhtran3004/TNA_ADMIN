@@ -22,6 +22,18 @@ export async function getUser(){
         throw e
     }
 }
+export async function getUsername(){
+    try{
+        const url_getUser = GetARBaseUrl() + "/api/v1/user/get-username/";
+        const fetchData = {
+            method: 'POST',
+        }
+        const response = await fetch(url_getUser, fetchData);
+        return await response.json();
+    }catch (e){
+        throw e
+    }
+}
 export async function insertUser(input: InputInsertUser){
     try{
         const url_getOrder = GetARBaseUrl() + "/api/v1/user/insert-user-by-admin";
