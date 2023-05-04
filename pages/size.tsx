@@ -45,6 +45,12 @@ export default function Size() {
 
     }
     async function UpdateSize() {
+        if(valueSize === ''){
+            setTextErrors("Insert Errors!")
+            setIsOpenError(true);
+            setTimeout(() =>setIsOpenError(false), 2000)
+            return;
+        }
         try{
             const res = await updateSize(valueSize, SizeSelected.id);
             if(res.code === 200){

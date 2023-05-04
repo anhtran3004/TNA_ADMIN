@@ -16,6 +16,12 @@ export default function AddSize(props: Props) {
     const [valueSize, setValueSize] = useState("");
 
     async function InsertSize() {
+        if(valueSize === ''){
+            props.setTextError("Insert Errors!")
+            props.setIsOpenError(true);
+            setTimeout(() =>props.setIsOpenError(false), 2000)
+            return;
+        }
         try{
             const res = await insertSize(valueSize);
             if(res.code === 200){
@@ -60,7 +66,7 @@ export default function AddSize(props: Props) {
                         />
                     </div>
                     <button onClick={InsertSize}
-                            className="rounded-md bg-violet-700 text-white p-2 mr-2 mt-2 ml-0">Update Product
+                            className="rounded-md bg-violet-700 text-white p-2 mr-2 mt-2 ml-0">Insert Size
                     </button>
                 </div>
             </div>
