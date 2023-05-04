@@ -91,6 +91,12 @@ export default function Category() {
     }
 
     async function UpdateCategory() {
+        if(valueCategory === ''){
+            setTextErrors("Insert Errors!")
+            setIsOpenError(true);
+            setTimeout(() =>setIsOpenError(false), 2000)
+            return;
+        }
         try {
             const res = await updateCategory(DefaultInputCategoryData(), categorySelected.id);
             if (res.code === 200) {

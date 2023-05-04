@@ -214,7 +214,7 @@ export async function getListSize(){
 }
 export async function getListCampaign(){
     try{
-        const url_getListCampaign = GetARBaseUrl() + "/api/v1/campaign/";
+        const url_getListCampaign = GetARBaseUrl() + "/api/v1/campaign/get-admin";
         const fetchData = {
             headers:{
                 Authorization: "Bearer " + GetUserAuthentication(),

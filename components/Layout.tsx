@@ -14,12 +14,10 @@ const Layout = ({ children }) => {
     const accessToken = process.env.NEXT_PUBLIC_ACCESS_TOKEN_SECRET;
     const verifyToken = (token: string) => {
         try {
-            // console.log(accessToken);
             const decoded = jwt.verify(token, accessToken);
             return decoded;
         }catch (e) {
             console.log('error verify token');
-            // getAccessToken().then();
         }
 
     };
@@ -32,12 +30,8 @@ const Layout = ({ children }) => {
             const data = verifyToken(token+"");
             if(data !== undefined)
                 setRole(data.role);
-            // localStorage.setItem("dataDecoded", JSON.stringify(data));
         }
     }, [])
-    useEffect(() => {
-        console.log("role", role);
-    }, [role])
     return (
         <div>
             <header>

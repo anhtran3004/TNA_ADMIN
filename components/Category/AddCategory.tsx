@@ -24,6 +24,12 @@ export default function AddCategory(props: Props) {
         return data;
     }
     async function InsertCategory() {
+        if(valueCategory === ''){
+            props.setTextError("Insert Errors!")
+            props.setIsOpenError(true);
+            setTimeout(() =>props.setIsOpenError(false), 2000)
+            return;
+        }
         try{
             const res = await insertCategory(DefaultInputCategoryData());
             if(res.code === 200){

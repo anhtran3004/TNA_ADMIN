@@ -106,6 +106,13 @@ body{
 }
 .inner-success > img{
     margin-right: 20px;
+    width: 40px;
+}
+.inner-success > p{
+    margin-bottom: 0;
+    line-height: 40px;
+    font-size: 22px;
+    color: #DA161D;
 }
 
 @keyframes slide-down {
