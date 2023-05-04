@@ -4,16 +4,20 @@ import {getListCampaign, getListCategory, getListDiscount, insertProduct, update
 import {randomNumberInRange} from "@/components/Product/UpdateProduct";
 import {useRouter} from "next/router";
 import Layout from "@/components/Layout";
-import {insertUser} from "@/lib/API/User";
+import {getUsername, insertUser} from "@/lib/API/User";
 
 export default function AddUser(){
     const [valueName, setValueName] = useState('');
     const [valueEmail, setValueEmail] = useState('');
     const [valuePassword, setValuePassword] = useState('');
+    const [valueConfirmPassword, setValueConfirmPassword] = useState('');
     const [valueUsername, setValueUsername] = useState('');
     const [valueAddress, setValueAddress] = useState('');
     const [valuePhone, setValuePhone] = useState('');
     const [valueRole, setValueRole] = useState('');
+    const [passwordError, setPasswordError] = useState<string>('');
+    const [usernameError, setUsernameError] = useState<string>('');
+    const [emailError, setEmailError] = useState<string>('');
     const router = useRouter();
     function nextUser(){
         router.push("/user").then();
@@ -22,6 +26,9 @@ export default function AddUser(){
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        if(passwordError || usernameError !== ''|| emailError !== ''){
+            return;
+        }
         InsertUser().then();
         // nextProduct();
         setTimeout(nextUser, 1000)
@@ -41,6 +48,32 @@ export default function AddUser(){
         }
         return data;
     }
+    async function handleCheckUsername(){
+        const res = await getUsername();
+        let dem = 0;
+        for(let i = 0; i < res.data.length; i++){
+            if(res.data[i].username === valueUsername){
+                setUsernameError('Username đã tồn tại');
+                dem++;
+            }
+        }
+        if(dem === 0){
+            setUsernameError('');
+        }
+    }
+    async function handleCheckEmail(){
+        const res = await getUsername();
+        let dem = 0;
+        for(let i = 0; i < res.data.length; i++){
+            if(res.data[i].email === valueEmail){
+                setEmailError('Email đã tồn tại');
+                dem++;
+            }
+        }
+        if(dem === 0){
+            setEmailError('');
+        }
+    }
     async function InsertUser(){
         try{
             const res = await insertUser(inputInsert());
@@ -51,6 +84,16 @@ export default function AddUser(){
         }catch (e) {
             console.log('error');
         }
+    }
+    const handleConfirmPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) =>{
+        const {value} = e.target;
+        if(value !== valuePassword){
+            setPasswordError('Mật khẩu không trùng khớp!')
+
+        }else{
+            setPasswordError('');
+        }
+        setValueConfirmPassword(value);
     }
     return<>
         <Layout>
@@ -65,7 +108,7 @@ export default function AddUser(){
                             name="name"
                             value={valueName}
                             onChange={(e) => setValueName(e.target.value)}
-
+                            required
                         />
                     </div>
                     <div className="input-product">
@@ -76,8 +119,12 @@ export default function AddUser(){
                             name="email"
                             value={valueEmail}
                             onChange={(e) => setValueEmail(e.target.value)}
+                            onBlur={handleCheckEmail}
+                            required
                         />
+
                     </div>
+                    {emailError && <div style={{color:"red", marginLeft:"25px", marginTop:"0", marginBottom:"5px"}}>{emailError}</div>}
                     <div className="input-product">
                         <label htmlFor="username">Username:</label>
                         <input
@@ -86,8 +133,35 @@ export default function AddUser(){
                             name="username"
                             value={valueUsername}
                             onChange={(e) => setValueUsername(e.target.value)}
+                            onBlur={handleCheckUsername}
+                            required
                         />
                     </div>
+                    {usernameError && <div style={{color:"red", marginLeft:"25px", marginTop:"0", marginBottom:"5px"}}>{usernameError}</div>}
+                    <div className="input-product">
+                        <label htmlFor="password">Password:</label>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            value={valuePassword}
+                            onChange={(e) => setValuePassword(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="input-product">
+                        <label htmlFor="confirmPassword">Confirm Password:</label>
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            name="confirmPassword"
+                            value={valueConfirmPassword}
+                            onChange={handleConfirmPasswordChange}
+                            required
+                        />
+                    </div>
+                    {passwordError && <div style={{color:"red", marginLeft:"25px", marginTop:"0", marginBottom:"5px"}}>{passwordError}</div>}
+
                     <div className="input-product">
                         <label htmlFor="address">Address:</label>
                         <input
@@ -96,6 +170,7 @@ export default function AddUser(){
                             name="address"
                             value={valueAddress}
                             onChange={(e) => setValueAddress(e.target.value)}
+                            required
                         />
                     </div>
                     <div className="input-product">
@@ -106,6 +181,7 @@ export default function AddUser(){
                             name="phone"
                             value={valuePhone}
                             onChange={(e) => setValuePhone(e.target.value)}
+                            required
                         />
                     </div>
                     <div className="input-product">
@@ -116,6 +192,7 @@ export default function AddUser(){
                             name="role"
                             value={valueRole}
                             onChange={(e) => setValueRole(e.target.value)}
+                            required
                         />
                     </div>
                 </div>
