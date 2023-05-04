@@ -44,6 +44,12 @@ export default function Color() {
 
     }
     async function UpdateColor() {
+        if(valueColor === ''){
+            setTextErrors("Insert Errors!")
+            setIsOpenError(true);
+            setTimeout(() =>setIsOpenError(false), 2000)
+            return;
+        }
         try{
             const res = await updateColor(valueColor, colorSelected.id);
             if(res.code === 200){

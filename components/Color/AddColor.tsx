@@ -16,6 +16,12 @@ export default function AddColor(props: Props) {
     const [valueColor, setValueColor] = useState("");
 
     async function InsertColor() {
+        if(valueColor === ''){
+            props.setTextError("Insert Errors!")
+            props.setIsOpenError(true);
+            setTimeout(() =>props.setIsOpenError(false), 2000)
+            return;
+        }
         try{
             const res = await insertColor(valueColor);
             if(res.code === 200){
@@ -51,7 +57,6 @@ export default function AddColor(props: Props) {
                         <label htmlFor="priority">Color:</label>
                         <input
                             className="shadow-gray-400 border-2"
-
                             type="text"
                             id="priority"
                             name="priority"
