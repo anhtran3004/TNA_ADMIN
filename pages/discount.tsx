@@ -12,6 +12,7 @@ import {getListDiscount} from "@/lib/API";
 import {formatDate} from "@/components/Campaign/ContentCampain";
 import {formatDates} from "@/components/Campaign/UploadImageCampain";
 import AddDiscount from "@/components/Discount/AddDiscount";
+import {isEmpty} from "@firebase/util";
 // import AddDiscount from "@/components/Discount/AddDiscount";
 
 export function DefaultDiscountData(): Discount{
@@ -37,7 +38,6 @@ export default function Discount() {
     const [valueDiscount, setValueDiscount] = useState(0);
     const [valueDiscountType, setValueDiscountType] = useState("");
     const [valueEndDay, setValueEndDay] = useState("");
-
     const [discountSelected, setDiscountSelected] = useState<Discount>(DefaultDiscountData());
     const [isOpenAddProduct, setIsOpenAddProduct] = useState(false);
     const [isOpenSuccess, setIsOpenSuccess] = useState(false);
@@ -68,6 +68,14 @@ export default function Discount() {
         return data;
     }
     async function UpdateDiscount() {
+
+        if(isNaN(valueDiscount) || valueDiscountCode  === '' || valueDiscountType === '' || valueEndDay === ''){
+            setTextErrors("Update Error!")
+            setIsOpenError(true);
+            setTimeout(() =>setIsOpenError(false), 2000)
+            return;
+        }
+
         try{
             const res = await updateDiscount(DefaultInputDiscountData(), discountSelected.id);
             if(res.code === 200){
@@ -173,7 +181,7 @@ export default function Discount() {
                     <label htmlFor="priority">Giá trị :</label>
                     <input
                         className="shadow-gray-400 border-2"
-                        type="text"
+                        type="number"
                         id="priority"
                         name="priority"
                         value={valueDiscount}

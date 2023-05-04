@@ -34,6 +34,12 @@ export default function AddDiscount(props: Props) {
         return data;
     }
     async function InsertDiscount() {
+        if(isNaN(valueDiscount) || valueDiscountType === '' || valueEndDay === ''){
+            props.setTextError("Insert Error!")
+            props.setIsOpenError(true);
+            setTimeout(() =>props.setIsOpenError(false), 2000)
+            return;
+        }
         try{
             const res = await insertDiscount(inputInsert());
             if(res.code === 200){
