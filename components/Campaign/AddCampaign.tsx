@@ -71,7 +71,7 @@ export default function AddCampaign(props: Props) {
                             name="name"
                             value={valueName}
                             onChange={(e) => setValueName(e.target.value)}
-
+                            required
                         />
                     </div>
                     <div className="input-product" style={{width:"500px"}}>
@@ -83,6 +83,7 @@ export default function AddCampaign(props: Props) {
                             name="price"
                             value={valueEndDay}
                             onChange={(e) => setValueEndDay(e.target.value)}
+                            required
                         />
                     </div>
                     <div className="input-product" style={{width:"500px"}}>
@@ -93,10 +94,11 @@ export default function AddCampaign(props: Props) {
                             name="description"
                             value={valueDesc}
                             onChange={(e) => setValueDesc(e.target.value)}
+                            required
                         />
                     </div>
                     <button onClick={InsertCampaign}
-                            className="rounded-md bg-violet-700 text-white p-2 mr-2 mt-2 ml-0">Cập nhật
+                            className="rounded-md bg-violet-700 text-white p-2 mr-2 mt-2 ml-0">Insert Campaign
                     </button>
                 </div>
             </div>

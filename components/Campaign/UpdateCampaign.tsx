@@ -10,6 +10,10 @@ const _ = require('lodash');
 interface Props {
     campaignActive: Campaign,
     setStatusUpdate: Dispatch<SetStateAction<number>>
+    setIsOpenSuccess: Dispatch<SetStateAction<boolean>>
+    setTextSuccess: Dispatch<SetStateAction<string>>
+    setIsOpenError: Dispatch<SetStateAction<boolean>>
+    setTextError: Dispatch<SetStateAction<string>>
 }
 
 export function randomNumberInRange(min: number, max: number) {
@@ -63,22 +67,27 @@ export function UpdateCampaign(props: Props) {
         return data;
     }
 
-    async function Updatecampaign() {
+    async function UpdateCampaigns() {
+
         try {
             console.log("id", inputUpdate());
             const res = await updateCampaign(inputUpdate(), props.campaignActive.id);
             if (res.code === 200) {
-                console.log('update success!');
+                props.setTextSuccess("Update Success!")
+                props.setIsOpenSuccess(true);
+                setTimeout(() =>props.setIsOpenSuccess(false), 2000)
                 props.setStatusUpdate(randomNumberInRange(1, 1000));
             }
         } catch (e) {
-            console.log('error');
+            props.setTextError("Update Errors!")
+            props.setIsOpenError(true);
+            setTimeout(() =>props.setIsOpenError(false), 2000)
         }
     }
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        Updatecampaign().then();
+        UpdateCampaigns().then();
         // console.log("campaign data: ", props.campaignActive);
         // TODO: submit campaign data to backend or perform other actions
     };
@@ -94,7 +103,7 @@ export function UpdateCampaign(props: Props) {
                         name="name"
                         value={valueName}
                         onChange={(e) => setValueName(e.target.value)}
-
+                        required
                     />
                 </div>
                 <div className="input-product">
@@ -105,6 +114,7 @@ export function UpdateCampaign(props: Props) {
                         name="price"
                         value={valueEndDay}
                         onChange={(e) => setValueEndDay(e.target.value)}
+                        required
                     />
                 </div>
                 <div className="input-product">
@@ -114,6 +124,7 @@ export function UpdateCampaign(props: Props) {
                         name="description"
                         value={valueDesc}
                         onChange={(e) => setValueDesc(e.target.value)}
+                        required
                     />
                 </div>
                 <button type="submit" className="rounded-md bg-violet-700 text-white p-2 mr-2 mt-2 ml-5">Update Campaign

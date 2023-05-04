@@ -84,7 +84,12 @@ export default function Campaign() {
                 </table>
                 <UploadImageCampaign campaignActive={campaignActive} setStatusUpdate={setStatusUpdate}/>
             </div>
-            <UpdateCampaign campaignActive={campaignActive} setStatusUpdate={setStatusUpdate}/>
+            <UpdateCampaign campaignActive={campaignActive} setStatusUpdate={setStatusUpdate}
+                            setIsOpenSuccess={setIsOpenSuccess}
+                            setTextSuccess={setTextSuccess}
+                            setIsOpenError={setIsOpenError}
+                            setTextError={setTextErrors}
+            />
         </Layout>
         {isOpenAddCampaign && (
             <Modal>
