@@ -175,7 +175,6 @@ export default function Comment() {
                 />
             </Modal>
         )}
-
         {isOpenSuccess && (
             <Modal>
                 <Success textSuccess={textSuccess}/>

@@ -16,6 +16,10 @@ const _ = require('lodash');
 interface Props {
     productActive: Product,
     setStatusUpdate: Dispatch<SetStateAction<number>>
+    setIsOpenSuccess: Dispatch<SetStateAction<boolean>>
+    setTextSuccess: Dispatch<SetStateAction<string>>
+    setIsOpenError: Dispatch<SetStateAction<boolean>>
+    setTextError: Dispatch<SetStateAction<string>>
 }
 
 export function randomNumberInRange(min: number, max: number) {
@@ -126,9 +130,14 @@ export function UpdateProduct(props: Props) {
             if (res.code === 200) {
                 console.log('update success!');
                 props.setStatusUpdate(randomNumberInRange(1, 1000));
+                props.setTextSuccess("Update Success!")
+                props.setIsOpenSuccess(true);
+                setTimeout(() =>props.setIsOpenSuccess(false), 2000)
             }
         } catch (e) {
-            console.log('error');
+            props.setTextError("Update Errors!")
+            props.setIsOpenError(true);
+            setTimeout(() =>props.setIsOpenError(false), 2000)
         }
     }
 

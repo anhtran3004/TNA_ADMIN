@@ -1,20 +1,21 @@
 import Layout from "@/components/Layout";
-import {useEffect, useState} from "react";
-import {Category, InputProduct, Product} from "@/components/HomeType";
-import {getListCategory, getListProduct} from "@/lib/API";
-import {getDownloadURL, ref, uploadBytesResumable} from "firebase/storage";
-import {storage} from "@/firebaseConfig";
+import React, {useEffect, useState} from "react";
+import {InputProduct, Product} from "@/components/HomeType";
+import {getListProduct} from "@/lib/API";
 import {UpdateProduct} from "@/components/Product/UpdateProduct";
 import {UploadImage} from "@/components/Product/uploadImage";
 import {ContentProduct} from "@/components/Product/ContentProduct";
 import {HeaderTable} from "@/components/Product/HeaderTable";
 import {useRouter} from "next/router";
 import Pagination from "@/components/Pagination";
+import Modal from "@/components/Alert/Modal";
+import Success from "@/components/Alert/Success";
+import Errors from "@/components/Alert/Errors";
 
 // import storage = firebase.storage;
 
 export function dataInputProduct() {
-    const data : InputProduct = {
+    const data: InputProduct = {
         filter: {
             product_id: [],
             category_id: [],
@@ -25,7 +26,7 @@ export function dataInputProduct() {
             }
         },
         sort: {
-            field: "priority",
+            field: "import_date",
             order: "DESC"
         },
         pagination: {
@@ -35,6 +36,7 @@ export function dataInputProduct() {
     }
     return data;
 }
+
 export function dataOutputProduct(): Product {
     const data = {
         id: 0,
@@ -67,11 +69,17 @@ export default function Product() {
     const indexOfLastPost = currentPage * postsPerPage
     const indexOfFirstPost = indexOfLastPost - postsPerPage
     const currentPosts = products.slice(indexOfFirstPost, indexOfLastPost)
+    const [isOpenSuccess, setIsOpenSuccess] = useState(false);
+    const [isOpenError, setIsOpenError] = useState(false);
+    const [textSuccess, setTextSuccess] = useState("");
+    const [textErrors, setTextErrors] = useState("");
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber)
     const router = useRouter();
-    function nextAddProduct(){
+
+    function nextAddProduct() {
         router.push("/add-product").then();
     }
+
     useEffect(() => {
 
         async function fetchProductData() {
@@ -87,24 +95,27 @@ export default function Product() {
                 console.log('error');
             }
         }
+
         console.log("statusUpdate", statusUpdate);
         fetchProductData().then();
-    }, [statusProduct,statusUpdate])
-    useEffect(() =>{
-        async function getProductSelected(){
-            for(let i = 0; i < products.length; i++){
-                if(products[i].id === productSelected){
+    }, [statusProduct, statusUpdate])
+    useEffect(() => {
+        async function getProductSelected() {
+            for (let i = 0; i < products.length; i++) {
+                if (products[i].id === productSelected) {
                     setProductActive(products[i]);
                 }
             }
         }
+
         getProductSelected().then();
     }, [productSelected])
-    return (
-        // eslint-disable-next-line react/jsx-no-undef
+    return <>
         <Layout>
             <div>
-                <div className="rounded-md bg-violet-700 text-white p-2 m-2 ml-14" style={{width: "200px"}} onClick={nextAddProduct}>Add New Product</div>
+                <div className="rounded-md bg-violet-700 text-white p-2 m-2 ml-14" style={{width: "200px"}}
+                     onClick={nextAddProduct}>Add New Product
+                </div>
             </div>
             <div className="flex justify-evenly">
                 <table border={1}>
@@ -113,14 +124,15 @@ export default function Product() {
                     {currentPosts.map((product, index) => (
                         <ContentProduct key={product.id} onClick={() => setProductSelected(product.id)}
                                         index={index}
-                                        productSelected={productSelected} product={product} id={product.id} setStatusProduct={setStatusProduct}/>
+                                        productSelected={productSelected} product={product} id={product.id}
+                                        setStatusProduct={setStatusProduct}/>
                     ))}
                     </tbody>
                 </table>
 
-                <UploadImage  productActive={productActive} setStatusUpdate={setStatusUpdate}/>
+                <UploadImage productActive={productActive} setStatusUpdate={setStatusUpdate}/>
             </div>
-            <div className="pagination-page" >
+            <div className="pagination-page">
                 <Pagination
                     postsPerPage={postsPerPage}
                     totalPosts={products.length}
@@ -129,9 +141,23 @@ export default function Product() {
                 />
             </div>
             <div style={{marginTop: "50px"}}>
-            <UpdateProduct  productActive={productActive} setStatusUpdate={setStatusUpdate}/>
+                <UpdateProduct productActive={productActive} setStatusUpdate={setStatusUpdate}
+                               setIsOpenSuccess={setIsOpenSuccess}
+                               setTextSuccess={setTextSuccess}
+                               setIsOpenError={setIsOpenError}
+                               setTextError={setTextErrors}
+                />
             </div>
         </Layout>
-
-    );
+        {isOpenSuccess && (
+            <Modal>
+                <Success textSuccess={textSuccess}/>
+            </Modal>
+        )}
+        {isOpenError && (
+            <Modal>
+                <Errors textError={textErrors}/>
+            </Modal>
+        )}
+    </>
 }

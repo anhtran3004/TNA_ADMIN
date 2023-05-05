@@ -65,6 +65,7 @@ export async function insertProduct(input: InputUpdateProduct){
         const fetchData = {
             method: 'POST',
             headers:{
+                Authorization: "Bearer " + GetUserAuthentication(),
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(input)

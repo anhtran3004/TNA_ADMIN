@@ -1,9 +1,12 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Campaign, Category, Discount, InputUpdateProduct} from "@/components/HomeType";
 import {getListCampaign, getListCategory, getListDiscount, insertProduct, updateProduct} from "@/lib/API";
 import {randomNumberInRange} from "@/components/Product/UpdateProduct";
 import {useRouter} from "next/router";
 import Layout from "@/components/Layout";
+import Modal from "@/components/Alert/Modal";
+import Success from "@/components/Alert/Success";
+import Errors from "@/components/Alert/Errors";
 
 export default function AddProduct(){
     const [valueHot, setValueHot] = useState(1);
@@ -18,6 +21,10 @@ export default function AddProduct(){
     const [listCategories, setListCategories] = useState<Category[]>([]);
     const [campaigns, setCampaigns] = useState<Campaign[]>([])
     const [discounts, setDiscounts] = useState<Discount[]>([])
+    const [isOpenSuccess, setIsOpenSuccess] = useState(false);
+    const [isOpenError, setIsOpenError] = useState(false);
+    const textSuccess = "Insert Success";
+    const textErrors = "Insert Error";
     const router = useRouter();
     function nextProduct(){
         router.push("/product").then();
@@ -51,11 +58,13 @@ export default function AddProduct(){
         try{
             const res = await insertProduct(inputUpdate());
             if(res.code === 200){
-                console.log('update success!');
+               setIsOpenSuccess(true);
+                setTimeout(() =>setIsOpenSuccess(false), 2000)
                 // props.setStatusUpdate(randomNumberInRange(1, 1000));
             }
         }catch (e) {
-            console.log('error');
+            setIsOpenError(true);
+            setTimeout(() =>setIsOpenError(false), 2000)
         }
     }
     useEffect(() =>{
@@ -179,6 +188,15 @@ export default function AddProduct(){
                 </button>
             </form>
         </Layout>
-
+        {isOpenSuccess && (
+            <Modal>
+                <Success textSuccess={textSuccess}/>
+            </Modal>
+        )}
+        {isOpenError && (
+            <Modal>
+                <Errors textError={textErrors}/>
+            </Modal>
+        )}
     </>
 }
