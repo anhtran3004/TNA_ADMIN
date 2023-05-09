@@ -12,6 +12,7 @@ import Modal from "@/components/Alert/Modal";
 import Success from "@/components/Alert/Success";
 import Errors from "@/components/Alert/Errors";
 
+const _ = require('lodash');
 // import storage = firebase.storage;
 
 export function dataInputProduct() {
@@ -63,7 +64,7 @@ export default function Product() {
     const [productSelected, setProductSelected] = useState<number>(-1);
     const [statusProduct, setStatusProduct] = useState(-1);
     const [statusUpdate, setStatusUpdate] = useState(-1);
-    const BASE_IMAGE_URL = process.env.NEXT_PUBLIC_BASE_IMAGE_URL;
+    const [filterProduct, setFilterProduct] = useState(dataInputProduct())
     const [currentPage, setCurrentPage] = useState(1)
     const [postsPerPage] = useState(5)
     const indexOfLastPost = currentPage * postsPerPage
@@ -73,6 +74,7 @@ export default function Product() {
     const [isOpenError, setIsOpenError] = useState(false);
     const [textSuccess, setTextSuccess] = useState("");
     const [textErrors, setTextErrors] = useState("");
+    const [valueSearch, setValueSearch] = useState('');
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber)
     const router = useRouter();
 
@@ -80,11 +82,16 @@ export default function Product() {
         router.push("/add-product").then();
     }
 
+    const inputListeners = () => {
+        const tempFilter = _.cloneDeep(filterProduct);
+        tempFilter.filter.search = valueSearch;
+        setFilterProduct(tempFilter);
+    }
     useEffect(() => {
 
         async function fetchProductData() {
             try {
-                const res = await getListProduct(dataInputProduct())
+                const res = await getListProduct(filterProduct)
                 const status = res.code;
                 if (status === 200) {
                     setProducts(res.data);
@@ -98,7 +105,7 @@ export default function Product() {
 
         console.log("statusUpdate", statusUpdate);
         fetchProductData().then();
-    }, [statusProduct, statusUpdate])
+    }, [statusProduct, statusUpdate, filterProduct])
     useEffect(() => {
         async function getProductSelected() {
             for (let i = 0; i < products.length; i++) {
@@ -112,9 +119,24 @@ export default function Product() {
     }, [productSelected])
     return <>
         <Layout>
-            <div>
-                <div className="rounded-md bg-violet-700 text-white p-2 m-2 ml-14" style={{width: "200px"}}
-                     onClick={nextAddProduct}>Add New Product
+            <div className="header-product">
+                <div className="rounded-md bg-violet-700 text-white p-2"
+                     style={{width: "120px", textAlign: "center", margin: "20px", marginLeft: "55px", fontSize:"20px"}}
+                     onClick={nextAddProduct}>Thêm mới
+                </div>
+                <div className="d-flex">
+                    <div className="search-form">
+
+                        <input type="text" name="search"
+                               style={{border: "1px solid gray", borderRadius: "16px", padding: "10px"}}
+                               placeholder="Search..."
+                               onChange={(e => setValueSearch(e.target.value))}
+                            // onKeyDown={inputListeners}
+                        />
+
+                        {/*<i className="icon-search" style={{cursor:"pointer"}} onClick={inputListeners}></i>*/}
+                    </div>
+                    <div className="rounded-md bg-blue-400 text-white btn-search" onClick={inputListeners}>Search</div>
                 </div>
             </div>
             <div className="flex justify-evenly">
