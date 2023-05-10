@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import {Order} from "@/components/HomeType";
 import {changeStatus, getOrder} from "@/lib/API/Order";
 import Layout from "@/components/Layout";
+import {formatDates} from "@/pages/user";
 
 export default function OrderProduct() {
     const [activeStatus, setActiveStatus] = useState(0);
@@ -80,6 +81,7 @@ export default function OrderProduct() {
                             <th>Tên</th>
                             <th>Email</th>
                             <th>Địa chỉ</th>
+                            <th>Ngày đặt hàng</th>
                             <th>Tổng tiền</th>
                             <th colSpan={2}>Action</th>
                         </tr>
@@ -91,6 +93,7 @@ export default function OrderProduct() {
                                 <td>{waiting.name}</td>
                                 <td>{waiting.email}</td>
                                 <td>{waiting.address}</td>
+                                <td>{formatDates(waiting.created_date)}</td>
                                 <td>{waiting.total_price.toLocaleString("vi-VN", {
                                     style: "currency",
                                     currency: "VND"
@@ -123,6 +126,7 @@ export default function OrderProduct() {
                             <th>Tên</th>
                             <th>Email</th>
                             <th>Địa chỉ</th>
+                            <th>Ngày đặt hàng</th>
                             <th>Tổng tiền</th>
                             <th>Action</th>
                         </tr>
@@ -134,6 +138,7 @@ export default function OrderProduct() {
                                 <td>{waiting.name}</td>
                                 <td>{waiting.email}</td>
                                 <td>{waiting.address}</td>
+                                <td>{formatDates(waiting.created_date)}</td>
                                 <td>{waiting.total_price.toLocaleString("vi-VN", {
                                     style: "currency",
                                     currency: "VND"
@@ -161,6 +166,8 @@ export default function OrderProduct() {
                             <th>Tên</th>
                             <th>Email</th>
                             <th>Địa chỉ</th>
+                            <th>Ngày đặt hàng</th>
+                            <th>Ngày giao hàng</th>
                             <th>Tổng tiền</th>
                             <th>Action</th>
                         </tr>
@@ -172,6 +179,8 @@ export default function OrderProduct() {
                                 <td>{waiting.name}</td>
                                 <td>{waiting.email}</td>
                                 <td>{waiting.address}</td>
+                                <td>{formatDates(waiting.created_date)}</td>
+                                <td>{formatDates(waiting.shipped_date)}</td>
                                 <td>{waiting.total_price.toLocaleString("vi-VN", {
                                     style: "currency",
                                     currency: "VND"
@@ -200,6 +209,7 @@ export default function OrderProduct() {
                             <th>Tên</th>
                             <th>Email</th>
                             <th>Địa chỉ</th>
+                            <th>Ngày giao hàng</th>
                             <th>Tổng tiền</th>
                             <th colSpan={2}>Action</th>
                         </tr>
@@ -211,6 +221,7 @@ export default function OrderProduct() {
                                 <td>{waiting.name}</td>
                                 <td>{waiting.email}</td>
                                 <td>{waiting.address}</td>
+                                <td>{formatDates(waiting.created_date)}</td>
                                 <td>{waiting.total_price.toLocaleString("vi-VN", {
                                     style: "currency",
                                     currency: "VND"
