@@ -2,16 +2,11 @@ import Layout from "@/components/Layout";
 import {useRouter} from "next/router";
 import ContentUser from "@/components/User/ContentUser";
 import React, {useEffect, useState} from "react";
-import {getListProduct} from "@/lib/API";
-import {dataInputProduct, dataOutputProduct} from "@/pages/product";
 import {getUser} from "@/lib/API/User";
-import {User} from "@/components/HomeType";
-import {HeaderTable} from "@/components/Product/HeaderTable";
+import {InputUser, User} from "@/components/HomeType";
 import Pagination from "@/components/Pagination";
 import {UpdateUser} from "@/components/User/UpdateUser";
-import Modal from "@/components/Alert/Modal";
-import AddDiscount from "@/components/Discount/AddDiscount";
-
+const _ = require('lodash');
 export function dataOutputUser(): User{
     const data = {
         id: 0,
@@ -29,7 +24,7 @@ export function dataOutputUser(): User{
     return data;
 }
 export function formatDate(date: string){
-    const dateObj = new Date();
+    const dateObj = new Date(date);
     const year = dateObj.getFullYear();
     const month = String(dateObj.getMonth() + 1).padStart(2, "0");
     const day = String(dateObj.getDate()).padStart(2, "0");
@@ -37,12 +32,28 @@ export function formatDate(date: string){
     return formattedDate;
 }
 export function formatDates(date: string){
-    const dateObj = new Date();
+    const dateObj = new Date(date);
     const year = dateObj.getFullYear();
     const month = String(dateObj.getMonth() + 1).padStart(2, "0");
     const day = String(dateObj.getDate()).padStart(2, "0");
     const formattedDate = `${day}-${month}-${year}`;
     return formattedDate;
+}
+export function dataInputUser(){
+    const data: InputUser = {
+        filter: {
+            search: '',
+            created_date:{
+                min: '2023-01-01',
+                max: '2050-01-01'
+            }
+        },
+        sort:{
+            field: 'created_date',
+            order: 'DESC'
+        }
+    }
+    return data;
 }
 export default function User(){
     const router = useRouter();
@@ -51,7 +62,11 @@ export default function User(){
     const [statusUpdate, setStatusUpdate] = useState(-1);
     const [userSelected, setUserSelected] = useState<number>(-1);
     const [userActive, setUserActive] = useState<User>(dataOutputUser());
-    const [currentPage, setCurrentPage] = useState(1)
+    const [currentPage, setCurrentPage] = useState(1);
+    const [valueSearch, setValueSearch] = useState('');
+    const [valueMinImportDate, setValueMinImportDate] = useState('2023-01-01');
+    const [valueMaxImportDate, setValueMaxImportDate] = useState('2050-01-01');
+    const [filterUser, setFilterUser] = useState<InputUser>(dataInputUser())
     const [postsPerPage] = useState(5)
     const indexOfLastPost = currentPage * postsPerPage
     const indexOfFirstPost = indexOfLastPost - postsPerPage
@@ -62,17 +77,10 @@ export default function User(){
     function nextAddUser(){
         router.push('/add-user').then();
     }
-    // useEffect(() =>{
-    //     const token = localStorage.getItem('accessToken');
-    //     if(!token){
-    //         router.push('/login').then();
-    //     }
-    // }, [])
     useEffect(() => {
-
         async function fetchUserData() {
             try {
-                const res = await getUser()
+                const res = await getUser(filterUser)
                 const status = res.code;
                 if (status === 200) {
                     setUsers(res.data);
@@ -84,7 +92,7 @@ export default function User(){
             }
         }
         fetchUserData().then();
-    }, [statusUser,statusUpdate])
+    }, [statusUser,statusUpdate, filterUser])
     useEffect(() =>{
         async function getUserSelected(){
             for(let i = 0; i < users.length; i++){
@@ -95,11 +103,44 @@ export default function User(){
         }
         getUserSelected().then();
     }, [userSelected])
+    const inputListeners = () => {
+        console.log(valueSearch, valueMinImportDate);
+        const tempFilter = _.cloneDeep(filterUser);
+        tempFilter.filter.search = valueSearch;
+        tempFilter.filter.created_date.min =  valueMinImportDate;
+        tempFilter.filter.created_date.max = valueMaxImportDate;
+        setFilterUser(tempFilter);
+    }
     return<>
         <Layout>
-            <div>
-                <div className="rounded-md bg-violet-700 text-white p-2 m-2 ml-14" style={{width: "200px"}} onClick={nextAddUser}>Add New User</div>
+            <div className="header-product">
+                <div>
+                    <div className="rounded-md bg-violet-700 text-white" style={{width: "100px",height:"50px",lineHeight:"50px", textAlign: "center", margin: "20px", marginLeft: "55px", fontSize:"20px"}} onClick={nextAddUser}>Thêm mới</div>
+                </div>
+                <div className="price-filter" style={{marginTop: "7px"}}>
+                    <p>Ngày tạo:</p>
+                    <div className="d-flex form-price">
+                        <div className="mr-3">
+                            <label>Từ:</label>
+                            <input style={{width:"150px"}} type="date" value={formatDate(valueMinImportDate)} onChange={(e) => setValueMinImportDate(e.target.value)}/>
+                        </div>
+                        <div>
+                            <label>Đến:</label>
+                            <input style={{width:"150px"}} type="date" value={formatDate(valueMaxImportDate)} onChange={(e) => setValueMaxImportDate(e.target.value)}/>
+                        </div>
+                    </div>
+                </div>
+                <div className="search-form">
+                    <input type="text" name="search"
+                           style={{border: "1px solid gray", borderRadius: "16px", padding: "10px"}}
+                           placeholder="Search..."
+                           value={valueSearch}
+                           onChange={((e) => setValueSearch(e.target.value))}
+                    />
+                </div>
+                <div className="rounded-md bg-blue-400 text-white btn-search cursor-pointer" onClick={inputListeners}>Search</div>
             </div>
+
             <div>
                 <table border={1} className="ml-5">
                     <thead>

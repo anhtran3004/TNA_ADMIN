@@ -1,12 +1,12 @@
 import {GetARBaseUrl} from "@/lib/API";
-import {InputBlockUser, InputInsertUser, InputUpdateUser} from "@/components/HomeType";
+import {InputBlockUser, InputInsertUser, InputUpdateUser, InputUser} from "@/components/HomeType";
 export function GetUserAuthentication(){
     if(localStorage.getItem('accessTokenAdmin') !== undefined){
         return localStorage.getItem('accessTokenAdmin');
     }
     return '';
 }
-export async function getUser(){
+export async function getUser(input: InputUser){
     try{
         const url_getOrder = GetARBaseUrl() + "/api/v1/user/";
         const fetchData = {
@@ -15,6 +15,7 @@ export async function getUser(){
                 Authorization: "Bearer " + GetUserAuthentication(),
                 "Content-type": "application/json"
             },
+            body: JSON.stringify(input)
         }
         const response = await fetch(url_getOrder, fetchData);
         return await response.json();
