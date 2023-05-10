@@ -100,6 +100,7 @@ export type Campaign = {
 
 export type InputProduct = {
     filter: {
+        search: string,
         product_id: number[],
         category_id: number[],
         campaign_id:number[],
@@ -119,6 +120,32 @@ export type InputProduct = {
     pagination:{
         page: number,
         perPage: number
+    }
+}
+export type InputUser = {
+    filter: {
+        search: string,
+        created_date:{
+            min: string,
+            max: string
+        }
+    },
+    sort:{
+        field: string,
+        order: string
+    }
+}
+export type InputCampaignFilter = {
+    filter: {
+        search: string,
+        start_day:{
+            min: string,
+            max: string
+        }
+    },
+    sort:{
+        field: string,
+        order: string
     }
 }
 export type Inventory ={
@@ -143,6 +170,8 @@ export type Order = {
     method_delivery: string,
     user_id: number,
     shipping_fee: number,
+    created_date: string,
+    shipped_date: string,
     status: number,
     total_price: number
 }

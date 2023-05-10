@@ -1,5 +1,11 @@
 import process from "process";
-import {InputDeleteProduct, InputInventory, InputProduct, InputUpdateProduct} from "@/components/HomeType";
+import {
+    InputCampaignFilter,
+    InputDeleteProduct,
+    InputInventory,
+    InputProduct,
+    InputUpdateProduct
+} from "@/components/HomeType";
 import {GetUserAuthentication} from "@/lib/API/User";
 
 export function GetARBaseUrl(): string {
@@ -213,7 +219,7 @@ export async function getListSize(){
         throw e
     }
 }
-export async function getListCampaign(){
+export async function getListCampaign(inputCampaign: InputCampaignFilter){
     try{
         const url_getListCampaign = GetARBaseUrl() + "/api/v1/campaign/get-admin";
         const fetchData = {
@@ -222,6 +228,7 @@ export async function getListCampaign(){
                 "Content-Type": "application/json"
             },
             method: 'POST',
+            body: JSON.stringify(inputCampaign)
         }
         const response = await fetch(url_getListCampaign, fetchData);
         return await response.json();
