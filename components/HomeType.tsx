@@ -106,6 +106,10 @@ export type InputProduct = {
         price:{
             min: number,
             max: number
+        },
+        import_date:{
+            min: string,
+            max: string
         }
     },
     sort: {

@@ -12,6 +12,7 @@ import {dataInputProduct, dataOutputProduct} from "@/pages/product";
 import {Campaign, Category, Discount, Inventory, Product} from "@/components/HomeType";
 import {useRouter} from "next/router";
 import Image from "next/image";
+import {formatDate} from "@/components/Campaign/ContentCampain";
 
 export function GetDefaultCategory() {
     const data = {
@@ -69,7 +70,7 @@ export default function ProductDetail() {
                         if (res.data[i].id === parseInt(id + "")) {
                             setProducts(res.data[i]);
                             fetchCategory(res.data[i].category_id).then();
-                            fetchCampaign(res.data[i].campain_id).then();
+                            fetchCampaign(res.data[i].campaign_id).then();
                             fetchDiscount(res.data[i].discount_id).then();
                         }
                     }
@@ -152,17 +153,17 @@ export default function ProductDetail() {
     return <>
         <Layout>
             <div className="mb-3">
-                <h1 className="text-3xl font-bold my-4 bg-amber-50">Product Information</h1>
+                <h1 className="text-3xl font-bold my-4 bg-amber-50">Thôn tin chi tiết sản phẩm</h1>
             <table border={1} className="ml-3 p-0">
                 <thead>
                 <tr>
-                    <th>Field</th>
-                    <th>Value</th>
+                    <th>Tiêu đề</th>
+                    <th>Giá trị</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <td>Name</td>
+                    <td>Tên sản phẩm</td>
                     <td>{products.name}</td>
                 </tr>
                 <tr>
@@ -170,21 +171,21 @@ export default function ProductDetail() {
                     <td>{products.price}</td>
                 </tr>
                 <tr>
-                    <td>Description</td>
+                    <td>Mô tả</td>
                     <td>{products.description}</td>
                 </tr>
                 <tr>
-                    <td>Image</td>
+                    <td>Hình ảnh</td>
                     <td>
                         <Image src={products.thumb} alt="" width={200} height={100}/>
                     </td>
                 </tr>
                 <tr>
-                    <td>Category</td>
+                    <td>Danh mục</td>
                     <td>{category.categoryName}</td>
                 </tr>
                 <tr>
-                    <td>Status</td>
+                    <td>Trạng thái</td>
                     <td>
                         {(products.status === 1) ? "true" : "false"}
                     </td>
@@ -200,22 +201,16 @@ export default function ProductDetail() {
                     <td>{discount.discount_code}</td>
                 </tr>
                 <tr>
-                    <td>Campaign</td>
+                    <td>Chiến dịch</td>
                     <td>{campaign.name}</td>
                 </tr>
                 <tr>
                     <td>Import Date</td>
-                    <td>{products.import_date}</td>
+                    <td>{formatDate(products.import_date)}</td>
                 </tr>
                 <tr>
                     <td>Update Date</td>
-                    <td>{products.update_date}</td>
-                </tr>
-                <tr>
-                    <td>Favorite</td>
-                    <td>
-                        {(products.favorite === 1) ? "true" : "false"}
-                    </td>
+                    <td>{formatDate(products.update_date)}</td>
                 </tr>
                 <tr>
                     <td>Priority</td>
@@ -225,7 +220,7 @@ export default function ProductDetail() {
             </table>
             </div>
             <div className="mt-15 bg-white">
-                <h1 className="text-3xl font-bold my-4 bg-amber-50 py-1">Inventory</h1>
+                <h1 className="text-3xl font-bold my-4 bg-amber-50 py-1">Hàng tồn kho</h1>
                 <table border={1} className="ml-3">
                     <thead>
                     <tr>
