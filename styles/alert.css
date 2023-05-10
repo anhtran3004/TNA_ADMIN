@@ -113,7 +113,6 @@ body{
     line-height: 40px;
     font-size: 22px;
 }
-
 @keyframes slide-down {
     from {
         top: -50px;

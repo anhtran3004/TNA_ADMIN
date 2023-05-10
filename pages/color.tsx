@@ -9,6 +9,7 @@ import {randomNumberInRange} from "@/components/Product/UpdateProduct";
 import AddColor from "@/components/Color/AddColor";
 import Success from "@/components/Alert/Success";
 import Errors from "@/components/Alert/Errors";
+import ErrorAlert from "@/components/Alert/ErrorAlert";
 export function DefaultColorData(): Color{
     const data ={
         id: 0,
@@ -21,6 +22,7 @@ export default function Color() {
     const router = useRouter()
     const [listColor, setListColor] = useState<Color[]>([]);
     const [isOpenDeleteProductAlert, setIsOpenDeleteProductAlert] = useState(false);
+    const [isOpenErrorDeleteProductAlert, setIsOpeErrorDeleteProductAlert] = useState(false);
     const textError = "Bạn có chắc chắn muốn xóa màu này không?";
     const [colorId, setColorId] = useState(0)
     const [statusColor, setStatusColor] = useState(0)
@@ -32,14 +34,21 @@ export default function Color() {
     const [textSuccess, setTextSuccess] = useState("");
     const [textErrors, setTextErrors] = useState("");
     async function DeleteColor() {
+        console.log("colorId", colorId);
         try{
-            const res = await deleteColor([colorId]);
+            const res = await deleteColor(colorId);
             if(res.code === 200){
                 console.log('deleted success!');
                 setStatusColor(colorId);
+            }else{
+                setIsOpeErrorDeleteProductAlert(true);
+                setIsOpenDeleteProductAlert(false);
             }
+
         }catch (e){
             console.log('error');
+            setIsOpeErrorDeleteProductAlert(true);
+            setIsOpenDeleteProductAlert(false);
         }
 
     }
@@ -107,7 +116,7 @@ export default function Color() {
                 <tr>
                     <th>STT</th>
                     <th>Color</th>
-                    {/*<th>Action</th>*/}
+                    <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -117,9 +126,9 @@ export default function Color() {
                     >
                         <td className="text-center">{index + 1}</td>
                         <td className="text-center">{color.name}</td>
-                        {/*<td>*/}
-                        {/*    <button className="rounded-full text-white bg-red-800 w-20 px-2" onClick={() => {setIsOpenDeleteProductAlert(true); setColorId(color.id)}}>Delete</button>*/}
-                        {/*</td>*/}
+                        <td className="text-center">
+                            <button className="rounded-full text-white bg-red-800 w-20 px-2" onClick={() => {setIsOpenDeleteProductAlert(true); setColorId(color.id)}}>Delete</button>
+                        </td>
                     </tr>
                 ))}
                 </tbody>
@@ -148,6 +157,11 @@ export default function Color() {
                                setOkListener={DeleteColor}/>
             </Modal>
         )}
+        {isOpenErrorDeleteProductAlert &&
+            <Modal>
+                <ErrorAlert textError={"Màu sắc đang được sử dụng không được phép xóa!"} setIsCloseAlert={setIsOpeErrorDeleteProductAlert} />
+            </Modal>
+        }
         {isOpenAddProduct && (
             <Modal>
                 <AddColor setStatusColor={setStatusColor} setIsOpenAddProduct={setIsOpenAddProduct}

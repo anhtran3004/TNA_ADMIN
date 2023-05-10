@@ -148,17 +148,15 @@ export async function getListColor(){
         throw e
     }
 }
-export async function deleteColor(ids: number[]){
+export async function deleteColor(id: number){
     try{
-        const url_deleteColor = GetARBaseUrl() + "/api/v1/color/delete-color";
-        const body = {ids: ids}
+        const url_deleteColor = GetARBaseUrl() + "/api/v1/color/delete-colors/" + id;
         const fetchData = {
             headers:{
                 Authorization: "Bearer " + GetUserAuthentication(),
                 "Content-Type": "application/json"
             },
-            method: 'PUT',
-            body: JSON.stringify(body)
+            method: 'POST',
         }
         const response = await fetch(url_deleteColor, fetchData);
         return await response.json();
