@@ -12,15 +12,11 @@ import Modal from "@/components/Alert/Modal";
 import Success from "@/components/Alert/Success";
 import Errors from "@/components/Alert/Errors";
 import {formatDates} from "@/components/Campaign/UploadImageCampain";
-import NumberFormat from "react-number-format";
-import VndInput from "@/components/Product/VndInput";
-
 const _ = require('lodash');
-// import storage = firebase.storage;
-
 export function dataInputProduct() {
     const data: InputProduct = {
         filter: {
+            search:'',
             product_id: [],
             category_id: [],
             campaign_id: [],
@@ -141,18 +137,16 @@ export default function Product() {
                 </div>
                 <div className="d-flex">
                     <div className="price-filter">
-                        <p>Giá:</p>
+                        <p>Giá(VNĐ):</p>
                         <div className="d-flex form-price">
                             <div className="mr-3">
                                 <label>Từ:</label>
                                 <input type="number" value={valueMinPrice} onChange={(e) => setValueMinPrice(parseInt(e.target.value))}/>
-                                <span>VND</span>
                                 {/*<VndInput value={valueMinPrice} onChange={(e) => setValueMinPrice(e)} />*/}
                             </div>
                             <div>
                                 <label>Đến:</label>
                                 <input type="number" value={valueMaxPrice} onChange={(e) => setValueMaxPrice(parseInt(e.target.value))}/>
-                                <span>VND</span>
                                 {/*<VndInput value={valueMaxPrice} onChange={(e) => setValueMaxPrice(e)} />*/}
                             </div>
                         </div>
