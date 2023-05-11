@@ -1,6 +1,6 @@
 import Layout from "@/components/Layout";
 import React, {useEffect, useState} from "react";
-import {Comments} from "@/components/HomeType";
+import {Comments, InputProduct} from "@/components/HomeType";
 import {useRouter} from "next/router";
 import {deleteComment, getComment} from "@/lib/API/Comment";
 import {formatDates} from "@/pages/user";
@@ -12,6 +12,7 @@ import Success from "@/components/Alert/Success";
 import Errors from "@/components/Alert/Errors";
 import ChildComment from "@/components/Comment/ChildComment";
 import Pagination from "@/components/Pagination";
+import {getListProduct} from "@/lib/API";
 
 
 export function dataOutputComment(): Comments {
@@ -27,9 +28,34 @@ export function dataOutputComment(): Comments {
     }
     return data;
 }
-
+function dataInputProduct() {
+    const data: InputProduct = {
+        filter: {
+            search: '',
+            product_id: [],
+            category_id: [],
+            campaign_id: [],
+            price: {
+                min: 0,
+                max: 10000000
+            },
+            import_date: {
+                min: '2000-01-01',
+                max: '3000-01-01'
+            }
+        },
+        sort: {
+            field: "import_date",
+            order: "DESC"
+        },
+        pagination: {
+            page: 0,
+            perPage: 1000
+        }
+    }
+    return data;
+}
 export default function Comment() {
-    const router = useRouter();
     const [Comments, setComments] = useState<Comments[]>([])
     const [statusComment, setStatusComment] = useState(-1);
     const [statusUpdate, setStatusUpdate] = useState(-1);
@@ -48,8 +74,24 @@ export default function Comment() {
     const indexOfFirstPost = indexOfLastPost - postsPerPage
     const currentPosts = Comments.slice(indexOfFirstPost, indexOfLastPost);
     const paginate = (page0: number) => setCurrentPage(page0)
-    useEffect(() => {
+    async function fetchProduct(id: number) {
+        try {
+            const res = await getListProduct(dataInputProduct())
+            const status = res.code;
+            if (status === 200) {
+              for(let i = 0; i < res.data.length; i++){
+                  if(res.data[i].id === id){
 
+                  }
+              }
+            } else {
+                console.log('error');
+            }
+        } catch (e) {
+            console.log('error');
+        }
+    }
+    useEffect(() => {
         async function fetchCommentData() {
             try {
                 const res = await getComment()
