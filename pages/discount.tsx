@@ -1,6 +1,6 @@
 import Layout from "@/components/Layout";
 import {useRouter} from "next/router";
-import {Discount, InputDiscount} from "@/components/HomeType";
+import {Discount, InputDiscount, InputDiscountFilter, InputOrderFilter} from "@/components/HomeType";
 import React, {useEffect, useState} from "react";
 import Modal from "@/components/Alert/Modal";
 import QuestionAlert from "@/components/Alert/QuestionAlert";
@@ -9,10 +9,11 @@ import Success from "@/components/Alert/Success";
 import Errors from "@/components/Alert/Errors";
 import {deleteDiscount, updateDiscount} from "@/lib/API/Discount";
 import {getListDiscount} from "@/lib/API";
-import {formatDate} from "@/components/Campaign/ContentCampain";
-import {formatDates} from "@/components/Campaign/UploadImageCampain";
+import {formatDate, formatDates} from "@/pages/user";
 import AddDiscount from "@/components/Discount/AddDiscount";
+const _ = require('lodash');
 import {isEmpty} from "@firebase/util";
+
 // import AddDiscount from "@/components/Discount/AddDiscount";
 
 export function DefaultDiscountData(): Discount{
@@ -24,6 +25,22 @@ export function DefaultDiscountData(): Discount{
             start_day: '',
             end_day: '',
             status: 0
+    }
+    return data;
+}
+export function dataInputDiscount(){
+    const data: InputDiscountFilter = {
+        filter: {
+            search: '',
+            start_day:{
+                min: '2023-01-01',
+                max: '2050-01-01'
+            }
+        },
+        sort:{
+            field: 'start_day',
+            order: 'DESC'
+        }
     }
     return data;
 }
@@ -44,6 +61,10 @@ export default function Discount() {
     const [isOpenError, setIsOpenError] = useState(false);
     const [textSuccess, setTextSuccess] = useState("");
     const [textErrors, setTextErrors] = useState("");
+    const [valueMinImportDate, setValueMinImportDate] = useState('2023-01-01');
+    const [valueMaxImportDate, setValueMaxImportDate] = useState('2050-01-01');
+    const [valueSearch, setValueSearch] = useState('');
+    const [filterDiscount, setFilterDiscount] = useState<InputDiscountFilter>(dataInputDiscount());
     async function DeleteDiscount() {
         try{
             const res = await deleteDiscount([DiscountId]);
@@ -93,14 +114,10 @@ export default function Discount() {
         }
 
     }
-    function nextDiscountNew() {
-        router.push("/new-router").then();
-    }
-
     async function fetchDiscounts() {
         try {
             // console.log("id", id);
-            const res = await getListDiscount();
+            const res = await getListDiscount(filterDiscount);
             if (res.code === 200) {
                 setListDiscount(res.data);
                 // setStatusDiscount(randomNumberInRange(1,1000));
@@ -116,22 +133,41 @@ export default function Discount() {
     }
     useEffect(() =>{
         fetchDiscounts().then();
-
-
-    }, [statusDiscount,DiscountId])
+    }, [statusDiscount,DiscountId, filterDiscount])
     useEffect(() =>{
         setValueDiscountCode(discountSelected.discount_code);
         setValueDiscount(discountSelected.discount_value);
         setValueDiscountType(discountSelected.discount_type);
         setValueEndDay(discountSelected.end_day);
     }, [discountSelected])
-
+    const inputListeners = () => {
+        const tempFilter = _.cloneDeep(filterDiscount);
+        tempFilter.filter.search = valueSearch;
+        tempFilter.filter.start_day.min =  valueMinImportDate;
+        tempFilter.filter.start_day.max = valueMaxImportDate;
+        setFilterDiscount(tempFilter);
+    }
     return <>
         <Layout>
             <div>
                 <div className="rounded-md bg-violet-700 text-white p-2 m-2 ml-14" style={{width: "200px"}}
                      onClick={() => setIsOpenAddProduct(true)}>Add New Discount
                 </div>
+            </div>
+            <div className="search-order d-flex border-2" style={{marginLeft: "20px", width: "90%"}}>
+                <p>Lọc giảm giá</p>
+                <div className="mr-3 ml-5">
+                    <label>Từ:</label>
+                    <input style={{width:"150px"}} type="date" value={formatDate(valueMinImportDate)} onChange={(e) => setValueMinImportDate(e.target.value)}/>
+                </div>
+                <div>
+                    <label>Đến:</label>
+                    <input style={{width:"150px"}} type="date" value={formatDate(valueMaxImportDate)} onChange={(e) => setValueMaxImportDate(e.target.value)}/>
+                </div>
+                <input type="text" placeholder="Search..." value={valueSearch} onChange={(e) => setValueSearch(e.target.value)}/>
+                {/*onClick={inputListeners}*/}
+                <div className="rounded-md bg-blue-400 text-white cursor-pointer p-2" onClick={inputListeners}>Search</div>
+
             </div>
             <table border={1} style={{width: "1000px", marginLeft: "50px"}}>
                 <thead>
@@ -154,8 +190,8 @@ export default function Discount() {
                         <td>{discount.discount_code}</td>
                         <td>{discount.discount_value}</td>
                         <td>{discount.discount_type}</td>
-                        <td>{formatDate(discount.start_day)}</td>
-                        <td>{formatDate(discount.end_day)}</td>
+                        <td>{formatDates(discount.start_day)}</td>
+                        <td>{formatDates(discount.end_day)}</td>
                         <td>
                             <button className="rounded-full text-white bg-red-800 w-20 px-2" onClick={() => {setIsOpenDeleteProductAlert(true); setDiscountId(discount.id)}}>Delete</button>
                         </td>
@@ -208,7 +244,7 @@ export default function Discount() {
                         type="date"
                         id="priority"
                         name="priority"
-                        // value={valueEndDay}
+                        value={formatDate(valueEndDay)}
                         onChange={(e) => setValueEndDay(e.target.value)}
                     />
 
