@@ -1,9 +1,10 @@
 import Link from "next/link";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Order} from "@/components/HomeType";
 import {changeStatus, getOrder} from "@/lib/API/Order";
 import Layout from "@/components/Layout";
 import {formatDates} from "@/pages/user";
+import Pagination from "@/components/Pagination";
 
 export default function OrderProduct() {
     const [activeStatus, setActiveStatus] = useState(0);
@@ -12,40 +13,51 @@ export default function OrderProduct() {
     const [listDelivering, setListDelivering] = useState<Order[]>([])
     const [listDelivered, setListDelivered] = useState<Order[]>([])
     const [listRemove, setListRemove] = useState<Order[]>([])
-    useEffect(() =>{
-        async function fetchDataOrder(){
-            try{
-                if(activeStatus === 0) {
+    const [currentPage, setCurrentPage] = useState(1)
+    const [postsPerPage] = useState(10)
+    const indexOfLastPost = currentPage * postsPerPage
+    const indexOfFirstPost = indexOfLastPost - postsPerPage
+    const currentPostsWaiting = listWaiting.slice(indexOfFirstPost, indexOfLastPost)
+    const currentPostsDelivering = listDelivering.slice(indexOfFirstPost, indexOfLastPost)
+    const currentPostsDelivered = listDelivered.slice(indexOfFirstPost, indexOfLastPost)
+    const currentPostsRemove = listRemove.slice(indexOfFirstPost, indexOfLastPost)
+    const paginate = (pageNumber: number) => setCurrentPage(pageNumber)
+    useEffect(() => {
+        async function fetchDataOrder() {
+            try {
+                if (activeStatus === 0) {
                     const res = await getOrder(activeStatus);
                     if (res.code === 200) {
                         setListWaiting(res.data);
                     }
                 }
-                if(activeStatus === 1) {
+                if (activeStatus === 1) {
                     const res = await getOrder(activeStatus);
                     if (res.code === 200) {
                         setListDelivering(res.data);
                     }
                 }
-                if(activeStatus === 2) {
+                if (activeStatus === 2) {
                     const res = await getOrder(activeStatus);
                     if (res.code === 200) {
                         setListDelivered(res.data);
                     }
                 }
-                if(activeStatus === 3) {
+                if (activeStatus === 3) {
                     const res = await getOrder(activeStatus);
                     if (res.code === 200) {
                         setListRemove(res.data);
                     }
                 }
 
-            }catch (e) {
+            } catch (e) {
                 console.log('error')
             }
         }
+
         fetchDataOrder().then();
     }, [activeStatus])
+
     async function ChangeStatus(id: number) {
         try {
             const res = await changeStatus(id, 1);
@@ -60,7 +72,7 @@ export default function OrderProduct() {
 
     return <>
         <Layout>
-            <div style={{marginLeft: "50px", marginTop:"30px"}}>
+            <div style={{marginLeft: "50px", marginTop: "30px"}}>
                 <h5 className="text-order">Đơn hàng của tôi</h5>
                 {/*<p>Tất cả đơn hàng</p>*/}
                 <div className="status-order">
@@ -70,9 +82,8 @@ export default function OrderProduct() {
                         }}
                              className={(activeStatus === index) ? "status-order-active" : "status-order-item"}>{status}</div>
                     ))}
-
                 </div>
-                {(activeStatus === 0) && (
+                {(activeStatus === 0) && <>
                     <table border={1} className="table_order">
 
                         <thead>
@@ -87,7 +98,7 @@ export default function OrderProduct() {
                         </tr>
                         </thead>
                         <tbody>
-                        {listWaiting.map((waiting, index) => (
+                        {currentPostsWaiting.map((waiting, index) => (
                             <tr className="content-order" key={index}>
                                 <td style={{width: "10px"}}>{index + 1}</td>
                                 <td>{waiting.name}</td>
@@ -116,8 +127,16 @@ export default function OrderProduct() {
 
                         </tbody>
                     </table>
-                )}
-                {(activeStatus === 1) && (
+                    <div className="pagination-page">
+                        <Pagination
+                            postsPerPage={postsPerPage}
+                            totalPosts={listWaiting.length}
+                            paginate={paginate}
+                            currentPage={currentPage}
+                        />
+                    </div>
+                </>}
+                {(activeStatus === 1) && <>
                     <table border={1} className="table_order">
 
                         <thead>
@@ -132,7 +151,7 @@ export default function OrderProduct() {
                         </tr>
                         </thead>
                         <tbody>
-                        {listDelivering.map((waiting, index) => (
+                        {currentPostsDelivering.map((waiting, index) => (
                             <tr className="content-order" key={index}>
                                 <td style={{width: "10px"}}>{index + 1}</td>
                                 <td>{waiting.name}</td>
@@ -156,8 +175,16 @@ export default function OrderProduct() {
 
                         </tbody>
                     </table>
-                )}
-                {(activeStatus === 2) && (
+                    <div className="pagination-page">
+                        <Pagination
+                            postsPerPage={postsPerPage}
+                            totalPosts={listDelivering.length}
+                            paginate={paginate}
+                            currentPage={currentPage}
+                        />
+                    </div>
+                </>}
+                {(activeStatus === 2) && <>
                     <table border={1} className="table_order">
 
                         <thead>
@@ -173,7 +200,7 @@ export default function OrderProduct() {
                         </tr>
                         </thead>
                         <tbody>
-                        {listDelivered.map((waiting, index) => (
+                        {currentPostsDelivered.map((waiting, index) => (
                             <tr className="content-order" key={index}>
                                 <td style={{width: "10px"}}>{index + 1}</td>
                                 <td>{waiting.name}</td>
@@ -199,8 +226,16 @@ export default function OrderProduct() {
 
                         </tbody>
                     </table>
-                )}
-                {(activeStatus === 3) && (
+                    <div className="pagination-page">
+                        <Pagination
+                            postsPerPage={postsPerPage}
+                            totalPosts={listDelivered.length}
+                            paginate={paginate}
+                            currentPage={currentPage}
+                        />
+                    </div>
+                </>}
+                {(activeStatus === 3) && <>
                     <table border={1} className="table_order">
 
                         <thead>
@@ -215,7 +250,7 @@ export default function OrderProduct() {
                         </tr>
                         </thead>
                         <tbody>
-                        {listRemove.map((waiting, index) => (
+                        {currentPostsRemove.map((waiting, index) => (
                             <tr className="content-order" key={index}>
                                 <td style={{width: "10px"}}>{index + 1}</td>
                                 <td>{waiting.name}</td>
@@ -244,7 +279,15 @@ export default function OrderProduct() {
 
                         </tbody>
                     </table>
-                )}
+                    <div className="pagination-page">
+                        <Pagination
+                            postsPerPage={postsPerPage}
+                            totalPosts={listRemove.length}
+                            paginate={paginate}
+                            currentPage={currentPage}
+                        />
+                    </div>
+                </>}
                 <div className="page">
                 </div>
             </div>
