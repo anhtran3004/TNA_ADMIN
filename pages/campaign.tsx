@@ -2,9 +2,6 @@ import Layout from "@/components/Layout";
 import React, {useEffect, useState} from "react";
 import {Campaign, InputCampaignFilter,} from "@/components/HomeType";
 import {getListCampaign} from "@/lib/API";
-
-
-import {useRouter} from "next/router";
 import {GetDefaultCampaign} from "@/pages/product-detail";
 import {ContentCampaign} from "@/components/Campaign/ContentCampain";
 import {UploadImageCampaign} from "@/components/Campaign/UploadImageCampain";
@@ -15,11 +12,12 @@ import AddCampaign from "@/components/Campaign/AddCampaign";
 import Success from "@/components/Alert/Success";
 import Errors from "@/components/Alert/Errors";
 import {formatDate} from "@/pages/user";
+
 const _ = require('lodash');
 
 // import storage = firebase.storage;
-export function dataInputCampaign() : InputCampaignFilter{
-    const data ={
+export function dataInputCampaign(): InputCampaignFilter {
+    const data = {
         filter: {
             search: '',
             start_day: {
@@ -27,13 +25,14 @@ export function dataInputCampaign() : InputCampaignFilter{
                 max: '2050-01-01'
             }
         },
-        sort:{
+        sort: {
             field: 'start_day',
             order: 'DESC'
         }
     }
     return data;
 }
+
 export default function Campaign() {
     const [campaigns, setCampaigns] = useState<Campaign[]>([])
     const [campaignActive, setCampaignActive] = useState<Campaign>(GetDefaultCampaign());
@@ -53,7 +52,7 @@ export default function Campaign() {
         console.log(valueSearch, valueMinImportDate);
         const tempFilter = _.cloneDeep(filterCampaign);
         tempFilter.filter.search = valueSearch;
-        tempFilter.filter.start_day.min =  valueMinImportDate;
+        tempFilter.filter.start_day.min = valueMinImportDate;
         tempFilter.filter.start_day.max = valueMaxImportDate;
         setFilterCampaign(tempFilter);
     }
@@ -87,32 +86,33 @@ export default function Campaign() {
     }, [campaignSelected])
     return <>
         <Layout>
-            <div className="header-product">
-                <div className="rounded-md bg-violet-700 text-white" style={{width: "100px",height:"50px",lineHeight:"50px", textAlign: "center", margin: "20px", marginLeft: "55px", fontSize:"20px"}}
+                <div className="rounded-md bg-violet-700 text-white" style={{
+                    width: "100px",
+                    height: "50px",
+                    lineHeight: "50px",
+                    textAlign: "center",
+                    margin: "20px",
+                    fontSize: "20px"
+                }}
                      onClick={() => setIsOpenAddCampaign(true)}>Thêm mới
                 </div>
-                <div className="price-filter" style={{marginTop: "7px"}}>
-                    <p>Ngày tạo:</p>
-                    <div className="d-flex form-price">
-                        <div className="mr-3">
-                            <label>Từ:</label>
-                            <input style={{width:"150px"}} type="date" value={formatDate(valueMinImportDate)} onChange={(e) => setValueMinImportDate(e.target.value)}/>
-                        </div>
-                        <div>
-                            <label>Đến:</label>
-                            <input style={{width:"150px"}} type="date" value={formatDate(valueMaxImportDate)} onChange={(e) => setValueMaxImportDate(e.target.value)}/>
-                        </div>
-                    </div>
+            <div className="search-order d-flex border-2" style={{width: "70%", marginLeft: "20px"}}>
+                <p>Lọc đơn hàng</p>
+                <div className="mr-3 ml-5">
+                    <label>Từ:</label>
+                    <input style={{width: "150px"}} type="date" value={formatDate(valueMinImportDate)}
+                           onChange={(e) => setValueMinImportDate(e.target.value)}/>
                 </div>
-                <div className="search-form">
-                    <input type="text" name="search"
-                           style={{border: "1px solid gray", borderRadius: "16px", padding: "10px"}}
-                           placeholder="Search..."
-                           value={valueSearch}
-                           onChange={((e) => setValueSearch(e.target.value))}
-                    />
+                <div>
+                    <label>Đến:</label>
+                    <input style={{width: "150px"}} type="date" value={formatDate(valueMaxImportDate)}
+                           onChange={(e) => setValueMaxImportDate(e.target.value)}/>
                 </div>
-                <div className="rounded-md bg-blue-400 text-white btn-search cursor-pointer" onClick={inputListeners}>Search</div>
+                <input type="text" placeholder="Search..." value={valueSearch}
+                       onChange={(e) => setValueSearch(e.target.value)}/>
+                <div className="rounded-md bg-blue-400 text-white cursor-pointer p-2" onClick={inputListeners}>Search
+                </div>
+
             </div>
             <div className="flex justify-evenly">
                 <table border={1}>
