@@ -148,6 +148,33 @@ export type InputCampaignFilter = {
         order: string
     }
 }
+export type InputOrderFilter = {
+    filter: {
+        search: string,
+        created_date:{
+            min: string,
+            max: string
+        }
+    },
+    sort:{
+        field: string,
+        order: string
+    },
+    status: number
+}
+export type InputDiscountFilter = {
+    filter: {
+        search: string,
+        start_day:{
+            min: string,
+            max: string
+        }
+    },
+    sort:{
+        field: string,
+        order: string
+    }
+}
 export type Inventory ={
     id: number,
     name: string,

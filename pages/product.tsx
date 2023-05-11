@@ -11,12 +11,14 @@ import Pagination from "@/components/Pagination";
 import Modal from "@/components/Alert/Modal";
 import Success from "@/components/Alert/Success";
 import Errors from "@/components/Alert/Errors";
-import {formatDates} from "@/components/Campaign/UploadImageCampain";
+import {formatDate} from "@/pages/user";
+
 const _ = require('lodash');
+
 export function dataInputProduct() {
     const data: InputProduct = {
         filter: {
-            search:'',
+            search: '',
             product_id: [],
             category_id: [],
             campaign_id: [],
@@ -24,7 +26,7 @@ export function dataInputProduct() {
                 min: 0,
                 max: 10000000
             },
-            import_date:{
+            import_date: {
                 min: '2000-01-01',
                 max: '3000-01-01'
             }
@@ -94,7 +96,7 @@ export default function Product() {
         tempFilter.filter.search = valueSearch;
         tempFilter.filter.price.min = valueMinPrice;
         tempFilter.filter.price.max = valueMaxPrice;
-        tempFilter.filter.import_date.min =  valueMinImportDate;
+        tempFilter.filter.import_date.min = valueMinImportDate;
         tempFilter.filter.import_date.max = valueMaxImportDate;
         setFilterProduct(tempFilter);
     }
@@ -128,54 +130,47 @@ export default function Product() {
 
         getProductSelected().then();
     }, [productSelected])
-    return<>
+    return <>
         <Layout>
-            <div className="header-product">
-                <div className="rounded-md bg-violet-700 text-white p-2"
-                     style={{width: "120px", height:"50px", textAlign: "center", margin: "20px", marginLeft: "55px", fontSize:"20px"}}
-                     onClick={nextAddProduct}>Thêm mới
+            <div className="rounded-md bg-violet-700 text-white p-2"
+                 style={{
+                     width: "120px",
+                     height: "50px",
+                     textAlign: "center",
+                     margin: "20px",
+                     fontSize: "20px"
+                 }}
+                 onClick={nextAddProduct}>Thêm mới
+            </div>
+            <div className="search-order d-flex border-2" style={{marginLeft: "20px", width: "90%"}}>
+                <p>Lọc sản phẩm</p>
+                <div className="mr-3 ml-5">
+                    <label>Giá từ(VNĐ):</label>
+                    <input type="number" value={valueMinPrice}
+                           onChange={(e) => setValueMinPrice(parseInt(e.target.value))} style={{width: "150px"}}/>
+                    {/*<VndInput value={valueMinPrice} onChange={(e) => setValueMinPrice(e)} />*/}
                 </div>
-                <div className="d-flex">
-                    <div className="price-filter">
-                        <p>Giá(VNĐ):</p>
-                        <div className="d-flex form-price">
-                            <div className="mr-3">
-                                <label>Từ:</label>
-                                <input type="number" value={valueMinPrice} onChange={(e) => setValueMinPrice(parseInt(e.target.value))}/>
-                                {/*<VndInput value={valueMinPrice} onChange={(e) => setValueMinPrice(e)} />*/}
-                            </div>
-                            <div>
-                                <label>Đến:</label>
-                                <input type="number" value={valueMaxPrice} onChange={(e) => setValueMaxPrice(parseInt(e.target.value))}/>
-                                {/*<VndInput value={valueMaxPrice} onChange={(e) => setValueMaxPrice(e)} />*/}
-                            </div>
-                        </div>
-                    </div>
-                    <div className="price-filter">
-                        <p>Ngày tạo:</p>
-                        <div className="d-flex form-price">
-                            <div className="mr-3">
-                                <label>Từ:</label>
-                                <input style={{width:"150px"}} type="date" value={formatDates(valueMinImportDate)} onChange={(e) => setValueMinImportDate(e.target.value)}/>
-                            </div>
-                            <div>
-                                <label>Đến:</label>
-                                <input style={{width:"150px"}} type="date" value={formatDates(valueMaxImportDate)} onChange={(e) => setValueMaxImportDate(e.target.value)}/>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="search-form">
-                        <input type="text" name="search"
-                               style={{border: "1px solid gray", borderRadius: "16px", padding: "10px"}}
-                               placeholder="Search..."
-                               onChange={(e => setValueSearch(e.target.value))}
-                            // onKeyDown={inputListeners}
-                        />
+                <div>
+                    <label>Giá đến(VNĐ):</label>
+                    <input type="number" value={valueMaxPrice}
+                           onChange={(e) => setValueMaxPrice(parseInt(e.target.value))} style={{width: "150px"}}/>
+                    {/*<VndInput value={valueMaxPrice} onChange={(e) => setValueMaxPrice(e)} />*/}
+                </div>
+                <div className="mr-3 ml-5">
+                    <label>Từ ngày:</label>
+                    <input style={{width: "150px"}} type="date" value={formatDate(valueMinImportDate)}
+                           onChange={(e) => setValueMinImportDate(e.target.value)}/>
+                </div>
+                <div>
+                    <label>Đến ngày:</label>
+                    <input style={{width: "150px"}} type="date" value={formatDate(valueMaxImportDate)}
+                           onChange={(e) => setValueMaxImportDate(e.target.value)}/>
+                </div>
+                <input type="text" placeholder="Search..." value={valueSearch}
+                       onChange={(e) => setValueSearch(e.target.value)}/>
+                <div className="rounded-md bg-blue-400 text-white cursor-pointer p-2" onClick={inputListeners}>Search
+                </div>
 
-                        {/*<i className="icon-search" style={{cursor:"pointer"}} onClick={inputListeners}></i>*/}
-                    </div>
-                    <div className="rounded-md bg-blue-400 text-white btn-search cursor-pointer" onClick={inputListeners}>Search</div>
-                </div>
             </div>
             <div className="flex justify-evenly">
                 <table border={1}>

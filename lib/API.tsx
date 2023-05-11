@@ -1,7 +1,7 @@
 import process from "process";
 import {
     InputCampaignFilter,
-    InputDeleteProduct,
+    InputDeleteProduct, InputDiscount, InputDiscountFilter,
     InputInventory,
     InputProduct,
     InputUpdateProduct
@@ -234,15 +234,16 @@ export async function getListCampaign(inputCampaign: InputCampaignFilter){
         throw e
     }
 }
-export async function getListDiscount(){
+export async function getListDiscount(inputDiscount: InputDiscountFilter){
     try{
-        const url_getListDiscount = GetARBaseUrl() + "/api/v1/discount/";
+        const url_getListDiscount = GetARBaseUrl() + "/api/v1/discount/get-discount";
         const fetchData = {
             headers:{
                 Authorization: "Bearer " + GetUserAuthentication(),
                 "Content-Type": "application/json"
             },
             method: 'POST',
+            body: JSON.stringify(inputDiscount)
         }
         const response = await fetch(url_getListDiscount, fetchData);
         return await response.json();
