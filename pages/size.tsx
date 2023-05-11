@@ -10,6 +10,7 @@ import Errors from "@/components/Alert/Errors";
 import {deleteSize, updateSize} from "@/lib/API/Size";
 import {getListSize} from "@/lib/API";
 import AddSize from "@/components/Size/AddSize";
+import ErrorAlert from "@/components/Alert/ErrorAlert";
 export function DefaultSizeData(): Size{
     const data ={
         id: 0,
@@ -32,12 +33,17 @@ export default function Size() {
     const [isOpenError, setIsOpenError] = useState(false);
     const [textSuccess, setTextSuccess] = useState("");
     const [textErrors, setTextErrors] = useState("");
+    const [isOpenErrorDeleteSizeAlert, setIsOpeErrorDeleteSizeAlert] = useState(false);
+
     async function DeleteSize() {
         try{
-            const res = await deleteSize([SizeId]);
+            const res = await deleteSize(SizeId);
             if(res.code === 200){
                 console.log('deleted success!');
                 setStatusSize(SizeId);
+            }else{
+                setIsOpeErrorDeleteSizeAlert(true);
+                setIsOpenDeleteProductAlert(false);
             }
         }catch (e){
             console.log('error');
@@ -149,6 +155,11 @@ export default function Size() {
                                setOkListener={DeleteSize}/>
             </Modal>
         )}
+        {isOpenErrorDeleteSizeAlert &&
+            <Modal>
+                <ErrorAlert textError={"Size đang được sử dụng không được phép xóa!"} setIsCloseAlert={setIsOpeErrorDeleteSizeAlert} />
+            </Modal>
+        }
         {isOpenAddProduct && (
             <Modal>
                 <AddSize setStatusSize={setStatusSize} setIsOpenAddProduct={setIsOpenAddProduct}

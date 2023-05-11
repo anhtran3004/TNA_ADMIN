@@ -6,17 +6,15 @@ function GetARBaseUrl(): string {
     if (url === undefined) return "https://a969-27-72-146-175.ngrok-free.app";
     return url
 }
-export async function deleteSize(ids: number[]){
+export async function deleteSize(id: number){
     try{
-        const url_deleteSize = GetARBaseUrl() + "/api/v1/size/delete-size";
-        const body = {ids: ids}
+        const url_deleteSize = GetARBaseUrl() + "/api/v1/size/delete-sizes/" + id;
         const fetchData = {
             headers:{
                 Authorization: "Bearer " + GetUserAuthentication(),
                 "Content-Type": "application/json"
             },
-            method: 'PUT',
-            body: JSON.stringify(body)
+            method: 'POST',
         }
         const response = await fetch(url_deleteSize, fetchData);
         return await response.json();

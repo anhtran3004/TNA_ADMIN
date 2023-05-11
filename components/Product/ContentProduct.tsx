@@ -42,9 +42,9 @@ export function ContentProduct(props: Props) {
             currency: "VND"
         })}</td>
         <td className="flex w-56  items-center border-none justify-evenly">
-            <button className="rounded-full text-white bg-red-800 w-20 px-2" onClick={() => setIsOpenDeleteProductAlert(true)}>Delete</button>
+            <button className="rounded-full text-white bg-red-800 w-20 px-2" onClick={() => setIsOpenDeleteProductAlert(true)}>Xóa</button>
             <Link href={"/product-detail?id=" + props.product.id}>
-                <button className="rounded-full text-white bg-green-600 w-22 px-2">View Detail
+                <button className="rounded-full text-white bg-green-600 w-22 px-2">Xem chi tiết
                 </button>
             </Link>
         </td>
