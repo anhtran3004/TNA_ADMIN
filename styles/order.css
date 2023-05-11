@@ -81,3 +81,22 @@
 th{
     text-align: center !important;
 }
+.search-order{
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    margin-bottom: 15px;
+    width: 95%;
+}
+.search-order input{
+    border: 1px solid rgba(128, 128, 128, 0.46);
+    margin: 0 20px;
+    width: 250px;
+    height: 40px;
+    border-radius: 8px;
+    padding-left: 10px;
+}
+.search-order > p {
+    margin-bottom: 0;
+    font-weight: bold;
+}

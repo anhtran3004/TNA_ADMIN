@@ -1,5 +1,6 @@
 import {GetARBaseUrl} from "@/lib/API";
 import {GetUserAuthentication} from "@/lib/API/User";
+import {InputOrderFilter} from "@/components/HomeType";
 
 export async function changeStatus(id: number, status: number){
     try{
@@ -19,17 +20,16 @@ export async function changeStatus(id: number, status: number){
         throw e
     }
 }
-export async function getOrder(status: number){
+export async function getOrder(inputOrder: InputOrderFilter){
     try{
-        const body = {status: status}
-        const url_getOrder = GetARBaseUrl() + "/api/v1/order/";
+        const url_getOrder = GetARBaseUrl() + "/api/v1/order/get-order";
         const fetchData = {
             method: 'POST',
             headers:{
                 Authorization: "Bearer " + GetUserAuthentication(),
                 "Content-type": "application/json"
             },
-            body: JSON.stringify(body)
+            body: JSON.stringify(inputOrder)
         }
         const response = await fetch(url_getOrder, fetchData);
         return await response.json();

@@ -1,10 +1,15 @@
 import Link from "next/link";
 import React, {useEffect, useState} from "react";
-import {Order} from "@/components/HomeType";
+import {InputOrderFilter, Order} from "@/components/HomeType";
 import {changeStatus, getOrder} from "@/lib/API/Order";
 import Layout from "@/components/Layout";
 import {formatDates} from "@/pages/user";
 import Pagination from "@/components/Pagination";
+import {formatDate} from "@/components/Campaign/ContentCampain";
+import ListOrderWaiting from "@/components/Order/ListOrderWaiting";
+import ListOrderDelivering from "@/components/Order/ListOrderDelivering";
+import ListOrderDelivered from "@/components/Order/ListOrderDelivered";
+import ListOrderRemove from "@/components/Order/ListOrderRemove";
 
 export default function OrderProduct() {
     const [activeStatus, setActiveStatus] = useState(0);
@@ -22,42 +27,6 @@ export default function OrderProduct() {
     const currentPostsDelivered = listDelivered.slice(indexOfFirstPost, indexOfLastPost)
     const currentPostsRemove = listRemove.slice(indexOfFirstPost, indexOfLastPost)
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber)
-    useEffect(() => {
-        async function fetchDataOrder() {
-            try {
-                if (activeStatus === 0) {
-                    const res = await getOrder(activeStatus);
-                    if (res.code === 200) {
-                        setListWaiting(res.data);
-                    }
-                }
-                if (activeStatus === 1) {
-                    const res = await getOrder(activeStatus);
-                    if (res.code === 200) {
-                        setListDelivering(res.data);
-                    }
-                }
-                if (activeStatus === 2) {
-                    const res = await getOrder(activeStatus);
-                    if (res.code === 200) {
-                        setListDelivered(res.data);
-                    }
-                }
-                if (activeStatus === 3) {
-                    const res = await getOrder(activeStatus);
-                    if (res.code === 200) {
-                        setListRemove(res.data);
-                    }
-                }
-
-            } catch (e) {
-                console.log('error')
-            }
-        }
-
-        fetchDataOrder().then();
-    }, [activeStatus])
-
     async function ChangeStatus(id: number) {
         try {
             const res = await changeStatus(id, 1);
@@ -84,49 +53,7 @@ export default function OrderProduct() {
                     ))}
                 </div>
                 {(activeStatus === 0) && <>
-                    <table border={1} className="table_order">
-
-                        <thead>
-                        <tr>
-                            <th style={{width: "10px"}}>STT</th>
-                            <th>Tên</th>
-                            <th>Email</th>
-                            <th>Địa chỉ</th>
-                            <th>Ngày đặt hàng</th>
-                            <th>Tổng tiền</th>
-                            <th colSpan={2}>Action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {currentPostsWaiting.map((waiting, index) => (
-                            <tr className="content-order" key={index}>
-                                <td style={{width: "10px"}}>{index + 1}</td>
-                                <td>{waiting.name}</td>
-                                <td>{waiting.email}</td>
-                                <td>{waiting.address}</td>
-                                <td>{formatDates(waiting.created_date)}</td>
-                                <td>{waiting.total_price.toLocaleString("vi-VN", {
-                                    style: "currency",
-                                    currency: "VND"
-                                })}</td>
-                                {/*<div style={{width:"180px"}}>*/}
-                                <td style={{borderRight: "none", width: "110px"}}>
-                                    <Link href={"/order-detail?orderId=" + waiting.id}>
-                                        <button className="btn-view-detail">Xem chi tiết</button>
-                                    </Link>
-                                </td>
-                                <td style={{borderLeft: "none", width: "95px"}}>
-                                    <button className="btn-view-delete-order"
-                                            onClick={() => ChangeStatus(waiting.id)}>Xác nhận
-                                    </button>
-                                </td>
-                                {/*</div>*/}
-
-                            </tr>
-                        ))}
-
-                        </tbody>
-                    </table>
+                    <ListOrderWaiting listWaiting={listWaiting} currentPostsWaiting={currentPostsWaiting} setActiveStatus={setActiveStatus} activeStatus={activeStatus} setListWaiting={setListWaiting} />
                     <div className="pagination-page">
                         <Pagination
                             postsPerPage={postsPerPage}
@@ -137,44 +64,7 @@ export default function OrderProduct() {
                     </div>
                 </>}
                 {(activeStatus === 1) && <>
-                    <table border={1} className="table_order">
-
-                        <thead>
-                        <tr>
-                            <th style={{width: "10px"}}>STT</th>
-                            <th>Tên</th>
-                            <th>Email</th>
-                            <th>Địa chỉ</th>
-                            <th>Ngày đặt hàng</th>
-                            <th>Tổng tiền</th>
-                            <th>Action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {currentPostsDelivering.map((waiting, index) => (
-                            <tr className="content-order" key={index}>
-                                <td style={{width: "10px"}}>{index + 1}</td>
-                                <td>{waiting.name}</td>
-                                <td>{waiting.email}</td>
-                                <td>{waiting.address}</td>
-                                <td>{formatDates(waiting.created_date)}</td>
-                                <td>{waiting.total_price.toLocaleString("vi-VN", {
-                                    style: "currency",
-                                    currency: "VND"
-                                })}</td>
-                                {/*<div style={{width:"180px"}}>*/}
-                                <td style={{borderRight: "none", width: "15px"}}>
-                                    <Link href={"/order-detail?orderId=" + waiting.id}>
-                                        <button className="btn-view-detail">Xem chi tiết</button>
-                                    </Link>
-                                </td>
-                                {/*</div>*/}
-
-                            </tr>
-                        ))}
-
-                        </tbody>
-                    </table>
+                    <ListOrderDelivering listDelivering={listDelivering} currentPostsDelivering={currentPostsDelivering} setActiveStatus={setActiveStatus} activeStatus={activeStatus} setListDelivering={setListDelivering} />
                     <div className="pagination-page">
                         <Pagination
                             postsPerPage={postsPerPage}
@@ -185,47 +75,7 @@ export default function OrderProduct() {
                     </div>
                 </>}
                 {(activeStatus === 2) && <>
-                    <table border={1} className="table_order">
-
-                        <thead>
-                        <tr>
-                            <th style={{width: "10px"}}>STT</th>
-                            <th>Tên</th>
-                            <th>Email</th>
-                            <th>Địa chỉ</th>
-                            <th>Ngày đặt hàng</th>
-                            <th>Ngày giao hàng</th>
-                            <th>Tổng tiền</th>
-                            <th>Action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {currentPostsDelivered.map((waiting, index) => (
-                            <tr className="content-order" key={index}>
-                                <td style={{width: "10px"}}>{index + 1}</td>
-                                <td>{waiting.name}</td>
-                                <td>{waiting.email}</td>
-                                <td>{waiting.address}</td>
-                                <td>{formatDates(waiting.created_date)}</td>
-                                <td>{formatDates(waiting.shipped_date)}</td>
-                                <td>{waiting.total_price.toLocaleString("vi-VN", {
-                                    style: "currency",
-                                    currency: "VND"
-                                })}</td>
-                                {/*<div style={{width:"180px"}}>*/}
-                                <td style={{borderRight: "none", width: "15px"}}>
-                                    <Link href={"/order-detail?orderId=" + waiting.id}>
-                                        <button className="btn-view-detail">Xem chi tiết</button>
-                                    </Link>
-                                </td>
-                                {/*<td style={{borderLeft: "none", width:"15px"}} ><button className="btn-view-delete-order">Hủy đơn</button></td>*/}
-                                {/*</div>*/}
-
-                            </tr>
-                        ))}
-
-                        </tbody>
-                    </table>
+                    <ListOrderDelivered listDelivered={listDelivered} currentPostsDelivered={currentPostsDelivered} setActiveStatus={setActiveStatus} activeStatus={activeStatus} setListDelivered={setListDelivered} />
                     <div className="pagination-page">
                         <Pagination
                             postsPerPage={postsPerPage}
@@ -236,49 +86,7 @@ export default function OrderProduct() {
                     </div>
                 </>}
                 {(activeStatus === 3) && <>
-                    <table border={1} className="table_order">
-
-                        <thead>
-                        <tr>
-                            <th style={{width: "10px"}}>STT</th>
-                            <th>Tên</th>
-                            <th>Email</th>
-                            <th>Địa chỉ</th>
-                            <th>Ngày giao hàng</th>
-                            <th>Tổng tiền</th>
-                            <th colSpan={2}>Action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {currentPostsRemove.map((waiting, index) => (
-                            <tr className="content-order" key={index}>
-                                <td style={{width: "10px"}}>{index + 1}</td>
-                                <td>{waiting.name}</td>
-                                <td>{waiting.email}</td>
-                                <td>{waiting.address}</td>
-                                <td>{formatDates(waiting.created_date)}</td>
-                                <td>{waiting.total_price.toLocaleString("vi-VN", {
-                                    style: "currency",
-                                    currency: "VND"
-                                })}</td>
-                                {/*<div style={{width:"180px"}}>*/}
-                                <td style={{borderRight: "none", width: "15px"}}>
-                                    <Link href={"/order-detail?orderId=" + waiting.id}>
-                                        <button className="btn-view-detail">Xem chi tiết</button>
-                                    </Link>
-                                </td>
-                                <td style={{borderLeft: "none", width: "15px"}}>
-                                    {/*<Link href={"/product?id=" + waiting.}>*/}
-                                    {/*<button className="btn-view-delete-order" style={{background: "blue"}}>Mua lại</button>*/}
-                                    {/*</Link>*/}
-                                </td>
-                                {/*</div>*/}
-
-                            </tr>
-                        ))}
-
-                        </tbody>
-                    </table>
+                    <ListOrderRemove listRemove={listRemove} currentPostsRemove={currentPostsRemove} setActiveStatus={setActiveStatus} activeStatus={activeStatus} setListRemove={setListRemove} />
                     <div className="pagination-page">
                         <Pagination
                             postsPerPage={postsPerPage}
