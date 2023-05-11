@@ -12,7 +12,6 @@ import Modal from "@/components/Alert/Modal";
 import Success from "@/components/Alert/Success";
 import Errors from "@/components/Alert/Errors";
 import {formatDate} from "@/pages/user";
-
 const _ = require('lodash');
 
 export function dataInputProduct() {
