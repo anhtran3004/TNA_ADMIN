@@ -1,9 +1,10 @@
 import process from "process";
 import {
-    InputCampaignFilter,
+    InputBlockProduct,
+    InputCampaignFilter, InputColorFilter,
     InputDeleteProduct, InputDiscount, InputDiscountFilter,
     InputInventory,
-    InputProduct,
+    InputProduct, InputSizeFilter,
     InputUpdateProduct
 } from "@/components/HomeType";
 import {GetUserAuthentication} from "@/lib/API/User";
@@ -15,7 +16,7 @@ export function GetARBaseUrl(): string {
 }
 export async function getListProduct(filter: InputProduct){
     try{
-        const url_getListProduct = GetARBaseUrl() + "/api/v1/product/";
+        const url_getListProduct = GetARBaseUrl() + "/api/v1/product/get-product-admin";
         const fetchData = {
             headers:{
                 Authorization: "Bearer " + GetUserAuthentication(),
@@ -30,17 +31,16 @@ export async function getListProduct(filter: InputProduct){
         throw e
     }
 }
-export async function deleteProduct(ids: number[]){
+export async function deleteProduct(inputProduct: InputBlockProduct){
     try{
-        const url_deleteProduct = GetARBaseUrl() + "/api/v1/product/delete-product";
-        const body = {ids: ids}
+        const url_deleteProduct = GetARBaseUrl() + "/api/v1/product/delete-products";
         const fetchData = {
             method: 'PUT',
             headers:{
                 Authorization: "Bearer " + GetUserAuthentication(),
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(body)
+            body: JSON.stringify(inputProduct)
         }
         const response = await fetch(url_deleteProduct, fetchData);
         return await response.json();
@@ -132,15 +132,16 @@ export async function getListCategory(){
         throw e
     }
 }
-export async function getListColor(){
+export async function getListColor(inputColor: InputColorFilter){
     try{
-        const url_getListColors = GetARBaseUrl() + "/api/v1/color/";
+        const url_getListColors = GetARBaseUrl() + "/api/v1/color/get-color-with-filter";
         const fetchData = {
             headers:{
                 Authorization: "Bearer " + GetUserAuthentication(),
                 "Content-Type": "application/json"
             },
             method: 'POST',
+            body: JSON.stringify(inputColor)
         }
         const response = await fetch(url_getListColors, fetchData);
         return await response.json();
@@ -201,15 +202,16 @@ export async function insertColor(color: string){
     }
 }
 
-export async function getListSize(){
+export async function getListSize(inputSize: InputSizeFilter){
     try{
-        const url_getListColors = GetARBaseUrl() + "/api/v1/size/";
+        const url_getListColors = GetARBaseUrl() + "/api/v1/size/get-size-with-filter";
         const fetchData = {
             headers:{
                 Authorization: "Bearer " + GetUserAuthentication(),
                 "Content-Type": "application/json"
             },
             method: 'POST',
+            body: JSON.stringify(inputSize)
         }
         const response = await fetch(url_getListColors, fetchData);
         return await response.json();

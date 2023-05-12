@@ -161,6 +161,16 @@ export type InputCampaignFilter = {
         order: string
     }
 }
+export type InputSizeFilter = {
+    filter: {
+        search: string,
+    }
+}
+export type InputColorFilter = {
+    filter: {
+        search: string,
+    }
+}
 export type InputOrderFilter = {
     filter: {
         search: string,
@@ -278,6 +288,10 @@ export type InputChildComment = {
 }
 export type InputBlockUser = {
     ids: number[],
+    status: number
+}
+export type InputBlockProduct = {
+    id: number,
     status: number
 }
 export  type InputLogin = {

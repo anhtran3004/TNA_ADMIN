@@ -2,6 +2,8 @@ import {useEffect, useState} from "react";
 import {getInventories, getListColor, getListSize, insertInventory, updateInventory} from "@/lib/API";
 import {Color, InputInventory, InputUpdateProduct, Inventory, Product, Size} from "@/components/HomeType";
 import {randomNumberInRange} from "@/components/Product/UpdateProduct";
+import {dataInputSize} from "@/pages/size";
+import {dataInputColor} from "@/pages/color";
 interface Props{
     productActive: Product
 }
@@ -30,7 +32,7 @@ export default function UpdateInventory(props: Props){
     async function fetchColors() {
         try {
             // console.log("id", id);
-            const res = await getListColor();
+            const res = await getListColor(dataInputColor());
             if (res.code === 200) {
                 setListColor(res.data);
             }
@@ -41,7 +43,7 @@ export default function UpdateInventory(props: Props){
     async function fetchSizes() {
         try {
             // console.log("id", id);
-            const res = await getListSize();
+            const res = await getListSize(dataInputSize());
             if (res.code === 200) {
                 setListSize(res.data);
             }

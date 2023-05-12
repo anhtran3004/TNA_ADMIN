@@ -71,6 +71,7 @@ export default function Product() {
     const [filterProduct, setFilterProduct] = useState(dataInputProduct())
     const [currentPage, setCurrentPage] = useState(1)
     const [postsPerPage] = useState(5)
+    const [valueStatusUpdate, setValueStatusUpdate] = useState(0);
     const indexOfLastPost = currentPage * postsPerPage
     const indexOfFirstPost = indexOfLastPost - postsPerPage
     const currentPosts = products.slice(indexOfFirstPost, indexOfLastPost)
@@ -117,7 +118,7 @@ export default function Product() {
 
         console.log("statusUpdate", statusUpdate);
         fetchProductData().then();
-    }, [statusProduct, statusUpdate, filterProduct])
+    }, [statusProduct, statusUpdate, filterProduct, valueStatusUpdate])
     useEffect(() => {
         async function getProductSelected() {
             for (let i = 0; i < products.length; i++) {
@@ -179,7 +180,10 @@ export default function Product() {
                         <ContentProduct key={product.id} onClick={() => setProductSelected(product.id)}
                                         index={index}
                                         productSelected={productSelected} product={product} id={product.id}
-                                        setStatusProduct={setStatusProduct}/>
+                                        setStatusProduct={setStatusProduct}
+                                        valueStatusUpdate={valueStatusUpdate}
+                                        setValueStatusUpdate={setValueStatusUpdate}
+                        />
                     ))}
                     </tbody>
                 </table>
