@@ -37,7 +37,6 @@ export function UpdateUser(props: Props) {
                 phone: valuePhone,
                 address: valueAddress,
                 username: valueUsername,
-                role: valueRole
             }
         }
         return data;
@@ -116,16 +115,16 @@ export function UpdateUser(props: Props) {
                         onChange={(e) => setValuePhone(e.target.value)}
                     />
                 </div>
-                <div className="input-product">
-                    <label htmlFor="role">Role:</label>
-                    <input
-                        type="text"
-                        id="role"
-                        name="role"
-                        value={valueRole}
-                        onChange={(e) => setValueRole(e.target.value)}
-                    />
-                </div>
+                {/*<div className="input-product">*/}
+                {/*    <label htmlFor="role">Role:</label>*/}
+                {/*    <input*/}
+                {/*        type="text"*/}
+                {/*        id="role"*/}
+                {/*        name="role"*/}
+                {/*        value={valueRole}*/}
+                {/*        onChange={(e) => setValueRole(e.target.value)}*/}
+                {/*    />*/}
+                {/*</div>*/}
             </div>
             <button type="submit" className="rounded-md bg-violet-700 text-white p-2 mr-2 mt-2 ml-5">Update user
             </button>

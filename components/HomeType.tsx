@@ -233,8 +233,7 @@ export type InputInsertUser = {
         phone: string,
         address: string,
         username: string,
-        password: string,
-        role: string
+        password: string
     }
 }
 export type InputUpdateUser = {
@@ -243,8 +242,7 @@ export type InputUpdateUser = {
         name: string,
         phone: string,
         address: string,
-        username: string,
-        role: string
+        username: string
     }
 }
 export type InputComment = {
@@ -292,6 +290,9 @@ export type Comments = {
     user_id: number,
     product_id: number,
     status: number
+}
+export type ProductName = {
+    name: string
 }
 export type Month = {
     year: number,

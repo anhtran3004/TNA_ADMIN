@@ -42,8 +42,7 @@ export default function AddUser(){
                 phone: valuePhone,
                 address: valueAddress,
                 username: valueUsername,
-                password: valuePassword,
-                role: valueRole
+                password: valuePassword
             }
         }
         return data;
@@ -184,17 +183,17 @@ export default function AddUser(){
                             required
                         />
                     </div>
-                    <div className="input-product">
-                        <label htmlFor="role">Role:</label>
-                        <input
-                            type="text"
-                            id="role"
-                            name="role"
-                            value={valueRole}
-                            onChange={(e) => setValueRole(e.target.value)}
-                            required
-                        />
-                    </div>
+                    {/*<div className="input-product">*/}
+                    {/*    <label htmlFor="role">Role:</label>*/}
+                    {/*    <input*/}
+                    {/*        type="text"*/}
+                    {/*        id="role"*/}
+                    {/*        name="role"*/}
+                    {/*        value={valueRole}*/}
+                    {/*        onChange={(e) => setValueRole(e.target.value)}*/}
+                    {/*        required*/}
+                    {/*    />*/}
+                    {/*</div>*/}
                 </div>
                 {/*//type="submit"*/}
                 <button type="submit" className="rounded-md bg-violet-700 text-white p-2 mr-2 mt-2 ml-5" >Update Product

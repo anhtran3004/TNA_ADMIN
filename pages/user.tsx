@@ -113,34 +113,34 @@ export default function User(){
     }
     return<>
         <Layout>
-            <div className="header-product">
-                <div>
-                    <div className="rounded-md bg-violet-700 text-white" style={{width: "100px",height:"50px",lineHeight:"50px", textAlign: "center", margin: "20px", marginLeft: "55px", fontSize:"20px"}} onClick={nextAddUser}>Thêm mới</div>
-                </div>
-                <div className="price-filter" style={{marginTop: "7px"}}>
-                    <p>Ngày tạo:</p>
-                    <div className="d-flex form-price">
-                        <div className="mr-3">
-                            <label>Từ:</label>
-                            <input style={{width:"150px"}} type="date" value={formatDate(valueMinImportDate)} onChange={(e) => setValueMinImportDate(e.target.value)}/>
-                        </div>
-                        <div>
-                            <label>Đến:</label>
-                            <input style={{width:"150px"}} type="date" value={formatDate(valueMaxImportDate)} onChange={(e) => setValueMaxImportDate(e.target.value)}/>
-                        </div>
-                    </div>
-                </div>
-                <div className="search-form">
-                    <input type="text" name="search"
-                           style={{border: "1px solid gray", borderRadius: "16px", padding: "10px"}}
-                           placeholder="Search..."
-                           value={valueSearch}
-                           onChange={((e) => setValueSearch(e.target.value))}
-                    />
-                </div>
-                <div className="rounded-md bg-blue-400 text-white btn-search cursor-pointer" onClick={inputListeners}>Search</div>
+            <div className="rounded-md bg-violet-700 text-white p-2"
+                 style={{
+                     width: "120px",
+                     height: "50px",
+                     textAlign: "center",
+                     margin: "20px",
+                     fontSize: "20px"
+                 }}
+                 onClick={nextAddUser}>Thêm mới
             </div>
+            <div className="search-order d-flex border-2" style={{marginLeft: "20px", width: "90%"}}>
+                <p>Lọc người dùng</p>
+                <div className="mr-3 ml-5">
+                    <label>Từ ngày:</label>
+                    <input style={{width: "150px"}} type="date" value={formatDate(valueMinImportDate)}
+                           onChange={(e) => setValueMinImportDate(e.target.value)}/>
+                </div>
+                <div>
+                    <label>Đến ngày:</label>
+                    <input style={{width: "150px"}} type="date" value={formatDate(valueMaxImportDate)}
+                           onChange={(e) => setValueMaxImportDate(e.target.value)}/>
+                </div>
+                <input type="text" placeholder="Search..." value={valueSearch}
+                       onChange={(e) => setValueSearch(e.target.value)}/>
+                <div className="rounded-md bg-blue-400 text-white cursor-pointer p-2" onClick={inputListeners}>Search
+                </div>
 
+            </div>
             <div>
                 <table border={1} className="ml-5">
                     <thead>
