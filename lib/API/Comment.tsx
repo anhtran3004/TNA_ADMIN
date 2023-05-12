@@ -1,16 +1,17 @@
 import {GetARBaseUrl} from "@/lib/API";
-import {InputBlockUser, InputChildComment, InputComment} from "@/components/HomeType";
+import {InputChildComment,InputCommentFilter} from "@/components/HomeType";
 import {GetUserAuthentication} from "@/lib/API/User";
 
-export async function getComment(){
+export async function getComment(inputComment: InputCommentFilter){
     try{
-        const url_deleteComment = GetARBaseUrl() + "/api/v1/comment/";
+        const url_deleteComment = GetARBaseUrl() + "/api/v1/comment/get-comment-with-filter";
         const fetchData = {
             headers:{
                 Authorization: "Bearer " + GetUserAuthentication(),
                 "Content-Type": "application/json"
             },
             method: 'POST',
+            body: JSON.stringify(inputComment)
         }
         const response = await fetch(url_deleteComment, fetchData);
         return await response.json();

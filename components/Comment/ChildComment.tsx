@@ -22,6 +22,7 @@ export function dataOutputComment(): Comments {
         username: '',
         user_id: 0,
         product_id: 0,
+        name: '',
         status: 0
     }
     return data;
@@ -49,7 +50,7 @@ export default function ChildComment(props:Props) {
     const indexOfLastPost = currentPage * postsPerPage
     const indexOfFirstPost = indexOfLastPost - postsPerPage
     const currentPosts = Comments.slice(indexOfFirstPost, indexOfLastPost);
-    const paginate = (page0: 0) => setCurrentPage(page0)
+    const paginate = (page0: number) => setCurrentPage(page0)
     useEffect(() => {
         const token = localStorage.getItem('accessTokenAdmin');
         if (!token) {

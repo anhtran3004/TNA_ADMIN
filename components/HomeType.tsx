@@ -135,6 +135,19 @@ export type InputUser = {
         order: string
     }
 }
+export type InputCommentFilter = {
+    filter: {
+        search: string,
+        comment_date:{
+            min: string,
+            max: string
+        }
+    },
+    sort:{
+        field: string,
+        order: string
+    }
+}
 export type InputCampaignFilter = {
     filter: {
         search: string,
@@ -287,6 +300,7 @@ export type Comments = {
     rating: number,
     comment_date: string,
     username: string,
+    name: string
     user_id: number,
     product_id: number,
     status: number

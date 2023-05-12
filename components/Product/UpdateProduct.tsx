@@ -10,6 +10,8 @@ import {
 } from "@/lib/API";
 import {GetDefaultCampaign, GetDefaultCategory, GetDefaultDiscount} from "@/pages/product-detail";
 import UpdateInventory from "@/components/Product/UpdateInventory";
+import {dataInputDiscount} from "@/pages/discount";
+import {dataInputCampaign} from "@/pages/campaign";
 
 const _ = require('lodash');
 
@@ -46,7 +48,7 @@ export function UpdateProduct(props: Props) {
     useEffect(() => {
         async function fetchCampaign() {
             try {
-                const res = await getListCampaign();
+                const res = await getListCampaign(dataInputCampaign());
                 if (res.code === 200) {
                     setCampaigns(res.data);
                     for (let i = 0; i < res.data.length; i++) {
@@ -62,7 +64,7 @@ export function UpdateProduct(props: Props) {
 
         async function fetchDiscount() {
             try {
-                const res = await getListDiscount();
+                const res = await getListDiscount(dataInputDiscount());
                 if (res.code === 200) {
                     setDiscounts(res.data);
                     for (let i = 0; i < res.data.length; i++) {
@@ -152,7 +154,7 @@ export function UpdateProduct(props: Props) {
         <form onSubmit={handleSubmit} className="update-product-detail">
             <div>
                 <div className="input-product">
-                    <label htmlFor="name">Name:</label>
+                    <label htmlFor="name">Tên sản phẩm:</label>
                     <input
                         type="text"
                         id="name"
@@ -163,7 +165,7 @@ export function UpdateProduct(props: Props) {
                     />
                 </div>
                 <div className="input-product">
-                    <label htmlFor="price">Price:</label>
+                    <label htmlFor="price">Giá:</label>
                     <input
                         type="number"
                         id="price"
@@ -174,7 +176,7 @@ export function UpdateProduct(props: Props) {
                     />
                 </div>
                 <div className="input-product">
-                    <label htmlFor="priority">Priority:</label>
+                    <label htmlFor="priority">Ưu tiên:</label>
                     <input
                         type="number"
                         id="priority"
@@ -205,7 +207,7 @@ export function UpdateProduct(props: Props) {
                     </select>
                 </div>
                 <div className="input-product">
-                    <label htmlFor="category">Category:</label>
+                    <label htmlFor="category">Danh mục:</label>
                     <select id="category" name="category" value={valueCategory} onChange={(e) => {
                         setValueCategory(parseInt(e.target.value))
                     }}>
@@ -215,7 +217,7 @@ export function UpdateProduct(props: Props) {
                     </select>
                 </div>
                 <div className="input-product">
-                    <label htmlFor="campaign">Campaign:</label>
+                    <label htmlFor="campaign">Chiến dịch:</label>
                     <select id="campaign" name="campaign" value={valueCampaign} onChange={(e) => {
                         setValueCampaign(parseInt(e.target.value))
                     }}>
@@ -225,7 +227,7 @@ export function UpdateProduct(props: Props) {
                     </select>
                 </div>
                 <div className="input-product">
-                    <label htmlFor="discount">Discount:</label>
+                    <label htmlFor="discount">Mã giảm giá:</label>
                     <select id="discount" name="discount" value={valueDiscount} onChange={(e) => {
                         setValueDiscount(parseInt(e.target.value))
                     }}>
@@ -235,7 +237,7 @@ export function UpdateProduct(props: Props) {
                     </select>
                 </div>
                 <div className="input-product">
-                    <label htmlFor="description">Description:</label>
+                    <label htmlFor="description">Mô tả:</label>
                     <textarea
                         id="description"
                         name="description"

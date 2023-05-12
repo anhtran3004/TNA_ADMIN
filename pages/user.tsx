@@ -142,7 +142,8 @@ export default function User(){
 
             </div>
             <div>
-                <table border={1} className="ml-5">
+                <table border={1} className="ml-5" style={{width: "90%"}}>
+
                     <thead>
                     <tr>
                         <th>ID</th>
