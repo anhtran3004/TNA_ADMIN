@@ -40,11 +40,6 @@ export default function ChildComment(props:Props) {
     const [CommentSelected, setCommentSelected] = useState<number>(-1);
     const [commentActive, setCommentActive] = useState<Comments>(dataOutputComment());
     const [isOpenDeleteCategoryAlert, setIsOpenDeleteCategoryAlert] = useState(false);
-    const [isOpenSuccess, setIsOpenSuccess] = useState(false);
-    const [isOpenError, setIsOpenError] = useState(false);
-    const [textSuccess, setTextSuccess] = useState("");
-    const [textErrors, setTextErrors] = useState("");
-    const [isOpenAddComment, setIsOpenAddComment] = useState(false);
     const [currentPage, setCurrentPage] = useState(1)
     const [postsPerPage] = useState(5)
     const indexOfLastPost = currentPage * postsPerPage

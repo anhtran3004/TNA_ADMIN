@@ -1,6 +1,6 @@
 import Layout from "@/components/Layout";
 import {useRouter} from "next/router";
-import {Size} from "@/components/HomeType";
+import {InputCommentFilter, InputSizeFilter, Size} from "@/components/HomeType";
 import React, {useEffect, useState} from "react";
 import Modal from "@/components/Alert/Modal";
 import QuestionAlert from "@/components/Alert/QuestionAlert";
@@ -11,6 +11,8 @@ import {deleteSize, updateSize} from "@/lib/API/Size";
 import {getListSize} from "@/lib/API";
 import AddSize from "@/components/Size/AddSize";
 import ErrorAlert from "@/components/Alert/ErrorAlert";
+import {dataInputComment} from "@/pages/comment";
+const _ = require('lodash');
 export function DefaultSizeData(): Size{
     const data ={
         id: 0,
@@ -19,6 +21,15 @@ export function DefaultSizeData(): Size{
     }
     return data;
 }
+export function dataInputSize() {
+    const data: InputSizeFilter = {
+        filter: {
+            search: '',
+        }
+    }
+    return data;
+}
+
 export default function Size() {
     const router = useRouter()
     const [listSize, setListSize] = useState<Size[]>([]);
@@ -34,6 +45,8 @@ export default function Size() {
     const [textSuccess, setTextSuccess] = useState("");
     const [textErrors, setTextErrors] = useState("");
     const [isOpenErrorDeleteSizeAlert, setIsOpeErrorDeleteSizeAlert] = useState(false);
+    const [valueSearch, setValueSearch] = useState('');
+    const [filterSize, setFilterSize] = useState<InputSizeFilter>(dataInputSize());
 
     async function DeleteSize() {
         try{
@@ -74,14 +87,9 @@ export default function Size() {
         }
 
     }
-    function nextSizeNew() {
-        router.push("/new-router").then();
-    }
-
     async function fetchSizes() {
         try {
-            // console.log("id", id);
-            const res = await getListSize();
+            const res = await getListSize(filterSize);
             if (res.code === 200) {
                 setListSize(res.data);
                 // setStatusSize(randomNumberInRange(1,1000));
@@ -97,17 +105,38 @@ export default function Size() {
     }
     useEffect(() =>{
         fetchSizes().then();
-    }, [statusSize,SizeId])
+    }, [statusSize,SizeId, filterSize])
     useEffect(() =>{
         setValueSize(SizeSelected.size);
     }, [SizeSelected])
-
+    const inputListeners = () => {
+        const tempFilter = _.cloneDeep(filterSize);
+        tempFilter.filter.search = valueSearch;
+        setFilterSize(tempFilter);
+    }
     return <>
+
         <Layout>
-            <div>
-                <div className="rounded-md bg-violet-700 text-white p-2 m-2 ml-14" style={{width: "200px"}}
-                     onClick={() => setIsOpenAddProduct(true)}>Add New Size
+            <div className="rounded-md bg-violet-700 text-white p-2"
+                 style={{
+                     width: "120px",
+                     height: "50px",
+                     textAlign: "center",
+                     margin: "20px",
+                     fontSize: "20px"
+                 }}
+                 onClick={() => setIsOpenAddProduct(true)}>
+                Thêm mới
+            </div>
+            <div className="search-order d-flex border-2" style={{marginLeft: "20px", width: "90%", marginTop:"15px"}}>
+                <p>Lọc size</p>
+                <input type="text" placeholder="Search..." value={valueSearch}
+                       onChange={(e) => setValueSearch(e.target.value)}/>
+                {/*onClick={inputListeners}*/}
+                <div className="rounded-md bg-blue-400 text-white cursor-pointer p-2"
+                     onClick={inputListeners}>Search
                 </div>
+
             </div>
             <table border={1} style={{width: "500px", marginLeft: "50px"}}>
                 <thead>

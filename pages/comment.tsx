@@ -11,7 +11,6 @@ import Success from "@/components/Alert/Success";
 import Errors from "@/components/Alert/Errors";
 import ChildComment from "@/components/Comment/ChildComment";
 import Pagination from "@/components/Pagination";
-import {dataInputDiscount} from "@/pages/discount";
 const _ = require('lodash');
 
 export function dataOutputComment(): Comments {
