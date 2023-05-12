@@ -1,7 +1,7 @@
 import Layout from "@/components/Layout";
 import {useRouter} from "next/router";
 import {deleteColor, deleteProduct, getListColor, updateColor} from "@/lib/API";
-import {Color} from "@/components/HomeType";
+import {Color, InputColorFilter, InputSizeFilter} from "@/components/HomeType";
 import React, {useEffect, useState} from "react";
 import Modal from "@/components/Alert/Modal";
 import QuestionAlert from "@/components/Alert/QuestionAlert";
@@ -10,11 +10,21 @@ import AddColor from "@/components/Color/AddColor";
 import Success from "@/components/Alert/Success";
 import Errors from "@/components/Alert/Errors";
 import ErrorAlert from "@/components/Alert/ErrorAlert";
+const _ = require('lodash');
+import {dataInputSize} from "@/pages/size";
 export function DefaultColorData(): Color{
     const data ={
         id: 0,
         name: "",
         status: 0,
+    }
+    return data;
+}
+export function dataInputColor() {
+    const data: InputColorFilter = {
+        filter: {
+            search: '',
+        }
     }
     return data;
 }
@@ -33,6 +43,8 @@ export default function Color() {
     const [isOpenError, setIsOpenError] = useState(false);
     const [textSuccess, setTextSuccess] = useState("");
     const [textErrors, setTextErrors] = useState("");
+    const [valueSearch, setValueSearch] = useState('');
+    const [filterColor, setFilterColor] = useState<InputColorFilter>(dataInputColor());
     async function DeleteColor() {
         console.log("colorId", colorId);
         try{
@@ -76,14 +88,16 @@ export default function Color() {
         }
 
     }
-    function nextColorNew() {
-        router.push("/new-router").then();
-    }
 
+    const inputListeners = () => {
+        const tempFilter = _.cloneDeep(filterColor);
+        tempFilter.filter.search = valueSearch;
+        setFilterColor(tempFilter);
+    }
     async function fetchColors() {
         try {
             // console.log("id", id);
-            const res = await getListColor();
+            const res = await getListColor(filterColor);
             if (res.code === 200) {
                 setListColor(res.data);
                 // setStatusColor(randomNumberInRange(1,1000));
@@ -99,17 +113,33 @@ export default function Color() {
     }
     useEffect(() =>{
         fetchColors().then();
-    }, [statusColor,colorId])
+    }, [statusColor,colorId, filterColor])
     useEffect(() =>{
         setValueColor(colorSelected.name);
     }, [colorSelected])
 
     return <>
         <Layout>
-            <div>
-                <div className="rounded-md bg-violet-700 text-white p-2 m-2 ml-14" style={{width: "200px"}}
-                     onClick={() => setIsOpenAddProduct(true)}>Add New Color
+            <div className="rounded-md bg-violet-700 text-white p-2"
+                 style={{
+                     width: "120px",
+                     height: "50px",
+                     textAlign: "center",
+                     margin: "20px",
+                     fontSize: "20px"
+                 }}
+                 onClick={() => setIsOpenAddProduct(true)}>
+                Thêm mới
+            </div>
+            <div className="search-order d-flex border-2" style={{marginLeft: "20px", width: "90%", marginTop:"15px"}}>
+                <p>Lọc size</p>
+                <input type="text" placeholder="Search..." value={valueSearch}
+                       onChange={(e) => setValueSearch(e.target.value)}/>
+                {/*onClick={inputListeners}*/}
+                <div className="rounded-md bg-blue-400 text-white cursor-pointer p-2"
+                     onClick={inputListeners}>Search
                 </div>
+
             </div>
             <table border={1} style={{width: "500px", marginLeft: "50px"}}>
                 <thead>
@@ -147,7 +177,7 @@ export default function Color() {
                     />
 
                 </div>
-                <button onClick={UpdateColor} className="rounded-md bg-violet-700 text-white p-2 mr-2 mt-2 ml-5">Update Product
+                <button onClick={UpdateColor} className="rounded-md bg-violet-700 text-white p-2 mr-2 mt-2 ml-5">Cập nhật
                 </button>
             </div>
         </Layout>
