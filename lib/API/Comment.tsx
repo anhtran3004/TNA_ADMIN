@@ -18,6 +18,22 @@ export async function getComment(){
         throw e
     }
 }
+export async function getCommentProduct(){
+    try{
+        const url_deleteComment = GetARBaseUrl() + "/api/v1/comment/get-product-comment";
+        const fetchData = {
+            headers:{
+                Authorization: "Bearer " + GetUserAuthentication(),
+                "Content-Type": "application/json"
+            },
+            method: 'POST',
+        }
+        const response = await fetch(url_deleteComment, fetchData);
+        return await response.json();
+    }catch (e){
+        throw e
+    }
+}
 export async function getChildComment(id: number){
     try{
         // const body = {comment_id: id}

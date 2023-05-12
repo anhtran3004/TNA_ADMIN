@@ -1,8 +1,8 @@
 import Layout from "@/components/Layout";
 import React, {useEffect, useState} from "react";
-import {Comments, InputProduct} from "@/components/HomeType";
+import {Comments, InputProduct, ProductName} from "@/components/HomeType";
 import {useRouter} from "next/router";
-import {deleteComment, getComment} from "@/lib/API/Comment";
+import {deleteComment, getComment, getCommentProduct} from "@/lib/API/Comment";
 import {formatDates} from "@/pages/user";
 import Modal from "@/components/Alert/Modal";
 import QuestionAlert from "@/components/Alert/QuestionAlert";
@@ -28,33 +28,6 @@ export function dataOutputComment(): Comments {
     }
     return data;
 }
-function dataInputProduct() {
-    const data: InputProduct = {
-        filter: {
-            search: '',
-            product_id: [],
-            category_id: [],
-            campaign_id: [],
-            price: {
-                min: 0,
-                max: 10000000
-            },
-            import_date: {
-                min: '2000-01-01',
-                max: '3000-01-01'
-            }
-        },
-        sort: {
-            field: "import_date",
-            order: "DESC"
-        },
-        pagination: {
-            page: 0,
-            perPage: 1000
-        }
-    }
-    return data;
-}
 export default function Comment() {
     const [Comments, setComments] = useState<Comments[]>([])
     const [statusComment, setStatusComment] = useState(-1);
@@ -73,17 +46,14 @@ export default function Comment() {
     const indexOfLastPost = currentPage * postsPerPage
     const indexOfFirstPost = indexOfLastPost - postsPerPage
     const currentPosts = Comments.slice(indexOfFirstPost, indexOfLastPost);
+    const [listProductName, setListProductName] = useState<ProductName[]>([]);
     const paginate = (page0: number) => setCurrentPage(page0)
-    async function fetchProduct(id: number) {
+    async function fetchCommentProduct() {
         try {
-            const res = await getListProduct(dataInputProduct())
+            const res = await getCommentProduct()
             const status = res.code;
             if (status === 200) {
-              for(let i = 0; i < res.data.length; i++){
-                  if(res.data[i].id === id){
-
-                  }
-              }
+                setListProductName(res.data);
             } else {
                 console.log('error');
             }
@@ -107,8 +77,11 @@ export default function Comment() {
         }
 
         fetchCommentData().then();
+        fetchCommentProduct().then();
     }, [statusComment, statusUpdate])
-
+    useEffect(() => {
+        console.log("ListProductName", listProductName);
+    }, [listProductName])
     async function DeleteComment() {
         try {
             const res = await deleteComment(CommentSelected);
@@ -140,7 +113,7 @@ export default function Comment() {
                 </Modal>
             ) : <>
                 <div>
-                    <table border={1} className="ml-5">
+                    <table border={1} className="ml-5" style={{width: "95%"}}>
                         <thead>
                         <tr>
                             <th>STT</th>
@@ -153,8 +126,8 @@ export default function Comment() {
                         </tr>
                         </thead>
                         <tbody>
-
-                        {currentPosts.map((comment, index) => (
+                        {listProductName !== undefined &&
+                        currentPosts.map((comment, index) => (
                             <tr key={index} onClick={() => setCommentSelected(comment.id)}
                                 className={(CommentSelected === comment.id) ? "selected-product" : ""}
                             >
@@ -162,7 +135,7 @@ export default function Comment() {
                                 <td className="text-center">{comment.content}</td>
                                 <td className="text-center">{comment.rating}</td>
                                 <td className="text-center">{formatDates(comment.comment_date)}</td>
-                                <td className="text-center">{comment.product_id}</td>
+                                <td className="text-center">{listProductName[index].name}</td>
                                 <td className="text-center">{comment.username}</td>
                                 <td className="p-0">
                                     <button className="rounded-full text-white bg-red-800 w-20 px-2" onClick={() => {
