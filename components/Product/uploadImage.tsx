@@ -108,10 +108,13 @@ export function UploadImage(props: Props) {
     }, [downloadUrl])
     return<>
     <div className="pl-5 border-l-4 border-indigo-500">
-        <p className="font-bold">Update product Image:</p>
+        <p className="font-bold">Cập nhật ảnh:</p>
         <Image src={srcImage} alt="Preview" width={200} height={100}/>
         {/*{props.previewURL && <Image src={props.previewURL} alt="Preview" width={200} height={100}/>}*/}
-        <button onClick={() => setShowPreviewImg(true)} className="rounded-md bg-green-600 text-white p-2 mt-2">Upload</button>
+        <button onClick={() => setShowPreviewImg(true)} className="rounded-md bg-green-600 text-white p-2 mt-2">
+            <i className="fa-solid fa-upload" style={{marginRight:"10px"}}></i>
+            Tải ảnh
+        </button>
         {/*{props.downloadUrl && (*/}
         {/*    <p>{props.downloadUrl}</p>*/}
         {/*)}*/}
@@ -123,12 +126,15 @@ export function UploadImage(props: Props) {
                     <div className="inner-image-modal">
                         {previewURL && <Image src={previewURL} alt="Preview" width={200} height={100}/>}
                         <ProgressBar now={progressHandler} />
-                        <label htmlFor="chooseFile" className="rounded-md bg-violet-700 text-white p-2 mr-2 mt-2">Chọn
-                            tệp...</label>
+                        <label htmlFor="chooseFile" className="rounded-md bg-violet-700 text-white p-2 mr-2 mt-2">
+                            <i className="fa-solid fa-file" style={{marginRight:"10px"}}></i>
+                            Chọn tệp...
+                        </label>
                         <input className="hidden" type="file" accept="image/*" id="chooseFile"
                                onChange={handleImageChange}/>
-                        <button onClick={() =>{handleUpload().then()}} className="rounded-md bg-green-600 text-white p-2 mt-2">Upload
-                            Image
+                        <button onClick={() =>{handleUpload().then()}} className="rounded-md bg-green-600 text-white p-2 mt-2">
+                            <i className="fa-solid fa-upload" style={{marginRight:"10px"}}></i>
+                            Tải lên
                         </button>
                         {/*{props.downloadUrl && (*/}
                         {/*    <p>{props.downloadUrl}</p>*/}

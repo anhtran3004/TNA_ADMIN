@@ -134,13 +134,15 @@ export default function Product() {
         <Layout>
             <div className="rounded-md bg-violet-700 text-white p-2"
                  style={{
-                     width: "120px",
+                     width: "150px",
                      height: "50px",
                      textAlign: "center",
                      margin: "20px",
                      fontSize: "20px"
                  }}
-                 onClick={nextAddProduct}>Thêm mới
+                 onClick={nextAddProduct}>
+                <i className="fa-sharp fa-solid fa-plus" style={{marginRight: "10px"}}></i>
+                Thêm mới
             </div>
             <div className="search-order d-flex border-2" style={{marginLeft: "20px", width: "90%"}}>
                 <p>Lọc sản phẩm</p>
@@ -168,7 +170,9 @@ export default function Product() {
                 </div>
                 <input type="text" placeholder="Search..." value={valueSearch}
                        onChange={(e) => setValueSearch(e.target.value)}/>
-                <div className="rounded-md bg-blue-400 text-white cursor-pointer p-2" onClick={inputListeners}>Search
+                <div className="rounded-md bg-blue-400 text-white cursor-pointer p-2" onClick={inputListeners}>
+                    <i className="fa-solid fa-magnifying-glass" style={{marginRight: "10px"}}></i>
+                    Search
                 </div>
 
             </div>

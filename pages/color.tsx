@@ -157,7 +157,13 @@ export default function Color() {
                         <td className="text-center">{index + 1}</td>
                         <td className="text-center">{color.name}</td>
                         <td className="text-center">
-                            <button className="rounded-full text-white bg-red-800 w-20 px-2" onClick={() => {setIsOpenDeleteProductAlert(true); setColorId(color.id)}}>Delete</button>
+                            <button className="rounded-full text-white bg-red-800 w-20 px-2"
+                                    onClick={() => {setIsOpenDeleteProductAlert(true); setColorId(color.id)}}
+                                    style={{width:"100px", padding: "10px 0"}}
+                            >
+                                <i className="fa-solid fa-trash-can" style={{marginRight:"10px"}}></i>
+                                Delete
+                            </button>
                         </td>
                     </tr>
                 ))}

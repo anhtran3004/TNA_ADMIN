@@ -54,30 +54,39 @@ export function ContentProduct(props: Props) {
             style: "currency",
             currency: "VND"
         })}</td>
-        <td className="flex w-56  items-center border-none justify-evenly">
+        <td className="flex items-center border-none justify-evenly" style={{width: "250px"}}>
             {/*<button className="rounded-full text-white bg-red-800 w-20 px-2" onClick={() => setIsOpenDeleteProductAlert(true)}>Xóa</button>*/}
             {props.product.status === 1 ?
-                <td className="flex w-56  items-center border-none justify-evenly">
+                <td className="flex  items-center border-none justify-evenly" style={{width:"200px"}}>
                     <button className="rounded-full text-white bg-red-800 w-20 px-2" onClick={() => {
                         setIsOpenDeleteProductAlert(true);
                         setValueStatus(0);
                         props.setValueStatusUpdate(randomNumberInRange(1, 1000))
-                    }}>Khóa
+                    }}
+                    style={{padding:"10px 0"}}>
+                        <i className="fa-solid fa-lock" style={{marginRight:"10px"}}></i>
+                        Khóa
                     </button>
                 </td>
                 :
-                <td className="flex w-56  items-center border-none justify-evenly">
+                <td className="flex  items-center border-none justify-evenly">
                     <button className="rounded-full text-white bg-red-800 w-30 px-2" onClick={() => {
                         setIsOpenUnBlockCategoryAlert(true);
                         setValueStatus(1)
                         props.setValueStatusUpdate(randomNumberInRange(1, 1000))
 
-                    }}>Hủy khóa
+                    }}
+                    style={{width:"110px", padding: "10px 0"}}>
+                        <i className="fa-solid fa-unlock" style={{marginRight:"10px"}}></i>
+                        Hủy khóa
                     </button>
                 </td>
             }
             <Link href={"/product-detail?id=" + props.product.id}>
-                <button className="rounded-full text-white bg-green-600 w-22 px-2">Xem chi tiết
+
+                <button className="rounded-full text-white bg-blue-400 px-2" style={{width:"120px", padding: "10px 0"}}>
+                    <i className="fa-solid fa-eye" style={{marginRight:"10px"}}></i>
+                    Xem chi tiết
                 </button>
             </Link>
         </td>

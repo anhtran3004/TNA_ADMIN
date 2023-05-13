@@ -150,7 +150,7 @@ export function UpdateProduct(props: Props) {
         // TODO: submit product data to backend or perform other actions
     };
     return <div className="mb-10">
-        <p className="font-bold ml-5">UPDATE PRODUCT DETAIL</p>
+        <p className="font-bold ml-5">CẬP NHẬT SẢN PHẨM</p>
         <form onSubmit={handleSubmit} className="update-product-detail">
             <div>
                 <div className="input-product">
@@ -186,14 +186,6 @@ export function UpdateProduct(props: Props) {
                         required
                     />
                 </div>
-                {/*<div className="input-product">*/}
-                {/*    <label htmlFor="status">Status:</label>*/}
-                {/*    <select id="status" name="status">*/}
-                {/*        {booleans.map((boolean, index) => (*/}
-                {/*            <option value={props.productActive.status} key={index}>{boolean}</option>*/}
-                {/*        ))}*/}
-                {/*    </select>*/}
-                {/*</div>*/}
                 <div className="input-product">
                     <label htmlFor="hot">Hot:</label>
                     <select id="hot" name="hot" value={valueHot} onChange={(e) => {
@@ -248,7 +240,9 @@ export function UpdateProduct(props: Props) {
                 </div>
             </div>
             <UpdateInventory productActive={props.productActive} />
-            <button type="submit" className="rounded-md bg-violet-700 text-white p-2 mr-2 mt-2 ml-5">Update Product
+            <button type="submit" className="rounded-md bg-violet-700 text-white p-2 mr-2 mt-2 ml-5">
+                <i className="fa-solid fa-pen" style={{marginRight:"10px"}}></i>
+                Cập nhật
             </button>
         </form>
     </div>;

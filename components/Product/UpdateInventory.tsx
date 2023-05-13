@@ -136,11 +136,11 @@ export default function UpdateInventory(props: Props){
     return<>
         <div className="update-inventory">
             <div className="">
-                <h1 className="font-bold mx-3 pb-1" style={{fontSize: "20px"}}>Inventory</h1>
+                <h1 className="font-bold mx-3 pb-1" style={{fontSize: "20px"}}>Hàng trong kho</h1>
                 {/*<form onSubmit={handleSubmit}>*/}
                 <div className="add-quantity-of-inventory">
                     <div className="input-inventory">
-                        <label htmlFor="color">Color:</label>
+                        <label htmlFor="color">Màu:</label>
                         <select id="color" name="color" value={valueColor} onChange={(e) => {
                             setValueColor(parseInt(e.target.value))
                         }}>
@@ -160,7 +160,7 @@ export default function UpdateInventory(props: Props){
                         </select>
                     </div>
                     <div className="input-inventory">
-                        <label htmlFor="price">Quantity:</label>
+                        <label htmlFor="price">Số lượng:</label>
                         <input
                             type="number"
                             id="price"
@@ -169,16 +169,20 @@ export default function UpdateInventory(props: Props){
                             onChange={(e) => setValueQuantity(parseInt(e.target.value))}
                         />
                     </div>
-                    <button onClick={handleSubmit} className="rounded-md bg-green-600 text-white px-2 py-0.5">Update Inventory</button>
+
                 </div>
+                <button onClick={handleSubmit} className="rounded-md bg-green-600 text-white px-2 py-0.5" style={{ marginRight: "12px", marginBottom:"20px", padding:"10px 0"}}>
+                    <i className="fa-solid fa-pen" style={{marginRight:"10px"}}></i>
+                    Cập nhật
+                </button>
                 {/*</form>*/}
                 <table border={1} className="ml-3">
                     <thead>
                     <tr>
                         <th>STT</th>
-                        <th>Color</th>
+                        <th>Màu</th>
                         <th>Size</th>
-                        <th>Quantity</th>
+                        <th>Số lượng</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -187,10 +191,10 @@ export default function UpdateInventory(props: Props){
                         <tr key={index} onClick={() => setInventorySelected(inve.id)}
                             className={(inventorySelected === inve.id) ? "selected-product" : ""}
                         >
-                            <td>{index + 1}</td>
-                            <td>{inve.name}</td>
-                            <td>{inve.size}</td>
-                            <td>{inve.quantity}</td>
+                            <td className="text-center">{index + 1}</td>
+                            <td className="text-center">{inve.name}</td>
+                            <td className="text-center">{inve.size}</td>
+                            <td className="text-center">{inve.quantity}</td>
                         </tr>
                     ))}
 

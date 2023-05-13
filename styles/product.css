@@ -48,12 +48,13 @@ tr:nth-child(even) {
     margin-right: 20px;
 }
 .input-inventory > label{
-    width: 100px;
+    width: 120px;
     margin-right: 10px;
 }
 .input-inventory > input{
-    width: 350px;
+    width: 300px;
     background-color: rgba(204, 204, 204, 0.15) !important;
+    padding: 10px 0;
     padding-left: 10px;
     /*background-color: rgba(204, 204, 204, 0.25) !important;*/
     /*border: 1px solid gray;*/
