@@ -12,6 +12,7 @@ import {getListSize} from "@/lib/API";
 import AddSize from "@/components/Size/AddSize";
 import ErrorAlert from "@/components/Alert/ErrorAlert";
 import {dataInputComment} from "@/pages/comment";
+import Pagination from "@/components/Pagination";
 const _ = require('lodash');
 export function DefaultSizeData(): Size{
     const data ={
@@ -47,6 +48,12 @@ export default function Size() {
     const [isOpenErrorDeleteSizeAlert, setIsOpeErrorDeleteSizeAlert] = useState(false);
     const [valueSearch, setValueSearch] = useState('');
     const [filterSize, setFilterSize] = useState<InputSizeFilter>(dataInputSize());
+    const [currentPage, setCurrentPage] = useState(1)
+    const [postsPerPage] = useState(10)
+    const indexOfLastPost = currentPage * postsPerPage
+    const indexOfFirstPost = indexOfLastPost - postsPerPage
+    const currentPosts = listSize.slice(indexOfFirstPost, indexOfLastPost)
+    const paginate = (pageNumber: number) => setCurrentPage(pageNumber)
 
     async function DeleteSize() {
         try{
@@ -119,13 +126,14 @@ export default function Size() {
         <Layout>
             <div className="rounded-md bg-violet-700 text-white p-2"
                  style={{
-                     width: "120px",
+                     width: "150px",
                      height: "50px",
                      textAlign: "center",
                      margin: "20px",
                      fontSize: "20px"
                  }}
                  onClick={() => setIsOpenAddProduct(true)}>
+                <i className="fa-sharp fa-solid fa-plus" style={{marginRight: "10px"}}></i>
                 Thêm mới
             </div>
             <div className="search-order d-flex border-2" style={{marginLeft: "20px", width: "90%", marginTop:"15px"}}>
@@ -134,7 +142,9 @@ export default function Size() {
                        onChange={(e) => setValueSearch(e.target.value)}/>
                 {/*onClick={inputListeners}*/}
                 <div className="rounded-md bg-blue-400 text-white cursor-pointer p-2"
-                     onClick={inputListeners}>Search
+                     onClick={inputListeners}>
+                    <i className="fa-solid fa-magnifying-glass" style={{marginRight: "10px"}}></i>
+                    Search
                 </div>
 
             </div>
@@ -143,25 +153,35 @@ export default function Size() {
                 <tr>
                     <th>STT</th>
                     <th>Size</th>
-                    <th>Action</th>
+                    <th>Hành động</th>
                 </tr>
                 </thead>
                 <tbody>
-                {listSize.map((Size, index) => (
+                {currentPosts.map((Size, index) => (
                     <tr key={index} onClick={() => setSizeId(Size.id)}
                         className={(SizeId === Size.id) ? "selected-product" : ""}
                     >
-                        <td>{index + 1}</td>
-                        <td>{Size.size}</td>
-                        <td>
+                        <td className="text-center">{index + 1}</td>
+                        <td className="text-center">{Size.size}</td>
+                        <td className="text-center">
                             <button className="rounded-full text-white bg-red-800 w-20 px-2" onClick={() => {setIsOpenDeleteProductAlert(true); setSizeId(Size.id)}}>Delete</button>
                         </td>
                     </tr>
                 ))}
                 </tbody>
             </table>
+            {listSize.length > 10 &&
+                <div className="pagination-page" style={{width: "600px"}}>
+                    <Pagination
+                        postsPerPage={postsPerPage}
+                        totalPosts={listSize.length}
+                        paginate={paginate}
+                        currentPage={currentPage}
+                    />
+                </div>
+            }
             <div className="update-Size">
-                <h2 className=" font-bold text-2xl ml-5">Update Size:</h2>
+                <h2 className=" font-bold text-2xl ml-5">Cập nhật kích cỡ:</h2>
                 <div className="input-product">
                     <label htmlFor="priority">Size:</label>
                     <input
@@ -174,7 +194,7 @@ export default function Size() {
                     />
 
                 </div>
-                <button onClick={UpdateSize} className="rounded-md bg-violet-700 text-white p-2 mr-2 mt-2 ml-5">Update Size
+                <button onClick={UpdateSize} className="rounded-md bg-violet-700 text-white p-2 mr-2 mt-2 ml-5">Cập nhật
                 </button>
             </div>
         </Layout>

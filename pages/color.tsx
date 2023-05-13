@@ -179,14 +179,16 @@ export default function Color() {
                 ))}
                 </tbody>
             </table>
-            <div className="pagination-page" style={{width:"600px"}}>
-                <Pagination
-                    postsPerPage={postsPerPage}
-                    totalPosts={listColor.length}
-                    paginate={paginate}
-                    currentPage={currentPage}
-                />
-            </div>
+            {listColor.length > 10 &&
+                <div className="pagination-page" style={{width: "600px"}}>
+                    <Pagination
+                        postsPerPage={postsPerPage}
+                        totalPosts={listColor.length}
+                        paginate={paginate}
+                        currentPage={currentPage}
+                    />
+                </div>
+            }
             <div className="update-color">
                 <h2 className=" font-bold text-2xl ml-5">Cập nhật màu sắc:</h2>
                 <div className="input-product">

@@ -52,7 +52,7 @@ export default function AddSize(props: Props) {
             <div className="background-error-modal" onClick={() => props.setIsOpenAddProduct(false)}></div>
             <div className="inner-error-modal" style={{width: "500px"}}>
                 <div className="update-Size">
-                    <h2 className=" font-bold text-2xl ml-0 mb-2">Insert Size:</h2>
+                    <h2 className=" font-bold text-2xl ml-0 mb-2">Thêm kích cỡ:</h2>
                     <div className="input-product" style={{width: "300px"}}>
                         <label htmlFor="priority">Size:</label>
                         <input
@@ -66,7 +66,9 @@ export default function AddSize(props: Props) {
                         />
                     </div>
                     <button onClick={InsertSize}
-                            className="rounded-md bg-violet-700 text-white p-2 mr-2 mt-2 ml-0">Insert Size
+                            className="rounded-md bg-violet-700 text-white p-2 mr-2 mt-2 ml-0">
+                        <i className="fa-sharp fa-solid fa-plus" style={{marginRight: "10px"}}></i>
+                        Thêm mới
                     </button>
                 </div>
             </div>
