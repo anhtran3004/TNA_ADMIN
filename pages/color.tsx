@@ -12,6 +12,7 @@ import Errors from "@/components/Alert/Errors";
 import ErrorAlert from "@/components/Alert/ErrorAlert";
 const _ = require('lodash');
 import {dataInputSize} from "@/pages/size";
+import Pagination from "@/components/Pagination";
 export function DefaultColorData(): Color{
     const data ={
         id: 0,
@@ -45,6 +46,12 @@ export default function Color() {
     const [textErrors, setTextErrors] = useState("");
     const [valueSearch, setValueSearch] = useState('');
     const [filterColor, setFilterColor] = useState<InputColorFilter>(dataInputColor());
+    const [currentPage, setCurrentPage] = useState(1)
+    const [postsPerPage] = useState(10)
+    const indexOfLastPost = currentPage * postsPerPage
+    const indexOfFirstPost = indexOfLastPost - postsPerPage
+    const currentPosts = listColor.slice(indexOfFirstPost, indexOfLastPost)
+    const paginate = (pageNumber: number) => setCurrentPage(pageNumber)
     async function DeleteColor() {
         console.log("colorId", colorId);
         try{
@@ -122,22 +129,25 @@ export default function Color() {
         <Layout>
             <div className="rounded-md bg-violet-700 text-white p-2"
                  style={{
-                     width: "120px",
+                     width: "150px",
                      height: "50px",
                      textAlign: "center",
                      margin: "20px",
                      fontSize: "20px"
                  }}
                  onClick={() => setIsOpenAddProduct(true)}>
+                <i className="fa-sharp fa-solid fa-plus" style={{marginRight: "10px"}}></i>
                 Thêm mới
             </div>
-            <div className="search-order d-flex border-2" style={{marginLeft: "20px", width: "90%", marginTop:"15px"}}>
-                <p>Lọc size</p>
+            <div className="search-order d-flex border-2" style={{marginLeft: "20px", width: "30%", marginTop:"15px"}}>
+                <p>Lọc màu</p>
                 <input type="text" placeholder="Search..." value={valueSearch}
                        onChange={(e) => setValueSearch(e.target.value)}/>
                 {/*onClick={inputListeners}*/}
                 <div className="rounded-md bg-blue-400 text-white cursor-pointer p-2"
-                     onClick={inputListeners}>Search
+                     onClick={inputListeners}>
+                    <i className="fa-solid fa-magnifying-glass" style={{marginRight: "10px"}}></i>
+                    Search
                 </div>
 
             </div>
@@ -145,12 +155,12 @@ export default function Color() {
                 <thead>
                 <tr>
                     <th>STT</th>
-                    <th>Color</th>
-                    <th>Action</th>
+                    <th>Màu sắc</th>
+                    <th>Hành động</th>
                 </tr>
                 </thead>
                 <tbody>
-                {listColor.map((color, index) => (
+                {currentPosts.map((color, index) => (
                     <tr key={index} onClick={() => setColorId(color.id)}
                         className={(colorId === color.id) ? "selected-product" : ""}
                     >
@@ -162,17 +172,25 @@ export default function Color() {
                                     style={{width:"100px", padding: "10px 0"}}
                             >
                                 <i className="fa-solid fa-trash-can" style={{marginRight:"10px"}}></i>
-                                Delete
+                                Xóa
                             </button>
                         </td>
                     </tr>
                 ))}
                 </tbody>
             </table>
+            <div className="pagination-page" style={{width:"600px"}}>
+                <Pagination
+                    postsPerPage={postsPerPage}
+                    totalPosts={listColor.length}
+                    paginate={paginate}
+                    currentPage={currentPage}
+                />
+            </div>
             <div className="update-color">
-                <h2 className=" font-bold text-2xl ml-5">Update color:</h2>
+                <h2 className=" font-bold text-2xl ml-5">Cập nhật màu sắc:</h2>
                 <div className="input-product">
-                    <label htmlFor="priority">Color:</label>
+                    <label htmlFor="priority">Màu sắc</label>
                     <input
                         className="shadow-gray-400 border-2"
                         type="text"

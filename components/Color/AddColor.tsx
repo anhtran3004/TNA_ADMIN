@@ -52,9 +52,9 @@ export default function AddColor(props: Props) {
             <div className="background-error-modal" onClick={() => props.setIsOpenAddProduct(false)}></div>
             <div className="inner-error-modal" style={{width: "500px"}}>
                 <div className="update-color">
-                    <h2 className=" font-bold text-2xl ml-0 mb-2">Insert color:</h2>
+                    <h2 className=" font-bold text-2xl ml-0 mb-2">Thêm màu sắc:</h2>
                     <div className="input-product" style={{width: "300px"}}>
-                        <label htmlFor="priority">Color:</label>
+                        <label htmlFor="priority">Màu sắc:</label>
                         <input
                             className="shadow-gray-400 border-2"
                             type="text"
@@ -65,7 +65,9 @@ export default function AddColor(props: Props) {
                         />
                     </div>
                     <button onClick={InsertColor}
-                            className="rounded-md bg-violet-700 text-white p-2 mr-2 mt-2 ml-0">Update Product
+                            className="rounded-md bg-violet-700 text-white p-2 mr-2 mt-2 ml-0">
+                        <i className="fa-sharp fa-solid fa-plus" style={{marginRight: "10px"}}></i>
+                        Thêm mới
                     </button>
                 </div>
             </div>

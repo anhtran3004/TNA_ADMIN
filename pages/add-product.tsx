@@ -7,6 +7,8 @@ import Layout from "@/components/Layout";
 import Modal from "@/components/Alert/Modal";
 import Success from "@/components/Alert/Success";
 import Errors from "@/components/Alert/Errors";
+import {dataInputDiscount} from "@/pages/discount";
+import {dataInputCampaign} from "@/pages/campaign";
 
 export default function AddProduct(){
     const [valueHot, setValueHot] = useState(1);
@@ -70,7 +72,7 @@ export default function AddProduct(){
     useEffect(() =>{
         async function fetchDiscount() {
             try {
-                const res = await getListDiscount();
+                const res = await getListDiscount(dataInputDiscount());
                 if (res.code === 200) {
                     setDiscounts(res.data);
                 }
@@ -80,7 +82,7 @@ export default function AddProduct(){
         }
         async function fetchCampaign() {
             try {
-                const res = await getListCampaign();
+                const res = await getListCampaign(dataInputCampaign());
                 if (res.code === 200) {
                     setCampaigns(res.data);
                 }
@@ -104,10 +106,10 @@ export default function AddProduct(){
     }, [])
     return<>
         <Layout>
-            <p className="font-bold ml-5">UPDATE PRODUCT DETAIL</p>
+            <p className="font-bold ml-5 text-2xl mt-2">THÊM SẢN PHẨM MỚI</p>
             <form onSubmit={handleSubmit}>
                 <div className="input-product">
-                    <label htmlFor="name">Name:</label>
+                    <label htmlFor="name">Tên sản phẩm</label>
                     <input
                         type="text"
                         id="name"
@@ -119,7 +121,7 @@ export default function AddProduct(){
                     />
                 </div>
                 <div className="input-product">
-                    <label htmlFor="price">Price:</label>
+                    <label htmlFor="price">Giá</label>
                     <input
                         type="number"
                         id="price"
@@ -130,7 +132,7 @@ export default function AddProduct(){
                     />
                 </div>
                 <div className="input-product">
-                    <label htmlFor="priority">Priority:</label>
+                    <label htmlFor="priority">Ưu tiên</label>
                     <input
                         type="number"
                         id="priority"
@@ -150,7 +152,7 @@ export default function AddProduct(){
                     </select>
                 </div>
                 <div className="input-product">
-                    <label htmlFor="category">Category:</label>
+                    <label htmlFor="category">Danh mục</label>
                     <select id="category" name="category" value={valueCategory} onChange={(e) => {setValueCategory(parseInt(e.target.value))}}>
                         {listCategories.map((cam, index)=>(
                             <option value={cam.id} key={index}>{cam.categoryName}</option>
@@ -158,7 +160,7 @@ export default function AddProduct(){
                     </select>
                 </div>
                 <div className="input-product">
-                    <label htmlFor="campaign">Campaign:</label>
+                    <label htmlFor="campaign">Chiến dịch</label>
                     <select id="campaign" name="campaign" value={valueCampaign} onChange={(e) => {setValueCampaign(parseInt(e.target.value))}}>
                         {campaigns.map((cam, index)=>(
                             <option value={cam.id} key={index}>{cam.name}</option>
@@ -166,7 +168,7 @@ export default function AddProduct(){
                     </select>
                 </div>
                 <div className="input-product">
-                    <label htmlFor="discount">Discount:</label>
+                    <label htmlFor="discount">Giảm giá</label>
                     <select id="discount" name="discount" value={valueDiscount} onChange={(e) => {setValueDiscount(parseInt(e.target.value))}}>
                         {discounts.map((dis, index)=>(
                             <option value={dis.id} key={index}>{dis.discount_code}</option>
@@ -174,7 +176,7 @@ export default function AddProduct(){
                     </select>
                 </div>
                 <div className="input-product">
-                    <label htmlFor="description">Description:</label>
+                    <label htmlFor="description">Mô tả</label>
                     <textarea
                         id="description"
                         name="description"
@@ -184,7 +186,9 @@ export default function AddProduct(){
                     />
                 </div>
                 {/*//type="submit"*/}
-                <button type="submit" className="rounded-md bg-violet-700 text-white p-2 mr-2 mt-2 ml-5" >Update Product
+                <button type="submit" className="rounded-md bg-violet-700 text-white p-2 mr-2 mt-2 ml-5" >
+                    <i className="fa-sharp fa-solid fa-plus" style={{marginRight: "10px"}}></i>
+                    Thêm mới
                 </button>
             </form>
         </Layout>
