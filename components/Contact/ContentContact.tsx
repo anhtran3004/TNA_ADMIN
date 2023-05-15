@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import {Dispatch, SetStateAction, useState} from "react";
+import React, {Dispatch, SetStateAction, useState} from "react";
 import Modal from "@/components/Alert/Modal";
 import QuestionAlert from "@/components/Alert/QuestionAlert";
 
@@ -38,10 +38,13 @@ export default function ContentContact(props: Props){
             <td>{props.contact.name}</td>
             <td>{props.contact.message}</td>
             <td>{props.contact.subject}</td>
-            <td>{props.contact.phone}</td>
+            <td className="text-center">{props.contact.phone}</td>
             <td style={{width:"200px"}}>{formatDates(props.contact.created_date)}</td>
                 <td className="flex w-56  items-center border-none justify-evenly">
-                    <button className="rounded-full text-white bg-red-800 w-20 px-2" onClick={() => {setIsOpenBlockContactAlert(true)}}>Xóa</button>
+                    <button className="rounded-full text-white bg-red-800 w-20 px-2" onClick={() => {setIsOpenBlockContactAlert(true)}}>
+                        <i className="fa-solid fa-trash-can" style={{marginRight:"10px"}}></i>
+                        Xóa
+                    </button>
                 </td>
         </tr>
         {isOpenBlockContactAlert && (

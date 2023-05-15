@@ -8,7 +8,7 @@ import {getContact} from "@/lib/API/Contact";
 import ContentContact from "@/components/Contact/ContentContact";
 
 
-export function dataOutputContact(): Contact{
+export function dataOutputContact(): Contact {
     const data = {
         id: 0,
         email: '',
@@ -22,7 +22,7 @@ export function dataOutputContact(): Contact{
     return data;
 }
 
-export default function Contact(){
+export default function Contact() {
     const router = useRouter();
     const [Contacts, setContacts] = useState<Contact[]>([])
     const [statusContact, setStatusContact] = useState(-1);
@@ -30,19 +30,20 @@ export default function Contact(){
     const [ContactSelected, setContactSelected] = useState<number>(-1);
     const [ContactActive, setContactActive] = useState<Contact>(dataOutputContact());
     const [currentPage, setCurrentPage] = useState(1)
-    const [postsPerPage] = useState(5)
+    const [postsPerPage] = useState(10)
     const indexOfLastPost = currentPage * postsPerPage
     const indexOfFirstPost = indexOfLastPost - postsPerPage
     const currentPosts = Contacts.slice(indexOfFirstPost, indexOfLastPost);
 
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber)
 
-    function nextAddContact(){
+    function nextAddContact() {
         router.push('/add-Contact').then();
     }
-    useEffect(() =>{
+
+    useEffect(() => {
         const token = localStorage.getItem('accessTokenAdmin');
-        if(!token){
+        if (!token) {
             router.push('/login').then();
         }
     }, [])
@@ -60,19 +61,21 @@ export default function Contact(){
                 console.log('error');
             }
         }
+
         fetchContactData().then();
-    }, [statusContact,statusUpdate])
-    useEffect(() =>{
-        async function getContactSelected(){
-            for(let i = 0; i < Contacts.length; i++){
-                if(Contacts[i].id === ContactSelected){
+    }, [statusContact, statusUpdate])
+    useEffect(() => {
+        async function getContactSelected() {
+            for (let i = 0; i < Contacts.length; i++) {
+                if (Contacts[i].id === ContactSelected) {
                     setContactActive(Contacts[i]);
                 }
             }
         }
+
         getContactSelected().then();
     }, [ContactSelected])
-    return<>
+    return <>
         <Layout>
             <div>
                 <table border={1} className="ml-5">
@@ -80,31 +83,34 @@ export default function Contact(){
                     <tr>
                         <th>ID</th>
                         <th>Email</th>
-                        <th>Name</th>
-                        <th>Message</th>
-                        <th>Subject</th>
-                        <th>Phone</th>
-                        <th>Created date</th>
-                        <th>Action</th>
+                        <th>Tên</th>
+                        <th>Tin nhắn</th>
+                        <th>Chủ đề</th>
+                        <th>Số điện thoại</th>
+                        <th>Ngày tạo</th>
+                        <th>Hành động</th>
                     </tr>
                     </thead>
                     <tbody>
                     {currentPosts.map((Contact, index) => (
                         <ContentContact key={Contact.id} onClick={() => setContactSelected(Contact.id)}
-                                     index={index}
-                                     contactSelected={ContactSelected} contact={Contact} id={Contact.id} setStatusContact={setStatusContact}/>
+                                        index={index}
+                                        contactSelected={ContactSelected} contact={Contact} id={Contact.id}
+                                        setStatusContact={setStatusContact}/>
                     ))}
                     </tbody>
                 </table>
             </div>
-            <div className="pagination-page" >
-                <Pagination
-                    postsPerPage={postsPerPage}
-                    totalPosts={Contacts.length}
-                    paginate={paginate}
-                    currentPage={currentPage}
-                />
-            </div>
+            {Contacts.length > 10 &&
+                <div className="pagination-page">
+                    <Pagination
+                        postsPerPage={postsPerPage}
+                        totalPosts={Contacts.length}
+                        paginate={paginate}
+                        currentPage={currentPage}
+                    />
+                </div>
+            }
         </Layout>
     </>
 }
