@@ -3,7 +3,9 @@ import {Dispatch, SetStateAction, useEffect, useState} from "react";
 import {getListCampaign,} from "@/lib/API";
 import {GetDefaultCampaign} from "@/pages/product-detail";
 import {updateCampaign} from "@/lib/API/Campaign";
-import {formatDate} from "@/components/Campaign/ContentCampain";
+import {formatDate} from "@/pages/user";
+import {dataInputCampaign} from "@/pages/campaign";
+
 
 const _ = require('lodash');
 
@@ -31,7 +33,7 @@ export function UpdateCampaign(props: Props) {
     useEffect(() => {
         async function fetchCampaign() {
             try {
-                const res = await getListCampaign();
+                const res = await getListCampaign(dataInputCampaign());
                 if (res.code === 200) {
                     setCampaigns(res.data);
                     for (let i = 0; i < res.data.length; i++) {
@@ -112,7 +114,7 @@ export function UpdateCampaign(props: Props) {
                         type="date"
                         id="price"
                         name="price"
-                        value={valueEndDay}
+                        value={formatDate(valueEndDay)}
                         onChange={(e) => setValueEndDay(e.target.value)}
                         required
                     />
@@ -127,7 +129,9 @@ export function UpdateCampaign(props: Props) {
                         required
                     />
                 </div>
-                <button type="submit" className="rounded-md bg-violet-700 text-white p-2 mr-2 mt-2 ml-5">Update Campaign
+                <button type="submit" className="rounded-md bg-violet-700 text-white p-2 mr-2 mt-2 ml-5">
+
+                    Cập nhật
                 </button>
             </div>
         </form>

@@ -1,6 +1,6 @@
 // import {campaign} from "@/components/HomeType";
 import Link from "next/link";
-import {Dispatch, SetStateAction, useEffect, useState} from "react";
+import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
 
 import Modal from "@/components/Alert/Modal";
 import QuestionAlert from "@/components/Alert/QuestionAlert";
@@ -50,7 +50,10 @@ export function ContentCampaign(props: Props) {
             <td>{formatDate(props.campaign.start_day)}</td>
             <td>{formatDate(props.campaign.end_day)}</td>
             <td className="flex w-30  items-center border-none justify-evenly">
-                <button className="rounded-full text-white bg-red-800 w-20 px-2" onClick={() => setIsOpenDeleteCampaignAlert(true)}>Delete</button>
+                <button className="rounded-full text-white bg-red-800 w-20 px-2" onClick={() => setIsOpenDeleteCampaignAlert(true)}>
+                    <i className="fa-solid fa-trash-can" style={{marginRight:"10px"}}></i>
+                    Xóa
+                </button>
             </td>
         </tr>
         {isOpenDeleteCampaignAlert && (

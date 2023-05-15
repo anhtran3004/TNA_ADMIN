@@ -113,10 +113,13 @@ export function UploadImageCampaign(props: Props) {
     }, [downloadUrl])
     return<>
         <div className="pl-5 border-l-4 border-indigo-500">
-            <p className="font-bold">Update Campaign Image:</p>
+            <p className="font-bold">Cập nhật hình ảnh:</p>
             <Image src={srcImage} alt="Preview" width={200} height={100}/>
             {/*{props.previewURL && <Image src={props.previewURL} alt="Preview" width={200} height={100}/>}*/}
-            <button onClick={() => setShowPreviewImg(true)} className="rounded-md bg-green-600 text-white p-2 mt-2">Upload</button>
+            <button onClick={() => setShowPreviewImg(true)} className="rounded-md bg-green-600 text-white p-2 mt-2">
+                <i className="fa-solid fa-upload" style={{marginRight:"10px"}}></i>
+                Tải lên
+            </button>
 
         </div>
         {isShowPreviewImg && (
@@ -125,12 +128,14 @@ export function UploadImageCampaign(props: Props) {
                     <div className="background-error-modal" onClick={() => setShowPreviewImg(false)}></div>
                     <div className="inner-image-modal">
                         {previewURL && <Image src={previewURL} alt="Preview" width={200} height={100}/>}
-                        <label htmlFor="chooseFile" className="rounded-md bg-violet-700 text-white p-2 mr-2 mt-2">Chọn
-                            tệp...</label>
+                        <label htmlFor="chooseFile" className="rounded-md bg-violet-700 text-white p-2 mr-2 mt-2">
+                            <i className="fa-solid fa-file" style={{marginRight:"10px"}}></i>
+                            Chọn tệp...</label>
                         <input className="hidden" type="file" accept="image/*" id="chooseFile"
                                onChange={handleImageChange}/>
-                        <button onClick={() =>{handleUpload().then()}} className="rounded-md bg-green-600 text-white p-2 mt-2">Upload
-                            Image
+                        <button onClick={() =>{handleUpload().then()}} className="rounded-md bg-green-600 text-white p-2 mt-2">
+                            <i className="fa-solid fa-upload" style={{marginRight:"10px"}}></i>
+                            Tải lên
                         </button>
                         {/*{downloadUrl && (*/}
                         {/*    <p>{downloadUrl}</p>*/}

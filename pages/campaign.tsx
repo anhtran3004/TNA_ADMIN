@@ -87,17 +87,19 @@ export default function Campaign() {
     return <>
         <Layout>
                 <div className="rounded-md bg-violet-700 text-white" style={{
-                    width: "100px",
+                    width: "150px",
                     height: "50px",
                     lineHeight: "50px",
                     textAlign: "center",
                     margin: "20px",
                     fontSize: "20px"
                 }}
-                     onClick={() => setIsOpenAddCampaign(true)}>Thêm mới
+                     onClick={() => setIsOpenAddCampaign(true)}>
+                    <i className="fa-sharp fa-solid fa-plus" style={{marginRight: "10px"}}></i>
+                    Thêm mới
                 </div>
             <div className="search-order d-flex border-2" style={{width: "70%", marginLeft: "20px"}}>
-                <p>Lọc đơn hàng</p>
+                <p>Lọc chiến dịch</p>
                 <div className="mr-3 ml-5">
                     <label>Từ:</label>
                     <input style={{width: "150px"}} type="date" value={formatDate(valueMinImportDate)}
