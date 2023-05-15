@@ -60,9 +60,9 @@ export default function AddCategory(props: Props) {
             <div className="background-error-modal" onClick={() => props.setIsOpenAddProduct(false)}></div>
             <div className="inner-error-modal" style={{width: "500px"}}>
                 <div className="update-category">
-                    <h2 className=" font-bold text-2xl ml-0 mb-2">Insert category:</h2>
+                    <h2 className=" font-bold text-2xl ml-0 mb-2">Thêm mới danh mục:</h2>
                     <div className="input-product" style={{width: "300px"}}>
-                        <label htmlFor="priority">Category:</label>
+                        <label htmlFor="priority">Danh mục:</label>
                         <input
                             className="shadow-gray-400 border-2"
 
@@ -74,7 +74,7 @@ export default function AddCategory(props: Props) {
                         />
                     </div>
                     <button onClick={InsertCategory}
-                            className="rounded-md bg-violet-700 text-white p-2 mr-2 mt-2 ml-0">Insert category
+                            className="rounded-md bg-violet-700 text-white p-2 mr-2 mt-2 ml-0">Thêm mới
                     </button>
                 </div>
             </div>

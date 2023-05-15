@@ -1,6 +1,6 @@
 import Layout from "@/components/Layout";
 import {useRouter} from "next/router";
-import {InputCommentFilter, InputSizeFilter, Size} from "@/components/HomeType";
+import {InputSizeFilter, Size} from "@/components/HomeType";
 import React, {useEffect, useState} from "react";
 import Modal from "@/components/Alert/Modal";
 import QuestionAlert from "@/components/Alert/QuestionAlert";
@@ -11,17 +11,19 @@ import {deleteSize, updateSize} from "@/lib/API/Size";
 import {getListSize} from "@/lib/API";
 import AddSize from "@/components/Size/AddSize";
 import ErrorAlert from "@/components/Alert/ErrorAlert";
-import {dataInputComment} from "@/pages/comment";
 import Pagination from "@/components/Pagination";
+
 const _ = require('lodash');
-export function DefaultSizeData(): Size{
-    const data ={
+
+export function DefaultSizeData(): Size {
+    const data = {
         id: 0,
         size: "",
         status: 0,
     }
     return data;
 }
+
 export function dataInputSize() {
     const data: InputSizeFilter = {
         filter: {
@@ -56,44 +58,46 @@ export default function Size() {
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber)
 
     async function DeleteSize() {
-        try{
+        try {
             const res = await deleteSize(SizeId);
-            if(res.code === 200){
+            if (res.code === 200) {
                 console.log('deleted success!');
                 setStatusSize(SizeId);
-            }else{
+            } else {
                 setIsOpeErrorDeleteSizeAlert(true);
                 setIsOpenDeleteProductAlert(false);
             }
-        }catch (e){
+        } catch (e) {
             console.log('error');
         }
 
     }
+
     async function UpdateSize() {
-        if(valueSize === ''){
+        if (valueSize === '') {
             setTextErrors("Insert Errors!")
             setIsOpenError(true);
-            setTimeout(() =>setIsOpenError(false), 2000)
+            setTimeout(() => setIsOpenError(false), 2000)
             return;
         }
-        try{
+        try {
             const res = await updateSize(valueSize, SizeSelected.id);
-            if(res.code === 200){
+            if (res.code === 200) {
                 console.log('updated success!');
-                setStatusSize(randomNumberInRange(1,1000));
+                setStatusSize(randomNumberInRange(1, 1000));
                 setTextSuccess("Update Success!")
                 setIsOpenSuccess(true);
-                setTimeout(() =>setIsOpenSuccess(false), 2000)
+                setTimeout(() => setIsOpenSuccess(false), 2000)
             }
-        }catch (e){
+        } catch (e) {
             console.log('error');
             setTextErrors("Update Error!")
             setIsOpenError(true);
-            setTimeout(() =>setIsOpenError(false), 2000)
+            setTimeout(() => setIsOpenError(false), 2000)
         }
 
     }
+
     async function fetchSizes() {
         try {
             const res = await getListSize(filterSize);
@@ -110,10 +114,11 @@ export default function Size() {
             console.log('error');
         }
     }
-    useEffect(() =>{
+
+    useEffect(() => {
         fetchSizes().then();
-    }, [statusSize,SizeId, filterSize])
-    useEffect(() =>{
+    }, [statusSize, SizeId, filterSize])
+    useEffect(() => {
         setValueSize(SizeSelected.size);
     }, [SizeSelected])
     const inputListeners = () => {
@@ -136,7 +141,7 @@ export default function Size() {
                 <i className="fa-sharp fa-solid fa-plus" style={{marginRight: "10px"}}></i>
                 Thêm mới
             </div>
-            <div className="search-order d-flex border-2" style={{marginLeft: "20px", width: "90%", marginTop:"15px"}}>
+            <div className="search-order d-flex border-2" style={{marginLeft: "20px", width: "90%", marginTop: "15px"}}>
                 <p>Lọc size</p>
                 <input type="text" placeholder="Search..." value={valueSearch}
                        onChange={(e) => setValueSearch(e.target.value)}/>
@@ -164,7 +169,16 @@ export default function Size() {
                         <td className="text-center">{index + 1}</td>
                         <td className="text-center">{Size.size}</td>
                         <td className="text-center">
-                            <button className="rounded-full text-white bg-red-800 w-20 px-2" onClick={() => {setIsOpenDeleteProductAlert(true); setSizeId(Size.id)}}>Delete</button>
+                            <button className="rounded-full text-white bg-red-800 w-20 px-2"
+                                    onClick={() => {
+                                        setIsOpenDeleteProductAlert(true);
+                                        setSizeId(Size.id)
+                                    }}
+                                    style={{width: "100px", padding: "10px 0"}}
+                            >
+                                <i className="fa-solid fa-trash-can" style={{marginRight: "10px"}}></i>
+                                Xóa
+                            </button>
                         </td>
                     </tr>
                 ))}
@@ -206,27 +220,28 @@ export default function Size() {
         )}
         {isOpenErrorDeleteSizeAlert &&
             <Modal>
-                <ErrorAlert textError={"Size đang được sử dụng không được phép xóa!"} setIsCloseAlert={setIsOpeErrorDeleteSizeAlert} />
+                <ErrorAlert textError={"Size đang được sử dụng không được phép xóa!"}
+                            setIsCloseAlert={setIsOpeErrorDeleteSizeAlert}/>
             </Modal>
         }
         {isOpenAddProduct && (
             <Modal>
                 <AddSize setStatusSize={setStatusSize} setIsOpenAddProduct={setIsOpenAddProduct}
-                          setIsOpenSuccess={setIsOpenSuccess}
-                          setTextSuccess={setTextSuccess}
-                          setIsOpenError={setIsOpenError}
-                          setTextError={setTextErrors}
+                         setIsOpenSuccess={setIsOpenSuccess}
+                         setTextSuccess={setTextSuccess}
+                         setIsOpenError={setIsOpenError}
+                         setTextError={setTextErrors}
                 />
             </Modal>
         )}
         {isOpenSuccess && (
             <Modal>
-                <Success textSuccess={textSuccess} />
+                <Success textSuccess={textSuccess}/>
             </Modal>
         )}
         {isOpenError && (
             <Modal>
-                <Errors textError={textErrors} />
+                <Errors textError={textErrors}/>
             </Modal>
         )}
     </>

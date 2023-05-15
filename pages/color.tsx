@@ -30,7 +30,6 @@ export function dataInputColor() {
     return data;
 }
 export default function Color() {
-    const router = useRouter()
     const [listColor, setListColor] = useState<Color[]>([]);
     const [isOpenDeleteProductAlert, setIsOpenDeleteProductAlert] = useState(false);
     const [isOpenErrorDeleteProductAlert, setIsOpeErrorDeleteProductAlert] = useState(false);
@@ -139,7 +138,7 @@ export default function Color() {
                 <i className="fa-sharp fa-solid fa-plus" style={{marginRight: "10px"}}></i>
                 Thêm mới
             </div>
-            <div className="search-order d-flex border-2" style={{marginLeft: "20px", width: "30%", marginTop:"15px"}}>
+            <div className="search-order d-flex border-2" style={{marginLeft: "20px", width: "50%", marginTop:"15px"}}>
                 <p>Lọc màu</p>
                 <input type="text" placeholder="Search..." value={valueSearch}
                        onChange={(e) => setValueSearch(e.target.value)}/>
@@ -203,7 +202,9 @@ export default function Color() {
                     />
 
                 </div>
-                <button onClick={UpdateColor} className="rounded-md bg-violet-700 text-white p-2 mr-2 mt-2 ml-5">Cập nhật
+                <button onClick={UpdateColor} className="rounded-md bg-violet-700 text-white p-2 mr-2 mt-2 ml-5">
+                    <i className="fa-solid fa-pen" style={{marginRight:"10px"}}></i>
+                    Cập nhật
                 </button>
             </div>
         </Layout>

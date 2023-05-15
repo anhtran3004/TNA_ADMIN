@@ -116,15 +116,16 @@ export async function updateInventory(input: InputInventory, productId: number){
         throw e
     }
 }
-export async function getListCategory(){
+export async function getListCategory(inputCategory: InputColorFilter){
     try{
-        const url_getListCategory = GetARBaseUrl() + "/api/v1/category/";
+        const url_getListCategory = GetARBaseUrl() + "/api/v1/category/get-category-with-filter";
         const fetchData = {
             headers:{
                 Authorization: "Bearer " + GetUserAuthentication(),
                 "Content-Type": "application/json"
             },
             method: 'POST',
+            body: JSON.stringify(inputCategory)
         }
         const response = await fetch(url_getListCategory, fetchData);
         return await response.json();
@@ -132,6 +133,7 @@ export async function getListCategory(){
         throw e
     }
 }
+
 export async function getListColor(inputColor: InputColorFilter){
     try{
         const url_getListColors = GetARBaseUrl() + "/api/v1/color/get-color-with-filter";

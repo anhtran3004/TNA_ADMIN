@@ -81,7 +81,7 @@ export default function Contact() {
                 <table border={1} className="ml-5">
                     <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>STT</th>
                         <th>Email</th>
                         <th>Tên</th>
                         <th>Tin nhắn</th>

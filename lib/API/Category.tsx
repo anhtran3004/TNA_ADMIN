@@ -3,16 +3,15 @@ import {InputBlockUser, InputCategory} from "@/components/HomeType";
 import {GetUserAuthentication} from "@/lib/API/User";
 
 
-export async function deleteCategory(input: InputBlockUser){
+export async function deleteCategory(id: number){
     try{
-        const url_deleteCategory = GetARBaseUrl() + "/api/v1/category/delete-category";
+        const url_deleteCategory = GetARBaseUrl() + "/api/v1/category/delete-categories/"+ id;
         const fetchData = {
             headers:{
                 Authorization: "Bearer " + GetUserAuthentication(),
                 "Content-Type": "application/json"
             },
-            method: 'PUT',
-            body: JSON.stringify(input)
+            method: 'POST'
         }
         const response = await fetch(url_deleteCategory, fetchData);
         return await response.json();

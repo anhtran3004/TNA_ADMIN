@@ -11,6 +11,7 @@ import {deleteDiscount, updateDiscount} from "@/lib/API/Discount";
 import {getListDiscount} from "@/lib/API";
 import {formatDate, formatDates} from "@/pages/user";
 import AddDiscount from "@/components/Discount/AddDiscount";
+
 const _ = require('lodash');
 
 // import AddDiscount from "@/components/Discount/AddDiscount";
@@ -156,8 +157,17 @@ export default function Discount() {
     return <>
         <Layout>
             <div>
-                <div className="rounded-md bg-violet-700 text-white p-2 m-2 ml-14" style={{width: "200px"}}
-                     onClick={() => setIsOpenAddProduct(true)}>Add New Discount
+                <div className="rounded-md bg-violet-700 text-white p-2 m-2 ml-14"
+                     style={{
+                         width: "150px",
+                         height: "50px",
+                         textAlign: "center",
+                         margin: "20px",
+                         fontSize: "20px"
+                     }}
+                     onClick={() => setIsOpenAddProduct(true)}>
+                    <i className="fa-sharp fa-solid fa-plus" style={{marginRight: "10px"}}></i>
+                    Thêm mới
                 </div>
             </div>
             <div className="search-order d-flex border-2" style={{marginLeft: "20px", width: "90%"}}>
@@ -175,7 +185,10 @@ export default function Discount() {
                 <input type="text" placeholder="Search..." value={valueSearch}
                        onChange={(e) => setValueSearch(e.target.value)}/>
                 {/*onClick={inputListeners}*/}
-                <div className="rounded-md bg-blue-400 text-white cursor-pointer p-2" onClick={inputListeners}>Search
+                <div className="rounded-md bg-blue-400 text-white cursor-pointer p-2" onClick={inputListeners}
+                     style={{width: "100px"}}>
+                    <i className="fa-solid fa-magnifying-glass" style={{marginRight: "10px"}}></i>
+                    Search
                 </div>
 
             </div>
@@ -188,7 +201,7 @@ export default function Discount() {
                     <th>Loại</th>
                     <th>Ngày bắt đầu</th>
                     <th>Ngày kết thúc</th>
-                    <th>Action</th>
+                    <th>Hành động</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -197,16 +210,19 @@ export default function Discount() {
                         className={(DiscountId === discount.id) ? "selected-product" : ""}
                     >
                         <td>{index + 1}</td>
-                        <td>{discount.discount_code}</td>
-                        <td>{discount.discount_value}</td>
-                        <td>{discount.discount_type}</td>
-                        <td>{formatDates(discount.start_day)}</td>
-                        <td>{formatDates(discount.end_day)}</td>
-                        <td>
+                        <td className="text-center">{discount.discount_code}</td>
+                        <td className="text-center">{discount.discount_value}</td>
+                        <td className="text-center">{discount.discount_type}</td>
+                        <td className="text-center">{formatDates(discount.start_day)}</td>
+                        <td className="text-center">{formatDates(discount.end_day)}</td>
+                        <td className="text-center">
                             <button className="rounded-full text-white bg-red-800 w-20 px-2" onClick={() => {
                                 setIsOpenDeleteProductAlert(true);
                                 setDiscountId(discount.id)
-                            }}>Delete
+                            }}
+                                    style={{width: "100px", padding: "10px 0"}}>
+                                <i className="fa-solid fa-trash-can" style={{marginRight: "10px"}}></i>
+                                Xóa
                             </button>
                         </td>
                     </tr>
@@ -264,7 +280,9 @@ export default function Discount() {
 
                 </div>
                 <button onClick={UpdateDiscount}
-                        className="rounded-md bg-violet-700 text-white p-2 mr-2 mt-2 ml-5">Update Discount
+                        className="rounded-md bg-violet-700 text-white p-2 mr-2 mt-2 ml-5">
+                    <i className="fa-solid fa-pen" style={{marginRight:"10px"}}></i>
+                    Cập nhật
                 </button>
             </div>
         </Layout>

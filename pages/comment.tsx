@@ -155,7 +155,9 @@ export default function Comment() {
                            onChange={(e) => setValueSearch(e.target.value)}/>
                     {/*onClick={inputListeners}*/}
                     <div className="rounded-md bg-blue-400 text-white cursor-pointer p-2"
-                         onClick={inputListeners}>Search
+                         onClick={inputListeners} style={{width:"100px"}}>
+                        <i className="fa-solid fa-magnifying-glass" style={{marginRight: "10px"}}></i>
+                        Search
                     </div>
 
                 </div>
@@ -164,12 +166,12 @@ export default function Comment() {
                         <thead>
                         <tr>
                             <th>STT</th>
-                            <th>Content</th>
-                            <th>Rating</th>
-                            <th>Comment Date</th>
-                            <th>Product</th>
+                            <th>Nội dung</th>
+                            <th>Đánh giá</th>
+                            <th>Ngày bình luận</th>
+                            <th>Tên sản phẩm</th>
                             <th>Username</th>
-                            <th colSpan={3}>Action</th>
+                            <th colSpan={3}>Hành động</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -184,25 +186,34 @@ export default function Comment() {
                                     <td className="text-center">{formatDates(comment.comment_date)}</td>
                                     <td className="text-center">{comment.name}</td>
                                     <td className="text-center">{comment.username}</td>
-                                    <td className="p-0">
+                                    <td className="py-3">
                                         <button className="rounded-full text-white bg-red-800 w-20 px-2"
                                                 onClick={() => {
                                                     setIsOpenDeleteCategoryAlert(true)
-                                                }}>Xóa
+                                                }} style={{padding:"10px 0"}}>
+                                            <i className="fa-solid fa-trash-can" style={{marginRight:"10px"}}></i>
+                                            Xóa
                                         </button>
                                     </td>
                                     <td className="p-0">
-                                        <button className="rounded-full text-white bg-green-800 w-20 px-2"
+                                        <button className="rounded-full text-white bg-green-800 px-2"
                                                 onClick={() => {
                                                     setIsOpenAddComment(true)
-                                                }}>Phản hồi
+                                                }}
+                                                style={{width:"120px", padding:"10px 0"}}
+                                        >
+                                            <i className="fa-solid fa-reply" style={{marginRight:"10px"}}></i>
+                                            Phản hồi
                                         </button>
                                     </td>
                                     <td className="p-0">
                                         <button className="rounded-full text-white bg-green-800 w-250 px-2"
                                                 onClick={() => {
                                                     setIsShowChildComments(true)
-                                                }}>Xem phản hồi
+                                                }}
+                                                style={{width:"150px", padding:"10px 0"}}>
+                                            <i className="fa-solid fa-eye" style={{marginRight:"10px"}}></i>
+                                            Xem phản hồi
                                         </button>
                                     </td>
                                 </tr>

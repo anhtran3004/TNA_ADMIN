@@ -1,7 +1,7 @@
 import Layout from "@/components/Layout";
 import {useRouter} from "next/router";
 import {getListCategory} from "@/lib/API";
-import {Category, InputBlockUser, InputCategory} from "@/components/HomeType";
+import {Category, InputBlockUser, InputCategory, InputColorFilter} from "@/components/HomeType";
 import React, {useEffect, useState} from "react";
 import Modal from "@/components/Alert/Modal";
 import QuestionAlert from "@/components/Alert/QuestionAlert";
@@ -10,6 +10,9 @@ import Success from "@/components/Alert/Success";
 import Errors from "@/components/Alert/Errors";
 import {deleteCategory, deleteProductFollowCategory, updateCategory} from "@/lib/API/Category";
 import AddCategory from "@/components/Category/AddCategory";
+import ErrorAlert from "@/components/Alert/ErrorAlert";
+import Pagination from "@/components/Pagination";
+
 
 export function DefaultCategoryData(): Category {
     const data = {
@@ -30,9 +33,16 @@ export function DefaultInputCategoryData(): InputCategory {
     }
     return data;
 }
+export function dataInputColor() {
+    const data: InputColorFilter = {
+        filter: {
+            search: ''
+        }
+    }
+    return data;
+}
 
 export default function Category() {
-    const router = useRouter()
     const [listCategory, setListCategory] = useState<Category[]>([]);
     const [isOpenDeleteProductAlert, setIsOpenDeleteProductAlert] = useState(false);
     const [isOpenUnBlockCategoryAlert, setIsOpenUnBlockCategoryAlert] = useState(false);
@@ -40,42 +50,37 @@ export default function Category() {
     const [categoryId, setCategoryId] = useState(0)
     const [statusCategory, setStatusCategory] = useState(0)
     const [valueCategory, setValueCategory] = useState("");
-    const [valueStatus, setValueStatus] = useState(0);
     const [categorySelected, setCategorySelected] = useState<Category>(DefaultCategoryData());
     const [isOpenAddProduct, setIsOpenAddProduct] = useState(false);
     const [isOpenSuccess, setIsOpenSuccess] = useState(false);
     const [isOpenError, setIsOpenError] = useState(false);
     const [textSuccess, setTextSuccess] = useState("");
     const [textErrors, setTextErrors] = useState("");
-
-    function defaultDataInput(): InputBlockUser {
-        const data = {
-            ids: [categoryId],
-            status: valueStatus
-        }
-        return data;
-
-    }
-    async function DisableProduct(){
-        try{
-            const res = await deleteProductFollowCategory(valueStatus, categoryId);
-            if(res.code === 200){
-                console.log('delete product follow success!')
-            }
-        }catch (e) {
-            console.log('Error delete product follow category');
-        }
-    }
+    const [isOpenErrorDeleteProductAlert, setIsOpeErrorDeleteProductAlert] = useState(false);
+    const [valueSearch, setValueSearch] = useState('');
+    const [filterCategory, setFilterCategory] = useState<InputColorFilter>(dataInputColor());
+    const [currentPage, setCurrentPage] = useState(1)
+    const [postsPerPage] = useState(10)
+    const indexOfLastPost = currentPage * postsPerPage
+    const indexOfFirstPost = indexOfLastPost - postsPerPage
+    const currentPosts = listCategory.slice(indexOfFirstPost, indexOfLastPost)
+    const paginate = (pageNumber: number) => setCurrentPage(pageNumber)
+    const _ = require('lodash');
     async function DeleteCategory() {
         try {
-            const res = await deleteCategory(defaultDataInput());
+            const res = await deleteCategory(categoryId);
             if (res.code === 200) {
                 console.log('deleted success!');
                 setStatusCategory(categoryId);
-                DisableProduct().then();
+                // DisableProduct().then();
+            } else {
+                setIsOpeErrorDeleteProductAlert(true);
+                setIsOpenDeleteProductAlert(false);
             }
         } catch (e) {
             console.log('error');
+            setIsOpeErrorDeleteProductAlert(true);
+            setIsOpenDeleteProductAlert(false);
         }
 
     }
@@ -91,10 +96,10 @@ export default function Category() {
     }
 
     async function UpdateCategory() {
-        if(valueCategory === ''){
+        if (valueCategory === '') {
             setTextErrors("Insert Errors!")
             setIsOpenError(true);
-            setTimeout(() =>setIsOpenError(false), 2000)
+            setTimeout(() => setIsOpenError(false), 2000)
             return;
         }
         try {
@@ -115,17 +120,18 @@ export default function Category() {
 
     }
 
-    function nextCategoryNew() {
-        router.push("/new-router").then();
+    const inputListeners = () => {
+        const tempFilter = _.cloneDeep(filterCategory);
+        tempFilter.filter.search = valueSearch;
+        setFilterCategory(tempFilter);
     }
 
     async function fetchCategories() {
         try {
-            // console.log("id", id);
-            const res = await getListCategory();
+            const res = await getListCategory(filterCategory);
             if (res.code === 200) {
                 setListCategory(res.data);
-                // setStatusCategory(randomNumberInRange(1,1000));
+                setStatusCategory(randomNumberInRange(1,1000));
                 for (let i = 0; i < res.data.length; i++) {
                     if (res.data[i].id === categoryId) {
                         setCategorySelected(res.data[i]);
@@ -147,52 +153,74 @@ export default function Category() {
     return <>
         <Layout>
             <div>
-                <div>
-                    <div className="rounded-md bg-violet-700 text-white p-2 m-2 ml-14" style={{width: "200px"}}
-                         onClick={() => setIsOpenAddProduct(true)}>Add New Category
+                <div className="rounded-md bg-violet-700 text-white p-2"
+                     style={{
+                         width: "150px",
+                         height: "50px",
+                         textAlign: "center",
+                         margin: "20px",
+                         fontSize: "20px"
+                     }}
+                     onClick={() => setIsOpenAddProduct(true)}>
+                    <i className="fa-sharp fa-solid fa-plus" style={{marginRight: "10px"}}></i>
+                    Thêm mới
+                </div>
+                <div className="search-order d-flex border-2" style={{marginLeft: "20px", width: "50%", marginTop:"15px"}}>
+                    <p>Lọc danh mục</p>
+                    <input type="text" placeholder="Search..." value={valueSearch}
+                           onChange={(e) => setValueSearch(e.target.value)}/>
+                    {/*onClick={inputListeners}*/}
+                    <div className="rounded-md bg-blue-400 text-white cursor-pointer p-2"
+                         onClick={inputListeners} style={{width:"100px"}}>
+                        <i className="fa-solid fa-magnifying-glass" style={{marginRight: "10px"}}></i>
+                        Search
                     </div>
+
                 </div>
                 <table border={1} style={{width: "500px", marginLeft: "50px"}}>
                     <thead>
                     <tr>
                         <th>STT</th>
-                        <th>Category</th>
-                        <th>Action</th>
+                        <th>Danh mục</th>
+                        <th>Hành động</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {listCategory.map((category, index) => (
+                    {currentPosts.map((category, index) => (
                         <tr key={index} onClick={() => setCategoryId(category.id)}
                             className={(categoryId === category.id) ? "selected-product" : ""}
                         >
                             <td className="text-center">{index + 1}</td>
                             <td className="text-center">{category.categoryName}</td>
-                            {category.status === 1 ?
-                                <td className="flex w-56  items-center border-none justify-evenly">
-                                    <button className="rounded-full text-white bg-red-800 w-20 px-2" onClick={() => {
-                                        setIsOpenDeleteProductAlert(true);
-                                        setValueStatus(0);
-                                        console.log(valueStatus)
-                                    }}>Khóa
-                                    </button>
-                                </td>
-                                :
-                                <td className="flex w-56  items-center border-none justify-evenly">
-                                    <button className="rounded-full text-white bg-red-800 w-30 px-2" onClick={() => {
-                                        setIsOpenUnBlockCategoryAlert(true);
-                                        setValueStatus(1)
-                                    }}>Hủy khóa
-                                    </button>
-                                </td>
-                            }
+                            <td className="text-center">
+                                <button className="rounded-full text-white bg-red-800 w-20 px-2"
+                                        onClick={() => {
+                                            setIsOpenDeleteProductAlert(true);
+                                        }}
+                                        style={{width: "100px", padding: "10px 0"}}
+                                >
+                                    <i className="fa-solid fa-trash-can" style={{marginRight: "10px"}}></i>
+                                    Xóa
+                                </button>
+                            </td>
                         </tr>
                     ))}
                     </tbody>
                 </table>
+                {listCategory.length > 10 &&
+                    <div className="pagination-page" style={{width: "600px"}}>
+                        <Pagination
+                            postsPerPage={postsPerPage}
+                            totalPosts={listCategory.length}
+                            paginate={paginate}
+                            currentPage={currentPage}
+                        />
+                    </div>
+                }
                 <div className="update-category">
-                    <h2 className=" font-bold text-2xl ml-5">Update category:</h2>
+                    <h2 className=" font-bold text-2xl ml-5">Cập nhật danh mục:</h2>
                     <div className="input-product">
-                        <label htmlFor="priority">Category:</label>
+                        <label htmlFor="priority">Danh mục:</label>
                         <input
                             className="shadow-gray-400 border-2"
                             type="text"
@@ -201,28 +229,27 @@ export default function Category() {
                             value={valueCategory}
                             onChange={(e) => setValueCategory(e.target.value)}
                         />
-
                     </div>
                     <button onClick={UpdateCategory}
-                            className="rounded-md bg-violet-700 text-white p-2 mr-2 mt-2 ml-5">Update category
+                            className="rounded-md bg-violet-700 text-white p-2 mr-2 mt-2 ml-5">
+                        <i className="fa-solid fa-pen" style={{marginRight:"10px"}}></i>
+                        Cập nhật
                     </button>
                 </div>
             </div>
         </Layout>
         {isOpenDeleteProductAlert && (
             <Modal>
-                <QuestionAlert textError={"Bạn có chắc chắn muốn khóa danh mục này không?"}
-                               setIsOpenQuestionAlert={setIsOpenDeleteProductAlert}
+                <QuestionAlert textError={textError} setIsOpenQuestionAlert={setIsOpenDeleteProductAlert}
                                setOkListener={DeleteCategory}/>
             </Modal>
         )}
-        {isOpenUnBlockCategoryAlert && (
+        {isOpenErrorDeleteProductAlert &&
             <Modal>
-                <QuestionAlert textError={"Bạn có chắc chắn muốn mở khóa danh mục này không?"}
-                               setIsOpenQuestionAlert={setIsOpenUnBlockCategoryAlert}
-                               setOkListener={DeleteCategory}/>
+                <ErrorAlert textError={"Danh mục đang được sử dụng không được phép xóa!"}
+                            setIsCloseAlert={setIsOpeErrorDeleteProductAlert}/>
             </Modal>
-        )}
+        }
         {isOpenAddProduct && (
             <Modal>
                 <AddCategory setStatusCategory={setStatusCategory} setIsOpenAddProduct={setIsOpenAddProduct}
