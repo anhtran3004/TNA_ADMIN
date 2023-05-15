@@ -48,8 +48,8 @@ export default function ContentUser(props: Props){
             <td>{props.user.email}</td>
             <td>{props.user.phone}</td>
             <td style={{width:"150px"}}>{props.user.address}</td>
-            <td>{props.user.role}</td>
-            <td style={{width:"200px"}}>{formatDates(props.user.created_date)}</td>
+            <td className="text-center">{props.user.role}</td>
+            <td className="text-center">{formatDates(props.user.created_date)}</td>
             {props.user.status === 1 ?
             <td className="flex w-56  items-center border-none justify-evenly">
                 <button className="rounded-full text-white bg-red-800 w-20 px-2" onClick={() => {setIsOpenBlockUserAlert(true); setValueStatus(0); console.log(valueStatus)}}>Khóa</button>

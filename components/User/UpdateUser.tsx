@@ -65,7 +65,7 @@ export function UpdateUser(props: Props) {
         <form onSubmit={handleSubmit} className="update-user-detail ml-5">
             <div>
                 <div className="input-product">
-                    <label htmlFor="name">Name:</label>
+                    <label htmlFor="name">Họ tên:</label>
                     <input
                         type="text"
                         id="name"
@@ -96,7 +96,7 @@ export function UpdateUser(props: Props) {
                     />
                 </div>
                 <div className="input-product">
-                    <label htmlFor="address">Address:</label>
+                    <label htmlFor="address">Địa chỉ:</label>
                     <input
                         type="text"
                         id="address"
@@ -106,7 +106,7 @@ export function UpdateUser(props: Props) {
                     />
                 </div>
                 <div className="input-product">
-                    <label htmlFor="phone">Phone number:</label>
+                    <label htmlFor="phone">Số điện thoại:</label>
                     <input
                         type="text"
                         id="phone"
@@ -126,7 +126,9 @@ export function UpdateUser(props: Props) {
                 {/*    />*/}
                 {/*</div>*/}
             </div>
-            <button type="submit" className="rounded-md bg-violet-700 text-white p-2 mr-2 mt-2 ml-5">Update user
+            <button type="submit" className="rounded-md bg-violet-700 text-white p-2 mr-2 mt-2 ml-5">
+                <i className="fa-solid fa-pen" style={{marginRight:"10px"}}></i>
+                Cập nhật
             </button>
         </form>
     </div>;

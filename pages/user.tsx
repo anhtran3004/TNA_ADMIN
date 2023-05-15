@@ -115,13 +115,15 @@ export default function User(){
         <Layout>
             <div className="rounded-md bg-violet-700 text-white p-2"
                  style={{
-                     width: "120px",
+                     width: "150px",
                      height: "50px",
                      textAlign: "center",
                      margin: "20px",
                      fontSize: "20px"
                  }}
-                 onClick={nextAddUser}>Thêm mới
+                 onClick={nextAddUser}>
+                <i className="fa-sharp fa-solid fa-plus" style={{marginRight: "10px"}}></i>
+                Thêm mới
             </div>
             <div className="search-order d-flex border-2" style={{marginLeft: "20px", width: "90%"}}>
                 <p>Lọc người dùng</p>
@@ -137,7 +139,9 @@ export default function User(){
                 </div>
                 <input type="text" placeholder="Search..." value={valueSearch}
                        onChange={(e) => setValueSearch(e.target.value)}/>
-                <div className="rounded-md bg-blue-400 text-white cursor-pointer p-2" onClick={inputListeners}>Search
+                <div className="rounded-md bg-blue-400 text-white cursor-pointer p-2" onClick={inputListeners} style={{width:"100px"}}>
+                    <i className="fa-solid fa-magnifying-glass" style={{marginRight: "10px"}}></i>
+                    Search
                 </div>
 
             </div>
@@ -154,7 +158,7 @@ export default function User(){
                         <th>Địa chỉ</th>
                         <th>Vai trò</th>
                         <th>Ngày tạo</th>
-                        <th>Action</th>
+                        <th>Hành động</th>
                     </tr>
                     </thead>
                     <tbody>

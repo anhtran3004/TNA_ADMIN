@@ -170,7 +170,7 @@ export default function Product() {
                 </div>
                 <input type="text" placeholder="Search..." value={valueSearch}
                        onChange={(e) => setValueSearch(e.target.value)}/>
-                <div className="rounded-md bg-blue-400 text-white cursor-pointer p-2" onClick={inputListeners}>
+                <div className="rounded-md bg-blue-400 text-white cursor-pointer p-2" onClick={inputListeners} style={{width:"100px"}}>
                     <i className="fa-solid fa-magnifying-glass" style={{marginRight: "10px"}}></i>
                     Search
                 </div>

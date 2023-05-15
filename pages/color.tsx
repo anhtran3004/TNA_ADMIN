@@ -145,7 +145,7 @@ export default function Color() {
                        onChange={(e) => setValueSearch(e.target.value)}/>
                 {/*onClick={inputListeners}*/}
                 <div className="rounded-md bg-blue-400 text-white cursor-pointer p-2"
-                     onClick={inputListeners}>
+                     onClick={inputListeners} style={{width:"100px"}}>
                     <i className="fa-solid fa-magnifying-glass" style={{marginRight: "10px"}}></i>
                     Search
                 </div>
