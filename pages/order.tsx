@@ -42,7 +42,7 @@ export default function OrderProduct() {
     return <>
         <Layout>
             <div style={{marginLeft: "50px", marginTop: "30px"}}>
-                <h5 className="text-order">Đơn hàng của tôi</h5>
+                <h5 className="text-order">Quản lý đơn hàng</h5>
                 {/*<p>Tất cả đơn hàng</p>*/}
                 <div className="status-order">
                     {listStatus.map((status, index) => (

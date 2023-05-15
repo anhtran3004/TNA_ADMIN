@@ -76,7 +76,10 @@ export default function ListOrderWaiting(props: Props){
             </div>
             <input type="text" placeholder="Search..." value={valueSearch} onChange={(e) => setValueSearch(e.target.value)}/>
             {/*onClick={inputListeners}*/}
-            <div className="rounded-md bg-blue-400 text-white cursor-pointer p-2" onClick={inputListeners}>Search</div>
+            <div className="rounded-md bg-blue-400 text-white cursor-pointer p-2" onClick={inputListeners} style={{width:"100px"}}>
+                <i className="fa-solid fa-magnifying-glass" style={{marginRight: "10px"}}></i>
+                Search
+            </div>
 
         </div>
         <table border={1} className="table_order">
@@ -89,7 +92,7 @@ export default function ListOrderWaiting(props: Props){
                 <th>Địa chỉ</th>
                 <th>Ngày đặt hàng</th>
                 <th>Tổng tiền</th>
-                <th colSpan={2}>Action</th>
+                <th colSpan={2}>Hành động</th>
             </tr>
             </thead>
             <tbody>

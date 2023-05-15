@@ -1,8 +1,9 @@
 import {formatDate, formatDates} from "@/pages/user";
 import Link from "next/link";
 import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
-import {InputOrderFilter, Order} from "@/components/HomeType";
-import {changeStatus, getOrder} from "@/lib/API/Order";
+import {GetInputInventory, InputOrderFilter, InputUpdateInventory, Order, OrderProduct} from "@/components/HomeType";
+import {changeStatus, getOrder, getOrderProduct, updateShippedDate} from "@/lib/API/Order";
+import {getQuantityOfInventory, updateInventories} from "@/lib/API/Inventory";
 const _ = require('lodash');
 interface Props{
     listDelivering: Order[],
@@ -32,10 +33,32 @@ export default function ListOrderDelivering(props: Props){
         }
         return data;
     }
+    function defaultDataInputQuantity(colorName: string, size: string) : GetInputInventory{
+        const data ={
+            product_input:{
+                color_name: colorName,
+                size: size
+            }
+        }
+        return data;
+    }
+    function defaultDataInputInventory(size: string, colorName: string, quantity: number) : InputUpdateInventory{
+        const data ={
+            product_input: {
+                color_name: colorName,
+                size: size,
+                quantity: quantity
+            }
+        }
+        return data;
+    }
+
     const [valueMinImportDate, setValueMinImportDate] = useState('2023-01-01');
     const [valueMaxImportDate, setValueMaxImportDate] = useState('2050-01-01');
     const [filterOrder, setFilterOrder] = useState<InputOrderFilter>(dataInputOrder());
     const [valueSearch, setValueSearch] = useState('');
+    const [activeStatus, setActiveStatus] = useState(0);
+    const [listOrder, setListOrder] = useState<OrderProduct[]>([])
     const inputListeners = () => {
         const tempFilter = _.cloneDeep(filterOrder);
         tempFilter.filter.search = valueSearch;
@@ -43,17 +66,75 @@ export default function ListOrderDelivering(props: Props){
         tempFilter.filter.created_date.max = valueMaxImportDate;
         setFilterOrder(tempFilter);
     }
-    // async function ChangeStatus(id: number) {
-    //     try {
-    //         const res = await changeStatus(id, 1);
-    //         if (res.code === 200) {
-    //             console.log('change status success!');
-    //             props.setActiveStatus(1);
-    //         }
-    //     } catch (e) {
-    //         console.log('error')
-    //     }
-    // }
+    async function ChangeStatus(id: number, status: number){
+        try{
+            const res = await changeStatus(id, status);
+            if(res.code === 200){
+                console.log('change status success!', id);
+                // setActiveStatus(status);
+                props.setActiveStatus(2);
+                // setOrderId(id);
+                await fetchOrderProduct(id);
+                await UpdateInventory().then();
+                await  UpdateShippedDate(id);
+            }
+        }catch (e) {
+            console.log('error')
+        }
+    }
+    async function UpdateShippedDate(id: number){
+        try{
+            const res = await updateShippedDate(id)
+            if(res.code === 200){
+                console.log('update success!')
+            }
+        }catch (e) {
+            console.log('Err')
+        }
+    }
+    async function UpdateInventory(){
+        try {
+            for(let i = 0; i < listOrder.length; i++){
+                const response = await getQuantityOfInventory(defaultDataInputQuantity(listOrder[i].color, listOrder[i].size), listOrder[i].product_id);
+                if(response.code === 200){
+                    if(response.data.length > 0){
+                        const res = await updateInventories(defaultDataInputInventory(listOrder[i].color, listOrder[i].size, (response.data[0].quantity - listOrder[i].quantity)), listOrder[i].product_id);
+                        if(res.code === 200){
+                            console.log('update success!')
+                        }
+                    }
+                }
+
+            }
+            // const res = await updateInventory(defaultDataInputInventory())
+        }catch (e) {
+            console.log('error update quantity of inventory')
+        }
+    }
+    async function fetchOrderProduct(orderId : number){
+        try{
+            const res = await getOrderProduct(orderId);
+            if(res.code === 200){
+                setListOrder(res.data);
+                for(let i = 0; i < res.data.length; i++){
+                    const response = await getQuantityOfInventory(defaultDataInputQuantity(res.data[i].color, res.data[i].size), res.data[i].product_id);
+                    if(response.code === 200){
+                        console.log("quantity", response.data[0].quantity)
+                        if(response.data.length > 0){
+                            console.log('quantity inventory', response.data[0].quantity - res.data[i].quantity, res.data[i].color, res.data[i].size, res.data[i].product_id);
+                            const resa = await updateInventories(defaultDataInputInventory(res.data[i].size, res.data[i].color, (response.data[0].quantity - res.data[i].quantity)), res.data[i].product_id);
+                            if(resa.code === 200){
+                                console.log('update success!')
+                            }
+                        }
+                    }
+                }
+
+            }
+        }catch (e) {
+            console.log('error')
+        }
+    }
     async function fetchDataOrder(){
         const res = await getOrder(filterOrder);
         if (res.code === 200) {
@@ -75,8 +156,10 @@ export default function ListOrderDelivering(props: Props){
                 <input style={{width:"150px"}} type="date" value={formatDate(valueMaxImportDate)} onChange={(e) => setValueMaxImportDate(e.target.value)}/>
             </div>
             <input type="text" placeholder="Search..." value={valueSearch} onChange={(e) => setValueSearch(e.target.value)}/>
-            {/*onClick={inputListeners}*/}
-            <div className="rounded-md bg-blue-400 text-white cursor-pointer p-2" onClick={inputListeners}>Search</div>
+            <div className="rounded-md bg-blue-400 text-white cursor-pointer p-2" onClick={inputListeners}>
+                <i className="fa-solid fa-magnifying-glass" style={{marginRight: "10px"}}></i>
+                Search
+            </div>
 
         </div>
         <table border={1} className="table_order">
@@ -88,7 +171,7 @@ export default function ListOrderDelivering(props: Props){
                 <th>Địa chỉ</th>
                 <th>Ngày đặt hàng</th>
                 <th>Tổng tiền</th>
-                <th>Action</th>
+                <th colSpan={2}>Hành động</th>
             </tr>
             </thead>
             <tbody>
@@ -106,9 +189,12 @@ export default function ListOrderDelivering(props: Props){
                     {/*<div style={{width:"180px"}}>*/}
                     <td style={{borderRight: "none", width: "15px"}}>
                         <Link href={"/order-detail?orderId=" + waiting.id}>
+
                             <button className="btn-view-detail">Xem chi tiết</button>
                         </Link>
                     </td>
+                    <td style={{borderLeft: "none", }} ><button className="btn-view-delete-order" style={{width:"110px", background:"orange"}}
+                                                                onClick={() => ChangeStatus(waiting.id, 2)}>Đã giao hàng</button></td>
                     {/*</div>*/}
 
                 </tr>

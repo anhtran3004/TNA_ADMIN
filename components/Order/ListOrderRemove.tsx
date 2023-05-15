@@ -76,7 +76,7 @@ export default function ListOrderRemove(props: Props){
                 <th>Tên</th>
                 <th>Email</th>
                 <th>Địa chỉ</th>
-                <th>Ngày giao hàng</th>
+                <th>Ngày đặt hàng</th>
                 <th>Tổng tiền</th>
                 <th colSpan={2}>Action</th>
             </tr>

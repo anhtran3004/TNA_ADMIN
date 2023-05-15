@@ -63,7 +63,10 @@ export default function ListOrderDelivered(props: Props){
                 <input style={{width:"150px"}} type="date" value={formatDate(valueMaxImportDate)} onChange={(e) => setValueMaxImportDate(e.target.value)}/>
             </div>
             <input type="text" placeholder="Search..." value={valueSearch} onChange={(e) => setValueSearch(e.target.value)}/>
-            <div className="rounded-md bg-blue-400 text-white cursor-pointer p-2" onClick={inputListeners}>Search</div>
+            <div className="rounded-md bg-blue-400 text-white cursor-pointer p-2" onClick={inputListeners} style={{width:"100px"}}>
+                <i className="fa-solid fa-magnifying-glass" style={{marginRight: "10px"}}></i>
+                Search
+            </div>
 
         </div>
         <table border={1} className="table_order">

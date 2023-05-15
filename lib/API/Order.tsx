@@ -20,6 +20,22 @@ export async function changeStatus(id: number, status: number){
         throw e
     }
 }
+export async function updateShippedDate(id: number){
+    try{
+        const url_getOrder = GetARBaseUrl() + "/api/v1/order/update-order-product/"+id;
+        const fetchData = {
+            method: 'POST',
+            headers:{
+                "Content-type": "application/json"
+            }
+        }
+        const response = await fetch(url_getOrder, fetchData);
+        return await response.json();
+    }catch (e){
+        throw e
+    }
+}
+
 export async function getOrder(inputOrder: InputOrderFilter){
     try{
         const url_getOrder = GetARBaseUrl() + "/api/v1/order/get-order";

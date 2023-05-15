@@ -52,6 +52,21 @@ export type InputInventory = {
     }
 
 }
+export type GetInputInventory = {
+    product_input: {
+        color_name: string,
+        size: string
+    }
+
+}
+export type InputUpdateInventory = {
+    product_input: {
+        color_name: string,
+        size: string,
+        quantity: number
+    }
+
+}
 export type InputCampaign = {
     campaign_input: {
         name: string,
