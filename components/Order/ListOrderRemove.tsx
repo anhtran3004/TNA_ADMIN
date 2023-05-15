@@ -96,7 +96,10 @@ export default function ListOrderRemove(props: Props){
                     {/*<div style={{width:"180px"}}>*/}
                     <td style={{borderRight: "none", width: "15px"}}>
                         <Link href={"/order-detail?orderId=" + waiting.id}>
-                            <button className="btn-view-detail">Xem chi tiết</button>
+                            <button className="btn-view-detail" style={{width:"120px", padding:"10px 0", height:"50px", margin:"0 10px"}}>
+                                <i className="fa-solid fa-eye" style={{marginRight:"10px"}}></i>
+                                Xem chi tiết
+                            </button>
                         </Link>
                     </td>
                     <td style={{borderLeft: "none", width: "15px"}}>

@@ -187,14 +187,22 @@ export default function ListOrderDelivering(props: Props){
                         currency: "VND"
                     })}</td>
                     {/*<div style={{width:"180px"}}>*/}
-                    <td style={{borderRight: "none", width: "15px"}}>
+                    <td style={{borderRight: "none", width: "100px"}}>
                         <Link href={"/order-detail?orderId=" + waiting.id}>
-
-                            <button className="btn-view-detail">Xem chi tiết</button>
+                            <button className="btn-view-detail" style={{width:"120px", padding:"10px 0", height:"50px", margin:"0 10px"}}>
+                                <i className="fa-solid fa-eye" style={{marginRight:"10px"}}></i>
+                                Xem chi tiết
+                            </button>
                         </Link>
                     </td>
-                    <td style={{borderLeft: "none", }} ><button className="btn-view-delete-order" style={{width:"110px", background:"orange"}}
-                                                                onClick={() => ChangeStatus(waiting.id, 2)}>Đã giao hàng</button></td>
+                    <td style={{borderLeft: "none", width: "100px" }} >
+                        <button className="btn-view-delete-order"
+                                onClick={() => ChangeStatus(waiting.id, 2)}
+                                style={{width:"130px", background:"orange", padding:"10px 0", height:"50px", marginRight:"10px"}}
+                        >
+                            <i className="fa-solid fa-circle-check" style={{marginRight:"10px"}}></i>
+                            Đã giao hàng
+                        </button></td>
                     {/*</div>*/}
 
                 </tr>
