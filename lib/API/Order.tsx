@@ -35,7 +35,22 @@ export async function updateShippedDate(id: number){
         throw e
     }
 }
-
+export async function getListOrder(){
+    try{
+        const url_getOrder = GetARBaseUrl() + "/api/v1/order/get-list-order";
+        const fetchData = {
+            method: 'POST',
+            headers:{
+                Authorization: "Bearer " + GetUserAuthentication(),
+                "Content-type": "application/json"
+            },
+        }
+        const response = await fetch(url_getOrder, fetchData);
+        return await response.json();
+    }catch (e){
+        throw e
+    }
+}
 export async function getOrder(inputOrder: InputOrderFilter){
     try{
         const url_getOrder = GetARBaseUrl() + "/api/v1/order/get-order";

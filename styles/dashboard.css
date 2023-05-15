@@ -18,3 +18,45 @@
     cursor: pointer;
 
 }
+.header-statistical{
+    display: flex;
+
+}
+.header-statistical > div{
+    width: 25%;
+    border-radius: 8px;
+    height: 200px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+    margin: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+
+}
+.header-statistical > div > span{
+    font-size: 20px;
+    color: rgba(128, 128, 128, 0.62);
+}
+.header-statistical > div > i{
+    font-size: 30px;
+}
+.header-statistical > div > p{
+    margin-bottom: 0;
+    font-size: 30px;
+    color: black;
+    font-weight: bold;
+}
+.order-quantity{
+    color: #00b2ff;
+}
+.comment-quantity{
+    color: orange;
+}
+.contact-quantity{
+    color: green;
+}
+.product-quantity{
+    color: #ff6a00;
+}

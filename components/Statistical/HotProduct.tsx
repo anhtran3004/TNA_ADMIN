@@ -29,7 +29,7 @@ export default function HotProduct(){
         GetListProduct().then();
     }, [])
     return <>
-        <table border={1} style={{width: "500px", marginLeft: "50px"}}>
+        <table border={1} style={{width: "500px",margin:"auto", marginLeft: "50px", marginBottom: "20px"}}>
             <thead>
             <tr>
                 <th>STT</th>

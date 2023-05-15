@@ -10,6 +10,7 @@ function DashBoard() {
 
     return (
         <Layout>
+
             <div className="revenue container">
                 <div className="text-3xl font-bold">Doanh thu:</div>
                 <div className="revenue-tabs">
