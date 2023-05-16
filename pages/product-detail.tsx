@@ -13,6 +13,9 @@ import {Campaign, Category, Discount, Inventory, Product} from "@/components/Hom
 import {useRouter} from "next/router";
 import Image from "next/image";
 import {formatDate} from "@/components/Campaign/ContentCampain";
+import {dataInputColor} from "@/pages/category";
+import {dataInputCampaign} from "@/pages/campaign";
+import {dataInputDiscount} from "@/pages/discount";
 
 export function GetDefaultCategory() {
     const data = {
@@ -88,7 +91,7 @@ export default function ProductDetail() {
 
     async function fetchCategory(id: number) {
         try {
-            const res = await getListCategory();
+            const res = await getListCategory(dataInputColor());
             if (res.code === 200) {
                 for (let i = 0; i < res.data.length; i++) {
                     if (res.data[i].id === id) {
@@ -103,7 +106,7 @@ export default function ProductDetail() {
 
     async function fetchCampaign(id: number) {
         try {
-            const res = await getListCampaign();
+            const res = await getListCampaign(dataInputCampaign());
             if (res.code === 200) {
                 for (let i = 0; i < res.data.length; i++) {
                     if (res.data[i].id === id) {
@@ -118,7 +121,7 @@ export default function ProductDetail() {
 
     async function fetchDiscount(id: number) {
         try {
-            const res = await getListDiscount();
+            const res = await getListDiscount(dataInputDiscount());
             if (res.code === 200) {
                 for (let i = 0; i < res.data.length; i++) {
                     if (res.data[i].id === id) {

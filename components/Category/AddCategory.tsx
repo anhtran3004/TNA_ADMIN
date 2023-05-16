@@ -25,7 +25,7 @@ export default function AddCategory(props: Props) {
     }
     async function InsertCategory() {
         if(valueCategory === ''){
-            props.setTextError("Insert Errors!")
+            props.setTextError("Lỗi Thêm Mới!")
             props.setIsOpenError(true);
             setTimeout(() =>props.setIsOpenError(false), 2000)
             return;
@@ -41,7 +41,7 @@ export default function AddCategory(props: Props) {
                 setTimeout(() =>props.setIsOpenSuccess(false), 2000)
             }else {
                 props.setIsOpenAddProduct(false);
-                props.setTextError("Insert Errors!")
+                props.setTextError("Lỗi Thêm Mới!")
                 props.setIsOpenError(true);
                 setTimeout(() =>props.setIsOpenError(false), 2000)
             }
@@ -49,7 +49,7 @@ export default function AddCategory(props: Props) {
         }catch (e){
             console.log('error');
             props.setIsOpenAddProduct(false);
-            props.setTextError("Insert Errors!")
+            props.setTextError("Lỗi Thêm Mới!")
             props.setIsOpenError(true);
             setTimeout(() =>props.setIsOpenError(false), 2000)
         }

@@ -28,7 +28,7 @@ export default function AddSize(props: Props) {
                 console.log('updated success!');
                 props.setStatusSize(randomNumberInRange(1,1000));
                 props.setIsOpenAddProduct(false);
-                props.setTextSuccess("Insert Success!")
+                props.setTextSuccess("Thêm Mới Thành Công!")
                 props.setIsOpenSuccess(true);
                 setTimeout(() =>props.setIsOpenSuccess(false), 2000)
             }else {

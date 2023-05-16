@@ -23,7 +23,6 @@ export default function ContentContact(props: Props) {
         try {
             const res = await deleteContact(props.contact.id);
             if (res.code === 200) {
-                console.log('deleted success!');
                 props.setStatusContact(randomNumberInRange(1, 1000));
             }
         } catch (e) {

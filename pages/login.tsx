@@ -58,7 +58,7 @@ const LoginPage = () => {
                 console.log("Login success! ", res.data);
                 // setAccessToken(res.data.accessToken);
                 localStorage.setItem("accessTokenAdmin", res.data.accessToken)
-                setTextSuccess('Login success!');
+                setTextSuccess('Đăng Nhập Thành Công!');
                 setIsOpenSuccess(true);
                 setTimeout(() => router.push('/'), 3000)
             }

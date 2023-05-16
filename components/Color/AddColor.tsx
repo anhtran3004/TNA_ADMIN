@@ -28,12 +28,12 @@ export default function AddColor(props: Props) {
                 console.log('updated success!');
                 props.setStatusColor(randomNumberInRange(1,1000));
                 props.setIsOpenAddProduct(false);
-                props.setTextSuccess("Insert Success!")
+                props.setTextSuccess("Thêm mới thành công!")
                 props.setIsOpenSuccess(true);
                 setTimeout(() =>props.setIsOpenSuccess(false), 2000)
             }else {
                 props.setIsOpenAddProduct(false);
-                props.setTextError("Insert Errors!")
+                props.setTextError("Lỗi thêm mới!")
                 props.setIsOpenError(true);
                 setTimeout(() =>props.setIsOpenError(false), 2000)
             }

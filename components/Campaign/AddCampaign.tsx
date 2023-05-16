@@ -41,7 +41,7 @@ export default function AddCampaign(props: Props) {
                 setTimeout(() =>props.setIsOpenSuccess(false), 2000)
             }else {
                 props.setIsOpenAddCampaign(false);
-                props.setTextError("Insert Errors!")
+                props.setTextError("Lỗi thêm mới!")
                 props.setIsOpenError(true);
                 setTimeout(() =>props.setIsOpenError(false), 2000)
             }
@@ -49,7 +49,7 @@ export default function AddCampaign(props: Props) {
         }catch (e){
             console.log('error');
             props.setIsOpenAddCampaign(false);
-            props.setTextError("Insert Errors!")
+            props.setTextError("Lỗi Thêm Mới!")
             props.setIsOpenError(true);
             setTimeout(() =>props.setIsOpenError(false), 2000)
         }

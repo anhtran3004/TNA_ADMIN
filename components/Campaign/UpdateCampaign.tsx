@@ -81,7 +81,7 @@ export function UpdateCampaign(props: Props) {
                 props.setStatusUpdate(randomNumberInRange(1, 1000));
             }
         } catch (e) {
-            props.setTextError("Update Errors!")
+            props.setTextError("Lỗi Cập Nhật!")
             props.setIsOpenError(true);
             setTimeout(() =>props.setIsOpenError(false), 2000)
         }

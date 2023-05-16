@@ -5,6 +5,10 @@ import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
 import {InputOrderFilter, Order} from "@/components/HomeType";
 import {changeStatus, getOrder} from "@/lib/API/Order";
 import {formatDate, formatDates} from "@/pages/user";
+import ReasonRemove from "@/components/Order/ReasonRemove";
+import Modal from "@/components/Alert/Modal";
+import Success from "@/components/Alert/Success";
+import Errors from "@/components/Alert/Errors";
 const _ = require('lodash');
 interface Props{
     listWaiting: Order[],
@@ -34,8 +38,14 @@ export function dataInputOrder(){
 export default function ListOrderWaiting(props: Props){
     const [valueMinImportDate, setValueMinImportDate] = useState('2023-01-01');
     const [valueMaxImportDate, setValueMaxImportDate] = useState('2050-01-01');
-    const [valueSearch, setValueSearch] = useState('')
-    const [filterOrder, setFilterOrder] = useState<InputOrderFilter>(dataInputOrder())
+    const [valueSearch, setValueSearch] = useState('');
+    const [filterOrder, setFilterOrder] = useState<InputOrderFilter>(dataInputOrder());
+    const [isOpenReason, setIsOpenReason] = useState(false);
+    const [isOpenSuccess, setIsOpenSuccess] = useState(false);
+    const [isOpenError, setIsOpenError] = useState(false);
+    const [textSuccess, setTextSuccess] = useState("");
+    const [textErrors, setTextErrors] = useState("");
+    const [orderId, setOrderId] = useState<number>(-1);
     const inputListeners = () => {
         const tempFilter = _.cloneDeep(filterOrder);
         tempFilter.filter.search = valueSearch;
@@ -43,12 +53,12 @@ export default function ListOrderWaiting(props: Props){
         tempFilter.filter.created_date.max = valueMaxImportDate;
         setFilterOrder(tempFilter);
     }
-    async function ChangeStatus(id: number) {
+    async function ChangeStatus(id: number, status: number) {
         try {
-            const res = await changeStatus(id, 1);
+            const res = await changeStatus(id, status);
             if (res.code === 200) {
                 console.log('change status success!');
-                props.setActiveStatus(1);
+                props.setActiveStatus(status);
             }
         } catch (e) {
             console.log('error')
@@ -92,7 +102,7 @@ export default function ListOrderWaiting(props: Props){
                 <th>Địa chỉ</th>
                 <th>Ngày đặt hàng</th>
                 <th>Tổng tiền</th>
-                <th colSpan={2}>Hành động</th>
+                <th colSpan={3}>Hành động</th>
             </tr>
             </thead>
             <tbody>
@@ -116,9 +126,22 @@ export default function ListOrderWaiting(props: Props){
                             </button>
                         </Link>
                     </td>
-                    <td style={{borderLeft: "none", width: "95px", padding:"10px 0"}}>
+                    <td style={{borderLeft: "none", width: "95px", padding:"10px 0", borderRight: "none"}}>
                         <button className="btn-view-delete-order"
-                                onClick={() => ChangeStatus(waiting.id)}
+                                onClick={() => {
+                                    // ChangeStatus(waiting.id, 3).then();
+                                    setIsOpenReason(true);
+                                    setOrderId(waiting.id);
+                                }}
+                                style={{width:"100px", padding:"10px 0", height:"50px", marginRight:"10px"}}
+                        >
+                            <i className="fa-solid fa-circle-xmark" style={{marginRight:"10px"}}></i>
+                            Hủy đơn
+                        </button>
+                    </td>
+                    <td style={{borderLeft: "none", width: "95px", padding:"10px 0"}}>
+                        <button className="btn-view-confirm-order"
+                                onClick={() => ChangeStatus(waiting.id, 1)}
                                 style={{width:"100px", padding:"10px 0", height:"50px", marginRight:"10px"}}
                         >
                             <i className="fa-solid fa-circle-check" style={{marginRight:"10px"}}></i>
@@ -132,5 +155,26 @@ export default function ListOrderWaiting(props: Props){
 
             </tbody>
         </table>
+        {isOpenReason &&
+            <ReasonRemove
+                setIsOpenReason={setIsOpenReason}
+                setIsOpenSuccess={setIsOpenSuccess}
+                setTextSuccess={setTextSuccess}
+                setIsOpenError={setIsOpenError}
+                setTextError={setTextErrors}
+                changeStatus={ChangeStatus}
+                orderId={orderId}
+            />
+        }
+        {isOpenSuccess && (
+            <Modal>
+                <Success textSuccess={textSuccess}/>
+            </Modal>
+        )}
+        {isOpenError && (
+            <Modal>
+                <Errors textError={textErrors}/>
+            </Modal>
+        )}
     </>
 }

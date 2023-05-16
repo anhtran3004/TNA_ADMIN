@@ -12,6 +12,7 @@ import {GetDefaultCampaign, GetDefaultCategory, GetDefaultDiscount} from "@/page
 import UpdateInventory from "@/components/Product/UpdateInventory";
 import {dataInputDiscount} from "@/pages/discount";
 import {dataInputCampaign} from "@/pages/campaign";
+import {dataInputColor} from "@/pages/category";
 
 const _ = require('lodash');
 
@@ -80,7 +81,7 @@ export function UpdateProduct(props: Props) {
 
         async function fetchListCategory() {
             try {
-                const res = await getListCategory();
+                const res = await getListCategory(dataInputColor());
                 if (res.code === 200) {
                     setListCategories(res.data);
                     for (let i = 0; i < res.data.length; i++) {
@@ -132,12 +133,12 @@ export function UpdateProduct(props: Props) {
             if (res.code === 200) {
                 console.log('update success!');
                 props.setStatusUpdate(randomNumberInRange(1, 1000));
-                props.setTextSuccess("Update Success!")
+                props.setTextSuccess("Cập Nhật Thành Công!")
                 props.setIsOpenSuccess(true);
                 setTimeout(() =>props.setIsOpenSuccess(false), 2000)
             }
         } catch (e) {
-            props.setTextError("Update Errors!")
+            props.setTextError("Lỗi cập nhật!")
             props.setIsOpenError(true);
             setTimeout(() =>props.setIsOpenError(false), 2000)
         }

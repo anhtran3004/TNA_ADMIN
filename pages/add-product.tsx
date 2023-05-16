@@ -9,6 +9,7 @@ import Success from "@/components/Alert/Success";
 import Errors from "@/components/Alert/Errors";
 import {dataInputDiscount} from "@/pages/discount";
 import {dataInputCampaign} from "@/pages/campaign";
+import {dataInputColor} from "@/pages/category";
 
 export default function AddProduct(){
     const [valueHot, setValueHot] = useState(1);
@@ -25,8 +26,8 @@ export default function AddProduct(){
     const [discounts, setDiscounts] = useState<Discount[]>([])
     const [isOpenSuccess, setIsOpenSuccess] = useState(false);
     const [isOpenError, setIsOpenError] = useState(false);
-    const textSuccess = "Insert Success";
-    const textErrors = "Insert Error";
+    const textSuccess = "Thêm Mới Thành Công!";
+    const textErrors = "Lỗi Thêm Mới!";
     const router = useRouter();
     function nextProduct(){
         router.push("/product").then();
@@ -92,7 +93,7 @@ export default function AddProduct(){
         }
         async function fetchListCategory() {
             try {
-                const res = await getListCategory();
+                const res = await getListCategory(dataInputColor());
                 if (res.code === 200) {
                     setListCategories(res.data);
                 }

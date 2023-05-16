@@ -85,7 +85,7 @@ export default function Size() {
             if (res.code === 200) {
                 console.log('updated success!');
                 setStatusSize(randomNumberInRange(1, 1000));
-                setTextSuccess("Update Success!")
+                setTextSuccess("Cập Nhật Thành Công!")
                 setIsOpenSuccess(true);
                 setTimeout(() => setIsOpenSuccess(false), 2000)
             }
