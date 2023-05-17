@@ -38,9 +38,11 @@ const Layout = ({ children }) => {
                 <nav>
                     <ul>
                         <li>
-                            <Link href="/">
-                                <p>Dashboard</p>
-                            </Link>
+                            {role === 'admin' &&
+                                <Link href="/">
+                                    <p>Dashboard</p>
+                                </Link>
+                            }
                         </li>
                         <li>
                             <Link href="/product">

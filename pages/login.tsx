@@ -60,7 +60,7 @@ const LoginPage = () => {
                 localStorage.setItem("accessTokenAdmin", res.data.accessToken)
                 setTextSuccess('Đăng Nhập Thành Công!');
                 setIsOpenSuccess(true);
-                setTimeout(() => router.push('/'), 3000)
+                setTimeout(() => router.push('/product'), 3000)
             }
         }catch (e) {
             console.log('error');
